@@ -1,5 +1,6 @@
 package com.unb.meau.activities;
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -11,12 +12,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.unb.meau.R;
 import com.unb.meau.adapters.CustomExpandableListAdapter;
+import com.unb.meau.fragments.IntroFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +30,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+
+    public static final String FRAGMENT_INTRO_TAG = "FRAGMENT_INTRO_TAG";
+
+    Fragment fragment;
+    Bundle args;
+    FragmentManager fragmentManager;
+
+    public DrawerLayout drawer;
 
     private ExpandableListView expandableListView;
     private List<String> listTitle;
@@ -39,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -49,6 +61,16 @@ public class MainActivity extends AppCompatActivity {
 
         initializeNavigationDrawer();
         addDrawerItems();
+
+        fragment = new IntroFragment();
+
+        toolbar.setVisibility(View.GONE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .add(R.id.content_frame, fragment, FRAGMENT_INTRO_TAG)
+                .commit();
 
         }
 
