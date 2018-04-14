@@ -1,18 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <include
+        layout="@layout/app_bar_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="304dp"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main">
 
-</android.support.constraint.ConstraintLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <ExpandableListView
+            android:id="@+id/expandable_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="122dp"
+            android:background="#F7F7F7"
+            android:layout_above="@id/expandable_list_exit"
+            android:layout_alignParentTop="true"
+            android:childDivider="@drawable/divider"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:groupIndicator="@null" >
+        </ExpandableListView>
+
+        <TextView
+            android:id="@+id/expandable_list_exit"
+            android:text="Sair"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/nav_primary"
+            android:paddingTop="16dp"
+            android:paddingBottom="18dp"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:textColor="#434343"
+            android:layout_alignParentBottom="true"
+            android:onClick="onClick"
+            android:clickable="true" />
+
+        </RelativeLayout>
+
+    </android.support.design.widget.NavigationView>
+
+</android.support.v4.widget.DrawerLayout>
