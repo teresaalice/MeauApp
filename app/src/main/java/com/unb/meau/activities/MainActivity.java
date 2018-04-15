@@ -62,10 +62,10 @@ public class MainActivity extends AppCompatActivity {
         initializeNavigationDrawer();
         addDrawerItems();
 
-        fragment = new IntroFragment();
+        enterFullScreen();
+//        exitFullScreen();
 
-        toolbar.setVisibility(View.GONE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        fragment = new IntroFragment();
 
         fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
@@ -73,6 +73,18 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
 
         }
+
+    public void enterFullScreen() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setVisibility(View.GONE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
+    public void exitFullScreen() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+    }
 
     private void initializeNavigationDrawer() {
 

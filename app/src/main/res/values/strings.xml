@@ -4,5 +4,8 @@
     <string name="navigation_drawer_open">Abrir menu</string>
     <string name="navigation_drawer_close">Fechar menu</string>
     <string name="intro_text">Bem vindo ao Meau!\nAqui você pode adotar, doar e ajudar\ncães e gatos com facilidade.\nQual o seu interesse?</string>
+    <string name="signup_message">Você não pode realizar esta ação sem possuir um cadastro</string>
+    <string name="signin_message">Já possui cadastro?</string>
+    <string name="signup_info">As informações preenchidas serão divulgadas apenas para a pessoa com a qual você realizar o processo de adoção e/ou apadrinhamento, após s formalização do processo.</string>
 
 </resources>

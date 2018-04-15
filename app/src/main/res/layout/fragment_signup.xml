@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/fragment_signin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        tools:context="com.unb.meau.activities.MainActivity">
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:textSize="14dp"
+            android:textColor="#434343"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:background="#CFE9E5"
+            android:text="@string/signup_info" />
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text1"
+            android:layout_marginTop="28dp"
+            android:textSize="16dp"
+            android:textColor="#88C9BF"
+            android:text="INFORMAÇÕES PESSOAIS" />
+
+        <EditText
+            android:id="@+id/nome_completo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:layout_below="@id/text2"
+            android:layout_marginTop="32dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Nome completo"/>
+
+        <EditText
+            android:id="@+id/idade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/nome_completo"
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:inputType="number"
+            android:hint="Idade" />
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/idade"
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:hint="E-mail"/>
+
+        <EditText
+            android:id="@+id/estado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/email"
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Estado" />
+
+        <EditText
+            android:id="@+id/cidade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/estado"
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Cidade" />
+
+        <EditText
+            android:id="@+id/endereco"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cidade"
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Endereço" />
+
+        <EditText
+            android:id="@+id/telefone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/endereco"
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:inputType="phone"
+            android:hint="Telefone"/>
+
+        <TextView
+            android:id="@+id/info_perfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/telefone"
+            android:layout_marginTop="28dp"
+            android:textSize="16dp"
+            android:textColor="#88C9BF"
+            android:text="INFORMAÇÕES DE PERFIL" />
+
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/info_perfil"
+            android:layout_marginTop="32dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Nome de usuário" />
+
+        <EditText
+            android:id="@+id/senha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/username"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:hint="Senha"/>
+
+        <EditText
+            android:id="@+id/senha2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/senha"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:hint="Confirmação de senha"/>
+
+        <TextView
+            android:id="@+id/info_foto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/senha2"
+            android:layout_marginTop="28dp"
+            android:textSize="16dp"
+            android:textColor="#88C9BF"
+            android:text="FOTO DE PERFIL" />
+
+        <Button
+            android:id="@+id/add_photo"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginTop="32dp"
+            android:layout_below="@id/info_foto"
+            android:layout_centerHorizontal="true"
+            android:text="adicionar foto" />
+
+        <Button
+            android:id="@+id/button_signup"
+            android:layout_width="232dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="32dp"
+            android:layout_below="@id/add_photo"
+            android:textColor="#434343"
+            android:backgroundTint="#88C9BF"
+            android:layout_centerHorizontal="true"
+            android:text="FAZER CADSATRO" />
+
+    </RelativeLayout>
+</ScrollView>

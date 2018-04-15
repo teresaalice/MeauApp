@@ -1,6 +1,7 @@
 package com.unb.meau.fragments;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -43,6 +44,12 @@ public class IntroFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: button_adotar");
+
+                SignInFragment signInFragment = new SignInFragment();
+                FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, signInFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
@@ -50,6 +57,12 @@ public class IntroFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: button_ajudar");
+
+                SignInFragment signInFragment = new SignInFragment();
+                FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, signInFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
@@ -57,6 +70,12 @@ public class IntroFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: button_cadastrar_animal");
+
+                SignInFragment signInFragment = new SignInFragment();
+                FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, signInFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
@@ -64,9 +83,29 @@ public class IntroFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: text_login");
+
+                LoginFragment loginFragment = new LoginFragment();
+                FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, loginFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        Log.d(TAG, "onStart: entered");
+        ((MainActivity)getActivity()).enterFullScreen();
+        super.onStart();
+    }
+
+    @Override
+    public void onPause() {
+        Log.d(TAG, "onPause: entered");
+        ((MainActivity)getActivity()).exitFullScreen();
+        super.onPause();
     }
 }
