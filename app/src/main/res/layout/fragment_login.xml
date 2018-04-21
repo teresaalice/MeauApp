@@ -16,7 +16,8 @@
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Nome de usuário" />
+        android:hint="E-mail" />
+    <!--android:hint="Nome de usuário" />-->
 
     <EditText
         android:id="@+id/editTextPassword"
@@ -40,5 +41,21 @@
         android:backgroundTint="#88C9BF"
         android:layout_centerHorizontal="true"
         android:text="ENTRAR" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_with_facebook"
+        android:layout_width="232dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/button_login"
+        android:layout_marginTop="72dp"
+        android:layout_centerHorizontal="true" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/login_with_google"
+        android:layout_width="232dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/login_with_facebook"
+        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

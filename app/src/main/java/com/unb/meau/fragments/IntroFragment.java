@@ -14,12 +14,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
 
 public class IntroFragment extends Fragment {
 
     private static final String TAG = "IntroFragment";
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+
+    TextView text_login;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -30,7 +38,10 @@ public class IntroFragment extends Fragment {
         Button button_adotar = v.findViewById(R.id.button_adotar);
         Button button_ajudar = v.findViewById(R.id.button_ajudar);
         Button button_cadastrar_animal = v.findViewById(R.id.button_cadastrar_animal);
-        TextView text_login = v.findViewById(R.id.text_login);
+        text_login = v.findViewById(R.id.text_login);
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
 
         drawer_icon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,11 +56,12 @@ public class IntroFragment extends Fragment {
             public void onClick(View v) {
                 Log.d(TAG, "onClick: button_adotar");
 
-                SignInFragment signInFragment = new SignInFragment();
-                FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, signInFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                currentUser = mAuth.getCurrentUser();
+                if (currentUser == null) {
+                    login();
+                } else {
+                    Log.d(TAG, "onClick: Adotar animal");
+                }
             }
         });
 
@@ -58,11 +70,12 @@ public class IntroFragment extends Fragment {
             public void onClick(View v) {
                 Log.d(TAG, "onClick: button_ajudar");
 
-                SignInFragment signInFragment = new SignInFragment();
-                FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, signInFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                currentUser = mAuth.getCurrentUser();
+                if (currentUser == null) {
+                    login();
+                } else {
+                    Log.d(TAG, "onClick: Ajudar animal");
+                }
             }
         });
 
@@ -71,11 +84,12 @@ public class IntroFragment extends Fragment {
             public void onClick(View v) {
                 Log.d(TAG, "onClick: button_cadastrar_animal");
 
-                SignInFragment signInFragment = new SignInFragment();
-                FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, signInFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                currentUser = mAuth.getCurrentUser();
+                if (currentUser == null) {
+                    login();
+                } else {
+                    Log.d(TAG, "onClick: Cadastrar animal");
+                }
             }
         });
 
@@ -84,11 +98,15 @@ public class IntroFragment extends Fragment {
             public void onClick(View v) {
                 Log.d(TAG, "onClick: text_login");
 
-                LoginFragment loginFragment = new LoginFragment();
-                FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, loginFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                currentUser = mAuth.getCurrentUser();
+                if (currentUser == null) {
+                    login();
+                } else {
+                    Log.d(TAG, "onClick: Logging out");
+                    mAuth.signOut();
+                    LoginManager.getInstance().logOut();
+                }
+                updateLoginButton();
             }
         });
 
@@ -99,6 +117,9 @@ public class IntroFragment extends Fragment {
     public void onStart() {
         Log.d(TAG, "onStart: entered");
         ((MainActivity)getActivity()).enterFullScreen();
+
+        updateLoginButton();
+
         super.onStart();
     }
 
@@ -107,5 +128,27 @@ public class IntroFragment extends Fragment {
         Log.d(TAG, "onPause: entered");
         ((MainActivity)getActivity()).exitFullScreen();
         super.onPause();
+    }
+
+    private void updateLoginButton() {
+        currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) {
+            Log.d(TAG, "updateLoginButton: User not logged");
+            text_login.setText(R.string.login);
+        } else {
+            text_login.setText(R.string.logout);
+            Log.d(TAG, "updateLoginButton: User " + currentUser.getEmail() + " logged");
+//            Log.d(TAG, "onCreateView: DisplayName: " + currentUser.getDisplayName() +
+//                    " ProviderId: " + currentUser.getProviderId() +
+//                    " Uid: " + currentUser.getUid());
+        }
+    }
+
+    private void login() {
+        LoginFragment loginFragment = new LoginFragment();
+        FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.content_frame, loginFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

@@ -8,4 +8,10 @@
     <string name="signin_message">Já possui cadastro?</string>
     <string name="signup_info">As informações preenchidas serão divulgadas apenas para a pessoa com a qual você realizar o processo de adoção e/ou apadrinhamento, após s formalização do processo.</string>
 
+    <string name="login">login</string>
+    <string name="logout">logout</string>
+
+    <string name="facebook_app_id">193719447928535</string>
+    <string name="fb_login_protocol_scheme">fb193719447928535</string>
+
 </resources>
