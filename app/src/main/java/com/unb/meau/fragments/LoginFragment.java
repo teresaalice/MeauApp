@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +39,12 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.unb.meau.R;
 
 public class LoginFragment extends Fragment {
@@ -48,6 +55,8 @@ public class LoginFragment extends Fragment {
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private CallbackManager mCallbackManager;
 
@@ -84,10 +93,29 @@ public class LoginFragment extends Fragment {
                 Log.d(TAG, "onClick: button_login");
 
                 String username = mUsernameEdit.getText().toString();
-                String password = mPasswordEdit.getText().toString();
+                final String password = mPasswordEdit.getText().toString();
 
-                signIn(username, password);
-
+                if(username.contains("@")) {
+                    signIn(username, password);
+                } else {
+                    Query query = db.collection("users").whereEqualTo("username", username).limit(1);
+                    query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                            if (e == null) {
+                                Log.d(TAG, "onEvent: Success");
+                                String email = queryDocumentSnapshots.getDocuments().get(0).getString("email");
+                                if(email != null) {
+                                    signIn(email, password);
+                                } else {
+                                    Log.d(TAG, "onEvent: Error retrieving email");
+                                }
+                            } else {
+                                Log.d(TAG, "onEvent: Query error", e);
+                            }
+                        }
+                    });
+                }
             }
         });
 

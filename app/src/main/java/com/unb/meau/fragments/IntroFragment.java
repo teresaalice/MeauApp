@@ -3,8 +3,6 @@ package com.unb.meau.fragments;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,7 +16,6 @@ import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.unb.meau.R;
-import com.unb.meau.activities.MainActivity;
 
 public class IntroFragment extends Fragment {
 
@@ -58,7 +55,7 @@ public class IntroFragment extends Fragment {
 
                 currentUser = mAuth.getCurrentUser();
                 if (currentUser == null) {
-                    login();
+                    signIn();
                 } else {
                     Log.d(TAG, "onClick: Adotar animal");
                 }
@@ -72,7 +69,7 @@ public class IntroFragment extends Fragment {
 
                 currentUser = mAuth.getCurrentUser();
                 if (currentUser == null) {
-                    login();
+                    signIn();
                 } else {
                     Log.d(TAG, "onClick: Ajudar animal");
                 }
@@ -86,9 +83,10 @@ public class IntroFragment extends Fragment {
 
                 currentUser = mAuth.getCurrentUser();
                 if (currentUser == null) {
-                    login();
+                    signIn();
                 } else {
                     Log.d(TAG, "onClick: Cadastrar animal");
+                    cadastrarAnimal();
                 }
             }
         });
@@ -148,6 +146,22 @@ public class IntroFragment extends Fragment {
         LoginFragment loginFragment = new LoginFragment();
         FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content_frame, loginFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    private void signIn() {
+        SignInFragment signInFragment = new SignInFragment();
+        FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.content_frame, signInFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    private void cadastrarAnimal() {
+        CadastroAnimalFragment cadastroAnimalFragment = new CadastroAnimalFragment();
+        FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.content_frame, cadastroAnimalFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

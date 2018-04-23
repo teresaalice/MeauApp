@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.unb.meau.R;
-import com.unb.meau.activities.MainActivity;
 
 public class SignInFragment extends Fragment {
 
@@ -32,7 +31,6 @@ public class SignInFragment extends Fragment {
                 SignUpFragment signUpFragment = new SignUpFragment();
                 FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, signUpFragment);
-                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });
@@ -45,7 +43,6 @@ public class SignInFragment extends Fragment {
                 LoginFragment loginFragment = new LoginFragment();
                 FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, loginFragment);
-                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });

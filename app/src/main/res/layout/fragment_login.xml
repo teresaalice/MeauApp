@@ -16,8 +16,7 @@
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="E-mail" />
-    <!--android:hint="Nome de usuário" />-->
+        android:hint="Nome de usuário" />
 
     <EditText
         android:id="@+id/editTextPassword"

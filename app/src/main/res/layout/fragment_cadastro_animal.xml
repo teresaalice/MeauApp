@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/selecao_acao_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp" >
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingBottom="16dp"
+            android:paddingTop="16dp"
+            android:text="Tenho interesse em cadastrar o animal para:" />
+
+        <ToggleButton
+            android:id="@+id/button_adocao"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:textOff="ADOÇÃO"
+            android:textOn="ADOÇÃO"
+            android:textSize="12sp"
+            android:backgroundTint="@color/cinza"
+            android:textColor="#434343"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/info" />
+
+        <ToggleButton
+            android:id="@+id/button_apadrinhar"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:textOff="APADRINHAR"
+            android:textOn="APADRINHAR"
+            android:textSize="12sp"
+            android:backgroundTint="@color/cinza"
+            android:textColor="#434343"
+            app:layout_constraintStart_toEndOf="@id/button_adocao"
+            app:layout_constraintTop_toBottomOf="@id/info" />
+
+        <ToggleButton
+            android:id="@+id/button_ajuda"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:textOff="AJUDA"
+            android:textOn="AJUDA"
+            android:textSize="12sp"
+            android:backgroundTint="@color/cinza"
+            android:textColor="#434343"
+            app:layout_constraintStart_toEndOf="@id/button_apadrinhar"
+            app:layout_constraintTop_toBottomOf="@id/info" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/cadastro_animal_second_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp" >
+
+        <TextView
+            android:id="@+id/action_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Ação"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="16sp"
+            android:textColor="#434343" />
+            <!--app:layout_constraintTop_toBottomOf="@id/selecao_acao_layout" />-->
+
+        <TextView
+            android:id="@+id/nome_do_animal_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto"
+            android:text="NOME DO ANIMAL"
+            android:textColor="#F7A800"
+            app:layout_constraintTop_toBottomOf="@id/action_info" />
+
+        <EditText
+            android:id="@+id/nome_do_animal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="Nome do animal"
+            app:layout_constraintTop_toBottomOf="@id/nome_do_animal_info" />
+
+        <TextView
+            android:id="@+id/fotos_do_animal_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto"
+            android:text="FOTOS DO ANIMAL"
+            android:textColor="#F7A800"
+            app:layout_constraintTop_toBottomOf="@id/nome_do_animal" />
+
+        <Button
+            android:id="@+id/button_adicionar_fotos"
+            android:layout_width="match_parent"
+            android:layout_height="128dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#F1F2F2"
+            android:fontFamily="@font/roboto"
+            android:text="adicionar fotos"
+            android:textAllCaps="false"
+            android:textColor="#757575"
+            app:layout_constraintTop_toBottomOf="@id/fotos_do_animal_info" />
+
+        <TextView
+            android:id="@+id/especie_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto"
+            android:text="ESPÉCIE"
+            android:textColor="#F7A800"
+            app:layout_constraintTop_toBottomOf="@id/button_adicionar_fotos" />
+
+        <RadioGroup
+            android:id="@+id/especie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/especie_info">
+
+            <RadioButton
+                android:id="@+id/cachorro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cachorro" />
+
+            <RadioButton
+                android:id="@+id/gato"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gato" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/sexo_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto"
+            android:text="SEXO"
+            android:textColor="#F7A800"
+            app:layout_constraintTop_toBottomOf="@id/especie" />
+
+        <RadioGroup
+            android:id="@+id/sexo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/sexo_info">
+
+            <RadioButton
+                android:id="@+id/macho"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Macho" />
+
+            <RadioButton
+                android:id="@+id/femea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fêmea" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/porte_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto"
+            android:text="PORTE"
+            android:textColor="#F7A800"
+            app:layout_constraintTop_toBottomOf="@id/sexo" />
+
+        <RadioGroup
+            android:id="@+id/porte"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/porte_info">
+
+            <RadioButton
+                android:id="@+id/pequeno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pequeno" />
+
+            <RadioButton
+                android:id="@+id/medio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Médio" />
+
+            <RadioButton
+                android:id="@+id/grande"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Grande" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/idade_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto"
+            android:text="IDADE"
+            android:textColor="#F7A800"
+            app:layout_constraintTop_toBottomOf="@id/porte" />
+
+        <RadioGroup
+            android:id="@+id/idade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/idade_info">
+
+            <RadioButton
+                android:id="@+id/filhote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Filhote" />
+
+            <RadioButton
+                android:id="@+id/adulto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Adulto" />
+
+            <RadioButton
+                android:id="@+id/idoso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Idoso" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/temperamento_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto"
+            android:text="TEMPERAMENTO"
+            android:textColor="#F7A800"
+            app:layout_constraintTop_toBottomOf="@id/idade" />
+
+        <LinearLayout
+            android:id="@+id/temperamento_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/temperamento_info">
+
+            <CheckBox
+                android:id="@+id/brincalhao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Brincalhão" />
+
+            <CheckBox
+                android:id="@+id/timido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tímido" />
+
+            <CheckBox
+                android:id="@+id/calmo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calmo" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/temperamento_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/temperamento_1">
+
+            <CheckBox
+                android:id="@+id/guarda"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guarda" />
+
+            <CheckBox
+                android:id="@+id/amoroso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Amoroso" />
+
+            <CheckBox
+                android:id="@+id/preguicoso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Preguiçoso" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/saude_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto"
+            android:text="SAUDE"
+            android:textColor="#F7A800"
+            app:layout_constraintTop_toBottomOf="@id/temperamento_2" />
+
+        <LinearLayout
+            android:id="@+id/saude_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/saude_info">
+            <CheckBox
+                android:id="@+id/vacinado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vacinado" />
+            <CheckBox
+                android:id="@+id/vermifugado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vermifugado" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/saude_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/saude_1">
+            <CheckBox
+                android:id="@+id/castrado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Castrado" />
+            <CheckBox
+                android:id="@+id/doente"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Doente" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/doencas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/saude_2"
+            android:hint="Doenças do animal"/>
+
+        <LinearLayout
+            android:id="@+id/blocos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/doencas">
+
+            <LinearLayout
+                android:id="@+id/adocao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/adocao_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="EXIGÊNCIAS PARA ADOÇÃO"
+                    android:textColor="#F7A800" />
+
+                <CheckBox
+                    android:id="@+id/termo_de_adocao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Termo de adoção" />
+
+                <CheckBox
+                    android:id="@+id/fotos_da_casa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fotos da casa" />
+
+                <CheckBox
+                    android:id="@+id/visita_previa_ao_animal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Visita prévia ao animal" />
+
+                <CheckBox
+                    android:id="@+id/acompanhamento"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Acompanhamento pós adoção" />
+
+                <RadioGroup
+                    android:id="@+id/acompanhamento_radio_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="60dp"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/sexo_info">
+
+                    <RadioButton
+                        android:id="@+id/um_mes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1 mês" />
+
+                    <RadioButton
+                        android:id="@+id/tres_meses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3 meses" />
+
+                    <RadioButton
+                        android:id="@+id/seis_meses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="6 meses" />
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/apadrinhamento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/apadrinhamento_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="EXIGÊNCIAS PARA APADRINHAMENTO"
+                    android:textColor="#F7A800" />
+
+                <CheckBox
+                    android:id="@+id/termo_apadrinhamento"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Termo de apadrinhamento" />
+
+                <CheckBox
+                    android:id="@+id/auxilio_financeiro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Auxílio financeiro" />
+
+                <CheckBox
+                    android:id="@+id/auxilio_alimentacao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:enabled="false"
+                    android:text="Alimentação" />
+
+                <CheckBox
+                    android:id="@+id/auxilio_saude"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:enabled="false"
+                    android:text="Saúde" />
+
+                <CheckBox
+                    android:id="@+id/auxilio_objetos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:enabled="false"
+                    android:text="Objetos" />
+
+                <CheckBox
+                    android:id="@+id/visitas_ao_animal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Visitas ao animal" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ajudar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/ajudar_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="NECESSIDADES DO ANIMAL"
+                    android:textColor="#F7A800" />
+
+                <CheckBox
+                    android:id="@+id/alimento"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Alimento" />
+
+                <CheckBox
+                    android:id="@+id/ajuda_financeira"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Auxílio financeiro" />
+
+                <CheckBox
+                    android:id="@+id/medicamento"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Medicamento" />
+
+                <EditText
+                    android:id="@+id/medicamento_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nome do medicamento"/>
+
+                <CheckBox
+                    android:id="@+id/ajuda_objetos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Objetos" />
+
+                <EditText
+                    android:id="@+id/objetos_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Especifique o(s) objeto(s)"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/sobre_o_animal_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto"
+            android:text="SOBRE O ANIMAL"
+            android:textColor="#F7A800"
+            app:layout_constraintTop_toBottomOf="@id/blocos" />
+
+        <EditText
+            android:id="@+id/sobre_o_animal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="Compartilhe a história do animal"
+            app:layout_constraintTop_toBottomOf="@id/sobre_o_animal_info" />
+
+        <Button
+            android:id="@+id/button_finalizar"
+            android:layout_width="232dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="24dp"
+            android:backgroundTint="#FFD358"
+            android:text="Publicar"
+            app:layout_constraintTop_toBottomOf="@id/sobre_o_animal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+</ScrollView>

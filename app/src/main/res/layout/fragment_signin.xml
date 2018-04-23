@@ -11,12 +11,13 @@
         android:id="@+id/text1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ops!"
         android:layout_alignParentTop="true"
         android:layout_marginTop="52dp"
+        android:fontFamily="@font/courgette"
         android:gravity="center"
-        android:textSize="72dp"
-        android:textColor="#88C9BF"/>
+        android:text="Ops!"
+        android:textColor="#88C9BF"
+        android:textSize="72dp" />
 
     <TextView
         android:id="@+id/text2"

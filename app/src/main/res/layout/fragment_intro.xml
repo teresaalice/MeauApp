@@ -20,12 +20,13 @@
         android:id="@+id/text1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Olá!"
         android:layout_alignParentTop="true"
         android:layout_marginTop="56dp"
+        android:fontFamily="@font/courgette"
         android:gravity="center"
-        android:textSize="72dp"
-        android:textColor="#FFD358"/>
+        android:text="Olá!"
+        android:textColor="#FFD358"
+        android:textSize="72dp" />
 
     <TextView
         android:id="@+id/text2"

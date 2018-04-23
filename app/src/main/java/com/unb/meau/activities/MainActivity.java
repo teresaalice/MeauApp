@@ -3,12 +3,14 @@ package com.unb.meau.activities;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,10 +21,13 @@ import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.unb.meau.R;
 import com.unb.meau.adapters.CustomExpandableListAdapter;
+import com.unb.meau.fragments.CadastroAnimalFragment;
 import com.unb.meau.fragments.IntroFragment;
+import com.unb.meau.fragments.SignInFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     public static final String FRAGMENT_INTRO_TAG = "FRAGMENT_INTRO_TAG";
+    private static final String FRAGMENT_CADASTRO_ANIMAL_TAG = "FRAGMENT_CADASTRO_ANIMAL_TAG";
+    private static final String FRAGMENT_SIGN_IN_TAG = "FRAGMENT_SIGN_IN_TAG";
 
     Fragment fragment;
     Bundle args;
@@ -44,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
     private ExpandableListView expandableListView;
     private List<String> listTitle;
     private LinkedHashMap<String,List<String>> listItem;
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +78,15 @@ public class MainActivity extends AppCompatActivity {
         enterFullScreen();
 //        exitFullScreen();
 
+        mAuth = FirebaseAuth.getInstance();
+
         fragment = new IntroFragment();
 
         fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .add(R.id.content_frame, fragment, FRAGMENT_INTRO_TAG)
                 .commit();
-
-        }
+    }
 
     public void enterFullScreen() {
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -114,12 +125,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 String selectedItem = ((List) (listItem.get(listTitle.get(groupPosition)))).get(childPosition).toString();
-                getSupportActionBar().setTitle(selectedItem);
-
-                Toast.makeText(MainActivity.this, selectedItem, Toast.LENGTH_SHORT).show();
 
                 DrawerLayout drawer = findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);
+
+                if (mAuth.getCurrentUser() == null) {
+                    signIn();
+                } else {
+                    switch (selectedItem) {
+                        case "Cadastrar um pet":
+    //                        getSupportActionBar().setTitle(selectedItem);
+
+                            fragment = new CadastroAnimalFragment();
+                            fragmentManager = getFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .add(R.id.content_frame, fragment, FRAGMENT_CADASTRO_ANIMAL_TAG)
+                                    .addToBackStack(null)
+                                    .commit();
+                            break;
+                    }
+                }
                 return false;
             }
         });
@@ -153,4 +178,12 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Sair", Toast.LENGTH_SHORT).show();
     }
 
+    private void signIn() {
+        fragment = new SignInFragment();
+        fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .add(R.id.content_frame, fragment, FRAGMENT_SIGN_IN_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
 }

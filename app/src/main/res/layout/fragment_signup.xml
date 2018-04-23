@@ -40,7 +40,7 @@
             android:text="INFORMAÇÕES PESSOAIS" />
 
         <EditText
-            android:id="@+id/nome_completo"
+            android:id="@+id/nome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="4dp"
@@ -55,10 +55,10 @@
             android:id="@+id/idade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/nome_completo"
+            android:layout_below="@id/nome"
             android:layout_centerHorizontal="true"
-            android:ems="10"
-            android:inputType="number"
+            android:ems="3"
+            android:inputType="numberSigned"
             android:hint="Idade" />
 
         <EditText
