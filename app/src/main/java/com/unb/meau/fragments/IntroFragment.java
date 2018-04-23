@@ -60,7 +60,8 @@ public class IntroFragment extends Fragment {
                 if (currentUser == null) {
                     signIn();
                 } else {
-                    Log.d(TAG, "onClick: Adotar animal");
+                    Log.d(TAG, "onClick: Adotar Animal");
+                    adotarAnimal();
                 }
             }
         });
@@ -74,7 +75,7 @@ public class IntroFragment extends Fragment {
                 if (currentUser == null) {
                     signIn();
                 } else {
-                    Log.d(TAG, "onClick: Ajudar animal");
+                    Log.d(TAG, "onClick: Ajudar Animal");
                 }
             }
         });
@@ -88,7 +89,7 @@ public class IntroFragment extends Fragment {
                 if (currentUser == null) {
                     signIn();
                 } else {
-                    Log.d(TAG, "onClick: Cadastrar animal");
+                    Log.d(TAG, "onClick: Cadastrar Animal");
                     cadastrarAnimal();
                 }
             }
@@ -165,6 +166,14 @@ public class IntroFragment extends Fragment {
         CadastroAnimalFragment cadastroAnimalFragment = new CadastroAnimalFragment();
         FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content_frame, cadastroAnimalFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    private void adotarAnimal() {
+        ListFragment listFragment = new ListFragment();
+        FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.content_frame, listFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

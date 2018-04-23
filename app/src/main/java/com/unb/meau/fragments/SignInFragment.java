@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.unb.meau.R;
+import com.unb.meau.activities.MainActivity;
 
 public class SignInFragment extends Fragment {
 
