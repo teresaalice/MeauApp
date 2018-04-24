@@ -27,6 +27,7 @@ import com.unb.meau.R;
 import com.unb.meau.adapters.CustomExpandableListAdapter;
 import com.unb.meau.fragments.CadastroAnimalFragment;
 import com.unb.meau.fragments.IntroFragment;
+import com.unb.meau.fragments.ListFragment;
 import com.unb.meau.fragments.SignInFragment;
 
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String FRAGMENT_INTRO_TAG = "FRAGMENT_INTRO_TAG";
     private static final String FRAGMENT_CADASTRO_ANIMAL_TAG = "FRAGMENT_CADASTRO_ANIMAL_TAG";
     private static final String FRAGMENT_SIGN_IN_TAG = "FRAGMENT_SIGN_IN_TAG";
+    private static final String FRAGMENT_LISTAR_ANIMAIS_TAG = "FRAGMENT_LISTAR_ANIMAIS_TAG";
 
     Fragment fragment;
     Bundle args;
@@ -134,12 +136,42 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     switch (selectedItem) {
                         case "Cadastrar um pet":
-    //                        getSupportActionBar().setTitle(selectedItem);
+//                            getSupportActionBar().setTitle(selectedItem);
 
                             fragment = new CadastroAnimalFragment();
                             fragmentManager = getFragmentManager();
                             fragmentManager.beginTransaction()
                                     .add(R.id.content_frame, fragment, FRAGMENT_CADASTRO_ANIMAL_TAG)
+                                    .addToBackStack(null)
+                                    .commit();
+                            break;
+                        case "Adotar um pet":
+//                            getSupportActionBar().setTitle(selectedItem);
+
+                            fragment = new ListFragment();
+                            fragmentManager = getFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .add(R.id.content_frame, fragment, FRAGMENT_LISTAR_ANIMAIS_TAG)
+                                    .addToBackStack(null)
+                                    .commit();
+                            break;
+                        case "Ajudar um pet":
+//                            getSupportActionBar().setTitle(selectedItem);
+
+                            fragment = new ListFragment();
+                            fragmentManager = getFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .add(R.id.content_frame, fragment, FRAGMENT_LISTAR_ANIMAIS_TAG)
+                                    .addToBackStack(null)
+                                    .commit();
+                            break;
+                        case "Apadrinhar um pet":
+//                            getSupportActionBar().setTitle(selectedItem);
+
+                            fragment = new ListFragment();
+                            fragmentManager = getFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .add(R.id.content_frame, fragment, FRAGMENT_LISTAR_ANIMAIS_TAG)
                                     .addToBackStack(null)
                                     .commit();
                             break;

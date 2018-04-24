@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.unb.meau.R;
 
@@ -55,6 +56,9 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
     ConstraintLayout second_layout_page;
 
     TextView title;
+
+    FirebaseFirestore db;
+    Map<String, Object> animalObj;
 
     View view;
 
@@ -183,22 +187,22 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
 
     private void addToDatabase() {
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        Map<String, Object> animalObj = new HashMap<>();
+       animalObj = new HashMap<>();
 
         animalObj.put("dono", currentUser.getUid());
 
         ToggleButton button_adocao = view.findViewById(R.id.button_adocao);
-        if (button_adocao.isChecked()) animalObj.put("cadastro_adocao", true);
+        animalObj.put("cadastro_adocao", button_adocao.isChecked());
 
         ToggleButton button_apadrinhar = view.findViewById(R.id.button_apadrinhar);
-        if (button_apadrinhar.isChecked()) animalObj.put("cadastro_apadrinhar", true);
+        animalObj.put("cadastro_apadrinhar", button_apadrinhar.isChecked());
 
         ToggleButton button_ajuda = view.findViewById(R.id.button_ajuda);
-        if (button_ajuda.isChecked()) animalObj.put("cadastro_ajuda", true);
+        animalObj.put("cadastro_ajuda", button_ajuda.isChecked());
 
         EditText nome_do_animal = view.findViewById(R.id.nome_do_animal);
         animalObj.put("nome", nome_do_animal.getText().toString());
@@ -252,22 +256,22 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
 
         // Temperamento
         CheckBox brincalhao = view.findViewById(R.id.brincalhao);
-        if (brincalhao.isChecked()) animalObj.put("brincalhao", true);
+        animalObj.put("brincalhao", brincalhao.isChecked());
 
         CheckBox timido = view.findViewById(R.id.timido);
-        if (timido.isChecked()) animalObj.put("timido", true);
+        animalObj.put("timido", timido.isChecked());
 
         CheckBox calmo = view.findViewById(R.id.calmo);
-        if (calmo.isChecked()) animalObj.put("calmo", true);
+        animalObj.put("calmo", calmo.isChecked());
 
         CheckBox guarda = view.findViewById(R.id.guarda);
-        if (guarda.isChecked()) animalObj.put("guarda", true);
+        animalObj.put("guarda", guarda.isChecked());
 
         CheckBox amoroso = view.findViewById(R.id.amoroso);
-        if (amoroso.isChecked()) animalObj.put("amoroso", true);
+        animalObj.put("amoroso", amoroso.isChecked());
 
         CheckBox preguicoso = view.findViewById(R.id.preguicoso);
-        if (preguicoso.isChecked()) animalObj.put("preguicoso", true);
+        animalObj.put("preguicoso", preguicoso.isChecked());
 
         // Saúde
         CheckBox vacinado = view.findViewById(R.id.vacinado);
@@ -287,13 +291,13 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
 
         // Adoção
         CheckBox termo_de_adocao = view.findViewById(R.id.termo_de_adocao);
-        if (termo_de_adocao.isChecked()) animalObj.put("termo_de_adocao", true);
+        animalObj.put("termo_de_adocao", termo_de_adocao.isChecked());
 
         CheckBox fotos_da_casa = view.findViewById(R.id.fotos_da_casa);
-        if (fotos_da_casa.isChecked()) animalObj.put("fotos_da_casa", true);
+        animalObj.put("fotos_da_casa", fotos_da_casa.isChecked());
 
         CheckBox visita_previa_ao_animal = view.findViewById(R.id.visita_previa_ao_animal);
-        if (visita_previa_ao_animal.isChecked()) animalObj.put("visita_previa_ao_animal", true);
+        animalObj.put("visita_previa_ao_animal", visita_previa_ao_animal.isChecked());
 
         CheckBox acompanhamento = view.findViewById(R.id.acompanhamento);
         if (acompanhamento.isChecked()) {
@@ -313,11 +317,11 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
 
         // Apadrinhamento
         CheckBox termo_apadrinhamento = view.findViewById(R.id.termo_apadrinhamento);
-        if (termo_apadrinhamento.isChecked()) animalObj.put("termo_de_apadrinhamento", true);
+        animalObj.put("termo_de_apadrinhamento", termo_apadrinhamento.isChecked());
 
         CheckBox auxilio_financeiro = view.findViewById(R.id.auxilio_financeiro);
+        animalObj.put("auxilio_financeiro", auxilio_financeiro.isChecked());
         if (auxilio_financeiro.isChecked()) {
-            animalObj.put("auxilio_financeiro", true);
 
             CheckBox auxilio_alimentacao = view.findViewById(R.id.auxilio_alimentacao);
             if (auxilio_alimentacao.isChecked()) animalObj.put("auxilio_alimentacao", true);
@@ -330,26 +334,27 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
         }
 
         CheckBox visitas_ao_animal = view.findViewById(R.id.visitas_ao_animal);
-        if (visitas_ao_animal.isChecked()) animalObj.put("visitas_ao_animal", true);
+        animalObj.put("visitas_ao_animal", visitas_ao_animal.isChecked());
 
         // Ajuda
         CheckBox alimento = view.findViewById(R.id.alimento);
-        if (alimento.isChecked()) animalObj.put("alimento", true);
+        animalObj.put("alimento", alimento.isChecked());
 
         CheckBox ajuda_financeira = view.findViewById(R.id.ajuda_financeira);
-        if (ajuda_financeira.isChecked()) animalObj.put("ajuda_financeira", true);
+        animalObj.put("ajuda_financeira", ajuda_financeira.isChecked());
+
 
         CheckBox medicamento = view.findViewById(R.id.medicamento);
+        animalObj.put("ajuda_medicamento", medicamento.isChecked());
         if (medicamento.isChecked()) {
-            animalObj.put("ajuda_medicamento", true);
             EditText medicamento_text = view.findViewById(R.id.medicamento_text);
             if (medicamento_text.getText() != null)
                 animalObj.put("ajuda_medicamento_nome", medicamento_text.getText().toString());
         }
 
         CheckBox ajuda_objetos = view.findViewById(R.id.ajuda_objetos);
+        animalObj.put("ajuda_objeto", ajuda_objetos.isChecked());
         if (ajuda_objetos.isChecked()) {
-            animalObj.put("ajuda_objeto", true);
             EditText objetos_text = view.findViewById(R.id.objetos_text);
             if (objetos_text.getText() != null)
                 animalObj.put("ajuda_objetos_nome", objetos_text.getText().toString());
@@ -358,22 +363,38 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
         EditText sobre_o_animal = view.findViewById(R.id.sobre_o_animal);
         if(!sobre_o_animal.getText().toString().isEmpty())
             animalObj.put("historia", sobre_o_animal.getText().toString());
+        else
+            animalObj.put("historia", "");
 
-        db.collection("animals")
-                .add(animalObj)
-                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "DocumentSnapshot written with ID: " + task.getResult().getId());
-                            CadastroAnimalSucessoFragment cadastroAnimalSucessoFragment = new CadastroAnimalSucessoFragment();
-                            FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.content_frame, cadastroAnimalSucessoFragment);
-                            fragmentTransaction.commit();
-                        } else {
-                            Log.w(TAG, "Error adding document", task.getException());
-                        }
-                    }
-                });
+        db.collection("users").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "onComplete: Localização: " + task.getResult().get("cidade") + " - " + task.getResult().get("estado"));
+
+                    animalObj.put("localizacao", task.getResult().get("cidade") + " - " + task.getResult().get("estado"));
+
+                    db.collection("animals")
+                            .add(animalObj)
+                            .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d(TAG, "DocumentSnapshot written with ID: " + task.getResult().getId());
+                                        CadastroAnimalSucessoFragment cadastroAnimalSucessoFragment = new CadastroAnimalSucessoFragment();
+                                        FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
+                                        fragmentTransaction.replace(R.id.content_frame, cadastroAnimalSucessoFragment);
+                                        fragmentTransaction.commit();
+                                    } else {
+                                        Log.w(TAG, "Error adding document", task.getException());
+                                    }
+                                }
+                            });
+
+                } else {
+                    Log.w(TAG, "onComplete: Error getting user location", task.getException());
+                }
+            }
+        });
     }
 }

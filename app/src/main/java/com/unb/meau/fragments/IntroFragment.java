@@ -3,8 +3,6 @@ package com.unb.meau.fragments;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -61,7 +59,7 @@ public class IntroFragment extends Fragment {
                     signIn();
                 } else {
                     Log.d(TAG, "onClick: Adotar Animal");
-                    adotarAnimal();
+                    listarAnimais("adotar");
                 }
             }
         });
@@ -76,6 +74,7 @@ public class IntroFragment extends Fragment {
                     signIn();
                 } else {
                     Log.d(TAG, "onClick: Ajudar Animal");
+                    listarAnimais("ajudar");
                 }
             }
         });
@@ -117,19 +116,31 @@ public class IntroFragment extends Fragment {
 
     @Override
     public void onStart() {
-        Log.d(TAG, "onStart: entered");
+        Log.d(TAG, "onStart");
         ((MainActivity)getActivity()).enterFullScreen();
-
         updateLoginButton();
-
         super.onStart();
     }
 
     @Override
     public void onPause() {
-        Log.d(TAG, "onPause: entered");
+        Log.d(TAG, "onPause");
         ((MainActivity)getActivity()).exitFullScreen();
         super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        Log.d(TAG, "onStop");
+        ((MainActivity)getActivity()).exitFullScreen();
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.d(TAG, "onDestroy");
+        ((MainActivity)getActivity()).exitFullScreen();
+        super.onDestroy();
     }
 
     private void updateLoginButton() {
@@ -170,8 +181,14 @@ public class IntroFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
-    private void adotarAnimal() {
+    private void listarAnimais(String acao) {
+
         ListFragment listFragment = new ListFragment();
+
+        Bundle args = new Bundle();
+        args.putString("acao", acao);
+        listFragment.setArguments(args);
+
         FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content_frame, listFragment);
         fragmentTransaction.addToBackStack(null);

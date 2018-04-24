@@ -1,6 +1,7 @@
 package com.unb.meau.fragments;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,6 +33,8 @@ public class ListFragment extends Fragment {
     private FirestoreRecyclerAdapter adapter;
     LinearLayoutManager linearLayoutManager;
 
+    String acao;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,13 +50,38 @@ public class ListFragment extends Fragment {
         animalList.setLayoutManager(linearLayoutManager);
         db = FirebaseFirestore.getInstance();
 
-        getAnimalList();
+        Bundle bundle = this.getArguments();
+
+        if (bundle == null) {
+            Log.d(TAG, "onCreateView: bundle null");
+            acao = "";
+        } else {
+            Log.d(TAG, "onCreateView: Listar pets para " + bundle.getString("acao"));
+            acao = bundle.getString("acao");
+        }
+
+        getAnimalList(acao);
 
         return rootView;
     }
 
-    private void getAnimalList(){
-        Query query = db.collection("animals");
+    private void getAnimalList(String acao){
+        Query query;
+
+        switch (acao) {
+            case "adotar":
+                query = db.collection("animals").whereEqualTo("cadastro_adocao", true);
+                break;
+            case "apadrinhar":
+                query = db.collection("animals").whereEqualTo("cadastro_apadrinhar", true);
+                break;
+            case "ajudar":
+                query = db.collection("animals").whereEqualTo("cadastro_ajuda", true);
+                break;
+            default:
+                query = db.collection("animals");
+                break;
+        }
 
         FirestoreRecyclerOptions<Animal> options = new FirestoreRecyclerOptions.Builder<Animal>()
                 .setQuery(query, Animal.class)
@@ -61,13 +89,13 @@ public class ListFragment extends Fragment {
 
         adapter = new FirestoreRecyclerAdapter<Animal, AnimalsHolder>(options) {
             @Override
-            public void onBindViewHolder(final AnimalsHolder holder, int position, Animal model) {
+            public void onBindViewHolder(final AnimalsHolder holder, final int position, Animal model) {
 
                 holder.textNome.setText(model.getNome());
                 holder.textSexo.setText(model.getSexo());
                 holder.textIdade.setText(model.getIdade());
                 holder.textPorte.setText(model.getPorte());
-                holder.textLocalizacao.setText(model.getDono());
+                holder.textLocalizacao.setText(model.getLocalizacao());
 
 //                holder.image;
 
@@ -88,6 +116,20 @@ public class ListFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         Log.d(TAG, "onClick: " + holder.textNome.getText());
+                        Animal animal = (Animal) adapter.getItem(position);
+
+                        PerfilAnimalFragment perfilAnimalFragment = new PerfilAnimalFragment();
+
+                        Bundle args = new Bundle();
+                        args.putString("nome", animal.getNome());
+                        args.putString("dono", animal.getDono());
+                        perfilAnimalFragment.setArguments(args);
+                        
+                        FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.content_frame, perfilAnimalFragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+
                     }
                 });
             }
