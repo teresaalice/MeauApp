@@ -116,31 +116,16 @@ public class IntroFragment extends Fragment {
 
     @Override
     public void onStart() {
+        super.onStart();
         Log.d(TAG, "onStart");
         ((MainActivity)getActivity()).enterFullScreen();
         updateLoginButton();
-        super.onStart();
     }
 
     @Override
     public void onPause() {
-        Log.d(TAG, "onPause");
-        ((MainActivity)getActivity()).exitFullScreen();
         super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        Log.d(TAG, "onStop");
         ((MainActivity)getActivity()).exitFullScreen();
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        Log.d(TAG, "onDestroy");
-        ((MainActivity)getActivity()).exitFullScreen();
-        super.onDestroy();
     }
 
     private void updateLoginButton() {
@@ -158,40 +143,39 @@ public class IntroFragment extends Fragment {
     }
 
     private void login() {
-        LoginFragment loginFragment = new LoginFragment();
-        FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, loginFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        LoginFragment fragment = new LoginFragment();
+        getActivity().getFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private void signIn() {
-        SignInFragment signInFragment = new SignInFragment();
-        FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, signInFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        SignInFragment fragment = new SignInFragment();
+        getActivity().getFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private void cadastrarAnimal() {
-        CadastroAnimalFragment cadastroAnimalFragment = new CadastroAnimalFragment();
-        FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, cadastroAnimalFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        CadastroAnimalFragment fragment = new CadastroAnimalFragment();
+        getActivity().getFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private void listarAnimais(String acao) {
-
-        ListFragment listFragment = new ListFragment();
+        ListFragment fragment = new ListFragment();
 
         Bundle args = new Bundle();
         args.putString("acao", acao);
-        listFragment.setArguments(args);
+        fragment.setArguments(args);
 
-        FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, listFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        getActivity().getFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

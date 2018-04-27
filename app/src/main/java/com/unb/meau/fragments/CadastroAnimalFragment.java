@@ -27,6 +27,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.unb.meau.R;
+import com.unb.meau.activities.MainActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -105,6 +106,12 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
         });
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((MainActivity) getActivity()).setActionBarTitle("Cadastro do Animal");
     }
 
     @Override
@@ -381,10 +388,10 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
                                 public void onComplete(@NonNull Task<DocumentReference> task) {
                                     if (task.isSuccessful()) {
                                         Log.d(TAG, "DocumentSnapshot written with ID: " + task.getResult().getId());
-                                        CadastroAnimalSucessoFragment cadastroAnimalSucessoFragment = new CadastroAnimalSucessoFragment();
-                                        FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
-                                        fragmentTransaction.replace(R.id.content_frame, cadastroAnimalSucessoFragment);
-                                        fragmentTransaction.commit();
+                                        CadastroAnimalSucessoFragment fragment = new CadastroAnimalSucessoFragment();
+                                        getActivity().getFragmentManager().beginTransaction()
+                                                .replace(R.id.content_frame, fragment)
+                                                .commit();
                                     } else {
                                         Log.w(TAG, "Error adding document", task.getException());
                                     }

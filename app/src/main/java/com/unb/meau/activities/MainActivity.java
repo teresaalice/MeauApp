@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                             fragment = new CadastroAnimalFragment();
                             fragmentManager = getFragmentManager();
                             fragmentManager.beginTransaction()
-                                    .add(R.id.content_frame, fragment, FRAGMENT_CADASTRO_ANIMAL_TAG)
+                                    .replace(R.id.content_frame, fragment, FRAGMENT_CADASTRO_ANIMAL_TAG)
                                     .addToBackStack(null)
                                     .commit();
                             break;
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                             fragment = new ListFragment();
                             fragmentManager = getFragmentManager();
                             fragmentManager.beginTransaction()
-                                    .add(R.id.content_frame, fragment, FRAGMENT_LISTAR_ANIMAIS_TAG)
+                                    .replace(R.id.content_frame, fragment, FRAGMENT_LISTAR_ANIMAIS_TAG)
                                     .addToBackStack(null)
                                     .commit();
                             break;
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                             fragment = new ListFragment();
                             fragmentManager = getFragmentManager();
                             fragmentManager.beginTransaction()
-                                    .add(R.id.content_frame, fragment, FRAGMENT_LISTAR_ANIMAIS_TAG)
+                                    .replace(R.id.content_frame, fragment, FRAGMENT_LISTAR_ANIMAIS_TAG)
                                     .addToBackStack(null)
                                     .commit();
                             break;
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
                             fragment = new ListFragment();
                             fragmentManager = getFragmentManager();
                             fragmentManager.beginTransaction()
-                                    .add(R.id.content_frame, fragment, FRAGMENT_LISTAR_ANIMAIS_TAG)
+                                    .replace(R.id.content_frame, fragment, FRAGMENT_LISTAR_ANIMAIS_TAG)
                                     .addToBackStack(null)
                                     .commit();
                             break;
@@ -195,6 +195,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+
 //        int id = item.getItemId();
 //
 //        if (id == R.id.action_settings) {
@@ -203,11 +205,14 @@ public class MainActivity extends AppCompatActivity {
 //            return true;
 //        }
 
-        return super.onOptionsItemSelected(item);
     }
 
     public void onClick(View view) {
         Toast.makeText(this, "Sair", Toast.LENGTH_SHORT).show();
+    }
+
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
     }
 
     private void signIn() {

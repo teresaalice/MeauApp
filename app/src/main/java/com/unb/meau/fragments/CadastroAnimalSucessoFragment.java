@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.unb.meau.R;
+import com.unb.meau.activities.MainActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,13 +46,19 @@ public class CadastroAnimalSucessoFragment extends Fragment {
             public void onClick(View v) {
                 Log.d(TAG, "onClick: meus_pets");
 
-//                SignUpFragment signUpFragment = new SignUpFragment();
-//                FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
-//                fragmentTransaction.replace(R.id.content_frame, signUpFragment);
-//                fragmentTransaction.commit();
+//                MeusPetsFragment fragment = new MeusPetsFragment();
+//                getActivity().getFragmentManager().beginTransaction()
+//                        .replace(R.id.content_frame, fragment)
+//                        .commit();
             }
         });
 
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((MainActivity) getActivity()).setActionBarTitle("Cadastro do Animal");
     }
 }

@@ -29,10 +29,10 @@ public class SignInFragment extends Fragment {
             public void onClick(View v) {
                 Log.d(TAG, "onClick: button_signup");
 
-                SignUpFragment signUpFragment = new SignUpFragment();
-                FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, signUpFragment);
-                fragmentTransaction.commit();
+                SignUpFragment fragment = new SignUpFragment();
+                getActivity().getFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, fragment)
+                        .commit();
             }
         });
 
@@ -41,13 +41,19 @@ public class SignInFragment extends Fragment {
             public void onClick(View v) {
                 Log.d(TAG, "onClick: button_signin");
 
-                LoginFragment loginFragment = new LoginFragment();
-                FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, loginFragment);
-                fragmentTransaction.commit();
+                LoginFragment fragment = new LoginFragment();
+                getActivity().getFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, fragment)
+                        .commit();
             }
         });
 
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((MainActivity) getActivity()).setActionBarTitle("Cadastro");
     }
 }

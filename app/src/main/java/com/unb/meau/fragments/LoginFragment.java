@@ -46,6 +46,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.unb.meau.R;
+import com.unb.meau.activities.MainActivity;
 
 public class LoginFragment extends Fragment {
 
@@ -159,6 +160,12 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        ((MainActivity) getActivity()).setActionBarTitle("Login");
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         Log.d(TAG, "onActivityResult: requestCode: " + requestCode);
@@ -266,10 +273,10 @@ public class LoginFragment extends Fragment {
     }
 
     private void returnToIntro() {
-        IntroFragment introFragment = new IntroFragment();
-//        FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
-//        fragmentTransaction.replace(R.id.content_frame, introFragment);
-//        fragmentTransaction.commit();
+//        IntroFragment fragment = new IntroFragment();
+//        getActivity().getFragmentManager().beginTransaction()
+//                .replace(R.id.content_frame, fragment)
+//                .commit();
 
         if (getActivity() != null) {
             FragmentManager fm = getActivity().getFragmentManager();

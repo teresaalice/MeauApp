@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.unb.meau.R;
+import com.unb.meau.activities.MainActivity;
 import com.unb.meau.objects.Animal;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class PerfilAnimalFragment extends Fragment {
 
     private static final String TAG = "PerfilAnimalFragment";
 
-    private FirebaseFirestore db;
+    String nomeAnimal;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,12 +44,12 @@ public class PerfilAnimalFragment extends Fragment {
             return v;
         }
 
-        String nome = bundle.getString("nome");
+        nomeAnimal = bundle.getString("nome");
         String dono = bundle.getString("dono");
 
-        db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        Query query = db.collection("animals").whereEqualTo("dono", dono).whereEqualTo("nome", nome).limit(1);
+        Query query = db.collection("animals").whereEqualTo("dono", dono).whereEqualTo("nome", nomeAnimal).limit(1);
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -62,6 +63,12 @@ public class PerfilAnimalFragment extends Fragment {
         });
 
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((MainActivity) getActivity()).setActionBarTitle(nomeAnimal);
     }
 
     private void bindData(Animal animal) {

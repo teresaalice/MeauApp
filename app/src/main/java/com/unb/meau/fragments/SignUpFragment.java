@@ -25,6 +25,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.unb.meau.R;
+import com.unb.meau.activities.MainActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -111,6 +112,12 @@ public class SignUpFragment extends Fragment {
         });
 
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((MainActivity) getActivity()).setActionBarTitle("Cadastro");
     }
 
     private void storeUserData() {
