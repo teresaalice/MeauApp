@@ -9,12 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/selecao_acao_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp" >
 
@@ -27,52 +22,57 @@
             android:paddingTop="16dp"
             android:text="Tenho interesse em cadastrar o animal para:" />
 
-        <ToggleButton
-            android:id="@+id/button_adocao"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:textOff="ADOÇÃO"
-            android:textOn="ADOÇÃO"
-            android:textSize="12sp"
-            android:backgroundTint="@color/cinza"
-            android:textColor="#434343"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/info" />
+        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/selecao_acao_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <ToggleButton
-            android:id="@+id/button_apadrinhar"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            android:textOff="APADRINHAR"
-            android:textOn="APADRINHAR"
-            android:textSize="12sp"
-            android:backgroundTint="@color/cinza"
-            android:textColor="#434343"
-            app:layout_constraintStart_toEndOf="@id/button_adocao"
-            app:layout_constraintTop_toBottomOf="@id/info" />
+            <ToggleButton
+                android:id="@+id/button_adocao"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@drawable/toggle_button"
+                android:textColor="@color/toggle_text_color"
+                android:textOff="ADOÇÃO"
+                android:textOn="ADOÇÃO"
+                android:textSize="12sp"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <ToggleButton
-            android:id="@+id/button_ajuda"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            android:textOff="AJUDA"
-            android:textOn="AJUDA"
-            android:textSize="12sp"
-            android:backgroundTint="@color/cinza"
-            android:textColor="#434343"
-            app:layout_constraintStart_toEndOf="@id/button_apadrinhar"
-            app:layout_constraintTop_toBottomOf="@id/info" />
+            <ToggleButton
+                android:id="@+id/button_apadrinhar"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/toggle_button"
+                android:textColor="@color/toggle_text_color"
+                android:textOff="APADRINHAR"
+                android:textOn="APADRINHAR"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@+id/button_ajuda"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button_adocao" />
 
-    </android.support.constraint.ConstraintLayout>
+            <ToggleButton
+                android:id="@+id/button_ajuda"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/toggle_button"
+                android:textColor="@color/toggle_text_color"
+                android:textOff="AJUDA"
+                android:textOn="AJUDA"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5" />
+
+        </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/cadastro_animal_second_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp" >
+        android:layout_marginTop="16dp">
 
         <TextView
             android:id="@+id/action_info"
