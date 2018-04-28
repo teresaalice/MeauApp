@@ -1,9 +1,7 @@
 package com.unb.meau.activities;
 
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,13 +12,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
-import com.facebook.FacebookSdk;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.unb.meau.R;
@@ -28,7 +24,7 @@ import com.unb.meau.adapters.CustomExpandableListAdapter;
 import com.unb.meau.fragments.CadastroAnimalFragment;
 import com.unb.meau.fragments.IntroFragment;
 import com.unb.meau.fragments.ListFragment;
-import com.unb.meau.fragments.SignInFragment;
+import com.unb.meau.fragments.NotLoggedFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -216,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void signIn() {
-        fragment = new SignInFragment();
+        fragment = new NotLoggedFragment();
         fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .add(R.id.content_frame, fragment, FRAGMENT_SIGN_IN_TAG)

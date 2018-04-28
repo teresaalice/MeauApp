@@ -1,7 +1,6 @@
 package com.unb.meau.fragments;
 
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -143,7 +142,7 @@ public class IntroFragment extends Fragment {
     }
 
     private void login() {
-        LoginFragment fragment = new LoginFragment();
+        SignInFragment fragment = new SignInFragment();
         getActivity().getFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, fragment)
                 .addToBackStack(null)
@@ -151,7 +150,7 @@ public class IntroFragment extends Fragment {
     }
 
     private void signIn() {
-        SignInFragment fragment = new SignInFragment();
+        NotLoggedFragment fragment = new NotLoggedFragment();
         getActivity().getFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, fragment)
                 .addToBackStack(null)

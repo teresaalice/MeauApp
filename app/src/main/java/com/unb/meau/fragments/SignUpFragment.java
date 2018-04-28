@@ -179,8 +179,7 @@ public class SignUpFragment extends Fragment {
 //        fragmentTransaction.replace(R.id.content_frame, introFragment);
 
         if (getActivity() != null) {
-            FragmentManager fm = getActivity().getFragmentManager();
-            fm.popBackStack();
+            getActivity().getFragmentManager().popBackStack();
         }
     }
 }

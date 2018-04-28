@@ -7,66 +7,53 @@
     android:layout_height="match_parent"
     tools:context="com.unb.meau.activities.MainActivity">
 
-    <TextView
-        android:id="@+id/text1"
+    <EditText
+        android:id="@+id/editTextUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="52dp"
-        android:fontFamily="@font/courgette"
-        android:gravity="center"
-        android:text="Ops!"
-        android:textColor="#88C9BF"
-        android:textSize="72dp" />
+        android:layout_marginTop="64dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Nome de usuário" />
 
-    <TextView
-        android:id="@+id/text2"
+    <EditText
+        android:id="@+id/editTextPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/text1"
-        android:layout_marginStart="48dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginTop="52dp"
-        android:gravity="center"
-        android:textSize="16dp"
-        android:textColor="#757575"
-        android:text="@string/signup_message" />
-
-    <Button
-        android:id="@+id/button_signup"
-        android:layout_width="232dp"
-        android:layout_height="40dp"
-        android:layout_below="@+id/text2"
-        android:layout_marginTop="16dp"
-        android:textColor="#434343"
-        android:backgroundTint="#88C9BF"
-        android:layout_centerHorizontal="true"
-        android:text="FAZER CADASTRO" />
-
-    <TextView
-        android:id="@+id/text3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/button_signup"
-        android:layout_marginStart="48dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginTop="44dp"
-        android:gravity="center"
-        android:textSize="16dp"
-        android:textColor="#757575"
-        android:text="@string/signin_message" />
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_below="@id/editTextUsername"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="Senha"/>
 
     <Button
         android:id="@+id/button_signin"
         android:layout_width="232dp"
         android:layout_height="40dp"
-        android:layout_below="@+id/text3"
-        android:layout_marginTop="16dp"
+        android:layout_below="@+id/editTextPassword"
+        android:layout_marginTop="52dp"
         android:textColor="#434343"
         android:backgroundTint="#88C9BF"
         android:layout_centerHorizontal="true"
-        android:text="FAZER LOGIN" />
+        android:text="ENTRAR" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_with_facebook"
+        android:layout_width="232dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/button_signin"
+        android:layout_marginTop="72dp"
+        android:layout_centerHorizontal="true" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/login_with_google"
+        android:layout_width="232dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/login_with_facebook"
+        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
