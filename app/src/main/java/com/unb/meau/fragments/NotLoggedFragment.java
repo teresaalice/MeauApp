@@ -36,8 +36,6 @@ public class NotLoggedFragment extends Fragment {
 
                 SignUpFragment fragment = new SignUpFragment();
 
-//                MainActivity.performNoBackStackTransaction(getFragmentManager(), "FRAGMENT_SIGN_UP_TAG", fragment);
-
                 getActivity().getFragmentManager().beginTransaction()
                         .replace(R.id.content_frame, fragment)
                         .addToBackStack(null)
@@ -51,8 +49,6 @@ public class NotLoggedFragment extends Fragment {
                 Log.d(TAG, "onClick: button_signin");
 
                 SignInFragment fragment = new SignInFragment();
-
-//                MainActivity.performNoBackStackTransaction(getFragmentManager(), "FRAGMENT_LOGIN_TAG", fragment);
 
                 getActivity().getFragmentManager().beginTransaction()
                         .replace(R.id.content_frame, fragment)

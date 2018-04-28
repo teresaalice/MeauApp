@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,6 +32,7 @@ public class PerfilAnimalFragment extends Fragment {
     private static final String TAG = "PerfilAnimalFragment";
 
     String nomeAnimal;
+    String acao;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class PerfilAnimalFragment extends Fragment {
 
         nomeAnimal = bundle.getString("nome");
         String dono = bundle.getString("dono");
+        acao = bundle.getString("acao");
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -57,7 +60,8 @@ public class PerfilAnimalFragment extends Fragment {
                     Animal animal = task.getResult().getDocuments().get(0).toObject(Animal.class);
                     bindData(animal);
                 } else {
-                    Log.w(TAG, "onComplete: Animal no found", task.getException());
+                    Log.w(TAG, "onComplete: Animal not found", task.getException());
+                    Toast.makeText(getActivity(), "Animal não encontrado", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -89,6 +93,20 @@ public class PerfilAnimalFragment extends Fragment {
         LinearLayout ajuda = getView().findViewById(R.id.ajuda);
         TextView exigencias_ajuda = getView().findViewById(R.id.exigencias_ajuda);
         TextView sobre = getView().findViewById(R.id.sobre);
+
+        Button button_finalizar = getView().findViewById(R.id.button_finalizar);
+
+        switch (acao) {
+            case "Adotar":
+                button_finalizar.setText("Pretendo adotar");
+                break;
+            case "Apadrinhar":
+                button_finalizar.setText("Pretendo apadrinhar");
+                break;
+            case "Ajudar":
+                button_finalizar.setText("Pretendo ajudar");
+                break;
+        }
 
         nome.setText(animal.getNome());
         sexo.setText(animal.getSexo());

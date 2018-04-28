@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -91,7 +92,10 @@ public class SignInFragment extends Fragment {
                 String username = mUsernameEdit.getText().toString();
                 final String password = mPasswordEdit.getText().toString();
 
-                if(username.contains("@")) {
+                if (username.isEmpty() || password.isEmpty()) {
+                    Log.d(TAG, "onClick: Digite um nome de usuário e senha");
+                    Toast.makeText(getActivity(), "Digite um nome de usuário e senha", Toast.LENGTH_SHORT).show();
+                } else if(username.contains("@")) {
                     signIn(username, password);
                 } else {
                     Query query = db.collection("users").whereEqualTo("username", username).limit(1);
@@ -100,14 +104,25 @@ public class SignInFragment extends Fragment {
                         public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                             if (e == null) {
                                 Log.d(TAG, "onEvent: Success");
-                                String email = queryDocumentSnapshots.getDocuments().get(0).getString("email");
-                                if(email != null) {
-                                    signIn(email, password);
+                                String email = null;
+                                if (queryDocumentSnapshots != null && queryDocumentSnapshots.getDocuments().size() > 0) {
+                                    Log.d(TAG, "onEvent: queryDocumentSnapshots != null");
+                                    email = queryDocumentSnapshots.getDocuments().get(0).getString("email");
+
+                                    if(email != null) {
+                                        signIn(email, password);
+                                    } else {
+                                        Log.d(TAG, "onEvent: Error retrieving email");
+                                        Toast.makeText(getActivity(), "Erro", Toast.LENGTH_SHORT).show();
+                                    }
+
                                 } else {
-                                    Log.d(TAG, "onEvent: Error retrieving email");
+                                    Log.d(TAG, "onEvent: Email not found");
+                                    Toast.makeText(getActivity(), "Nome de usuário não reconhecido", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
                                 Log.d(TAG, "onEvent: Query error", e);
+                                Toast.makeText(getActivity(), "Erro", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -178,6 +193,7 @@ public class SignInFragment extends Fragment {
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e);
+                Toast.makeText(getActivity(), "Erro", Toast.LENGTH_SHORT).show();
             }
         } else {
             Log.d(TAG, "onActivityResult: requestCode: " + requestCode);
@@ -197,11 +213,14 @@ public class SignInFragment extends Fragment {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
+                            Toast.makeText(getActivity(), "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
+
                             FirebaseUser user = mAuth.getCurrentUser();
                             returnToIntro();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Toast.makeText(getActivity(), "Erro", Toast.LENGTH_SHORT).show();
                         }
 //                        hideProgressDialog();
                     }
@@ -220,11 +239,14 @@ public class SignInFragment extends Fragment {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
+                            Toast.makeText(getActivity(), "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
+
                             FirebaseUser user = mAuth.getCurrentUser();
                             returnToIntro();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Toast.makeText(getActivity(), "Erro", Toast.LENGTH_SHORT).show();
                         }
 //                        hideProgressDialog();
                     }
@@ -236,6 +258,7 @@ public class SignInFragment extends Fragment {
 
         if(email.isEmpty() || password.isEmpty()) {
             Log.d(TAG, "signIn: Enter an username and password");
+            Toast.makeText(getActivity(), "Digite seu nome de usuário e senha", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -246,7 +269,9 @@ public class SignInFragment extends Fragment {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            Toast.makeText(getActivity(), "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
+
+                            ((MainActivity) getActivity()).setDrawerInfo();
                             returnToIntro();
                         } else {
                             // If sign in fails, display a message to the user.
@@ -254,8 +279,11 @@ public class SignInFragment extends Fragment {
 
                             if (task.getException() instanceof FirebaseAuthInvalidUserException) {
                                 Log.d(TAG, "onComplete: There is no user with this email");
+                                Toast.makeText(getActivity(), "Usuário não cadastrado", Toast.LENGTH_SHORT).show();
+
                             } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 Log.d(TAG, "onComplete: Invalid password");
+                                Toast.makeText(getActivity(), "Senha inválida", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }

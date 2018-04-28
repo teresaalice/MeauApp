@@ -68,15 +68,13 @@ public class MainActivity extends AppCompatActivity {
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        mAuth = FirebaseAuth.getInstance();
+
         expandableListView = findViewById(R.id.expandable_list);
 
-        initializeNavigationDrawer();
-        addDrawerItems();
+        setDrawerInfo();
 
         enterFullScreen();
-//        exitFullScreen();
-
-        mAuth = FirebaseAuth.getInstance();
 
         fragment = new IntroFragment();
 
@@ -98,7 +96,18 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
     }
 
-    private void initializeNavigationDrawer() {
+    public void setDrawerInfo() {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user != null) {
+            initializeNavigationDrawer(user.getDisplayName());
+        } else {
+            initializeNavigationDrawer("Usuário");
+        }
+        addDrawerItems();
+    }
+
+    private void initializeNavigationDrawer(String user) {
 
         List <String> usuario = Arrays.asList("Meu perfil", "Meus pets", "Favoritos", "Chat");
         List <String> atalhos = Arrays.asList("Cadastrar um pet", "Adotar um pet", "Ajudar um pet", "Apadrinhar um pet");
@@ -106,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         List <String> configuracoes = Arrays.asList("Privacidade");
 
         listItem = new LinkedHashMap<>();
-        listItem.put("User", usuario);
+        listItem.put(user, usuario);
         listItem.put("Atalhos", atalhos);
         listItem.put("Informações", informacoes);
         listItem.put("Configurações", configuracoes);
@@ -132,8 +141,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     switch (selectedItem) {
                         case "Cadastrar um pet":
-//                            getSupportActionBar().setTitle(selectedItem);
-
                             fragment = new CadastroAnimalFragment();
                             fragmentManager = getFragmentManager();
                             fragmentManager.beginTransaction()
@@ -142,34 +149,13 @@ public class MainActivity extends AppCompatActivity {
                                     .commit();
                             break;
                         case "Adotar um pet":
-//                            getSupportActionBar().setTitle(selectedItem);
-
-                            fragment = new ListFragment();
-                            fragmentManager = getFragmentManager();
-                            fragmentManager.beginTransaction()
-                                    .replace(R.id.content_frame, fragment, FRAGMENT_LISTAR_ANIMAIS_TAG)
-                                    .addToBackStack(null)
-                                    .commit();
+                            listarAnimais("Adotar");
                             break;
                         case "Ajudar um pet":
-//                            getSupportActionBar().setTitle(selectedItem);
-
-                            fragment = new ListFragment();
-                            fragmentManager = getFragmentManager();
-                            fragmentManager.beginTransaction()
-                                    .replace(R.id.content_frame, fragment, FRAGMENT_LISTAR_ANIMAIS_TAG)
-                                    .addToBackStack(null)
-                                    .commit();
+                            listarAnimais("Ajudar");
                             break;
                         case "Apadrinhar um pet":
-//                            getSupportActionBar().setTitle(selectedItem);
-
-                            fragment = new ListFragment();
-                            fragmentManager = getFragmentManager();
-                            fragmentManager.beginTransaction()
-                                    .replace(R.id.content_frame, fragment, FRAGMENT_LISTAR_ANIMAIS_TAG)
-                                    .addToBackStack(null)
-                                    .commit();
+                            listarAnimais("Apadrinhar");
                             break;
                     }
                 }
@@ -216,6 +202,19 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .add(R.id.content_frame, fragment, FRAGMENT_SIGN_IN_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void listarAnimais(String acao) {
+        ListFragment fragment = new ListFragment();
+
+        Bundle args = new Bundle();
+        args.putString("acao", acao);
+        fragment.setArguments(args);
+
+        getFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, fragment)
                 .addToBackStack(null)
                 .commit();
     }

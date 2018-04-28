@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -58,7 +59,7 @@ public class IntroFragment extends Fragment {
                     signIn();
                 } else {
                     Log.d(TAG, "onClick: Adotar Animal");
-                    listarAnimais("adotar");
+                    listarAnimais("Adotar");
                 }
             }
         });
@@ -73,7 +74,7 @@ public class IntroFragment extends Fragment {
                     signIn();
                 } else {
                     Log.d(TAG, "onClick: Ajudar Animal");
-                    listarAnimais("ajudar");
+                    listarAnimais("Ajudar");
                 }
             }
         });
@@ -105,6 +106,8 @@ public class IntroFragment extends Fragment {
                     Log.d(TAG, "onClick: Logging out");
                     mAuth.signOut();
                     LoginManager.getInstance().logOut();
+                    Toast.makeText(getActivity(), "Saindo", Toast.LENGTH_SHORT).show();
+                    ((MainActivity) getActivity()).setDrawerInfo();
                 }
                 updateLoginButton();
             }

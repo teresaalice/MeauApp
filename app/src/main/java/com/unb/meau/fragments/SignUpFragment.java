@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -70,6 +71,7 @@ public class SignUpFragment extends Fragment {
 
                 if(email.isEmpty() || password.isEmpty() || username.isEmpty()) {
                     Log.d(TAG, "onClick: Enter an email, username and password");
+                    Toast.makeText(getActivity(), "Insira um email, nome de usuário e senha", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -77,6 +79,7 @@ public class SignUpFragment extends Fragment {
 
                 if(!password.equals(mPasswordConfirmationEdit.getText().toString())) {
                     Log.d(TAG, "onClick: Senhas diferentes");
+                    Toast.makeText(getActivity(), "As senhas não são iguais", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -102,8 +105,12 @@ public class SignUpFragment extends Fragment {
 
                                     if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                                         Log.d(TAG, "onComplete: User with this email already exist");
+                                        Toast.makeText(getActivity(), "Email já cadastrado", Toast.LENGTH_SHORT).show();
                                     } else if (task.getException() instanceof FirebaseAuthWeakPasswordException) {
                                         Log.d(TAG, "onComplete: Senha inválida! Ela deve conter ao menos 6 caracteres");
+                                        Toast.makeText(getActivity(), "Senha inválida! Ela deve conter ao menos 6 caracteres", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }
@@ -166,8 +173,10 @@ public class SignUpFragment extends Fragment {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "Document added successfully");
+                            Toast.makeText(getActivity(), "Cadastro realizado com sucesso", Toast.LENGTH_SHORT).show();
                         } else {
                             Log.w(TAG, "Error adding document", task.getException());
+                            Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

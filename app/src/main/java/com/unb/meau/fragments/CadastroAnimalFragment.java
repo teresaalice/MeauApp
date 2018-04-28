@@ -2,6 +2,7 @@ package com.unb.meau.fragments;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -388,18 +390,22 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
                                 public void onComplete(@NonNull Task<DocumentReference> task) {
                                     if (task.isSuccessful()) {
                                         Log.d(TAG, "DocumentSnapshot written with ID: " + task.getResult().getId());
+                                        Toast.makeText(getActivity(), "Animal cadastrado com sucesso", Toast.LENGTH_SHORT).show();
+
                                         CadastroAnimalSucessoFragment fragment = new CadastroAnimalSucessoFragment();
                                         getActivity().getFragmentManager().beginTransaction()
                                                 .replace(R.id.content_frame, fragment)
                                                 .commit();
                                     } else {
                                         Log.w(TAG, "Error adding document", task.getException());
+                                        Toast.makeText(getActivity(), "Erro ao cadastrar o animal", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
 
                 } else {
                     Log.w(TAG, "onComplete: Error getting user location", task.getException());
+                    Toast.makeText(getActivity(), "Erro ao verificar localização do usuário", Toast.LENGTH_SHORT).show();
                 }
             }
         });

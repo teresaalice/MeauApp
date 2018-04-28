@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -19,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.unb.meau.R;
+import com.unb.meau.activities.MainActivity;
 import com.unb.meau.objects.Animal;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -54,7 +56,7 @@ public class ListFragment extends Fragment {
 
         if (bundle == null) {
             Log.d(TAG, "onCreateView: bundle null");
-            acao = "";
+            acao = "Animais";
         } else {
             Log.d(TAG, "onCreateView: Listar pets para " + bundle.getString("acao"));
             acao = bundle.getString("acao");
@@ -65,17 +67,17 @@ public class ListFragment extends Fragment {
         return rootView;
     }
 
-    private void getAnimalList(String acao){
+    private void getAnimalList(final String acao){
         Query query;
 
         switch (acao) {
-            case "adotar":
+            case "Adotar":
                 query = db.collection("animals").whereEqualTo("cadastro_adocao", true);
                 break;
-            case "apadrinhar":
+            case "Apadrinhar":
                 query = db.collection("animals").whereEqualTo("cadastro_apadrinhar", true);
                 break;
-            case "ajudar":
+            case "Ajudar":
                 query = db.collection("animals").whereEqualTo("cadastro_ajuda", true);
                 break;
             default:
@@ -106,8 +108,10 @@ public class ListFragment extends Fragment {
 
                         if (holder.buttonFav.isSelected()) {
                             Log.d(TAG, "onClick: " + holder.textNome.getText() + " favoritado");
+                            Toast.makeText(getActivity(), "Adicionado aos favoritos", Toast.LENGTH_SHORT).show();
                         } else {
                             Log.d(TAG, "onClick: " + holder.textNome.getText() + " desfavoritado");
+                            Toast.makeText(getActivity(), "Removido dos favoritos", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -123,6 +127,7 @@ public class ListFragment extends Fragment {
                         Bundle args = new Bundle();
                         args.putString("nome", animal.getNome());
                         args.putString("dono", animal.getDono());
+                        args.putString("acao", acao);
                         perfilAnimalFragment.setArguments(args);
                         
                         FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
@@ -178,6 +183,7 @@ public class ListFragment extends Fragment {
     public void onStart() {
         super.onStart();
         adapter.startListening();
+        ((MainActivity) getActivity()).setActionBarTitle(acao);
     }
 
     @Override
