@@ -2,10 +2,15 @@ package com.unb.meau.fragments;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,24 +26,37 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static android.app.Activity.RESULT_OK;
 
 public class CadastroAnimalFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = "CadastroAnimalFragment";
 
+    private int PICK_IMAGE_REQUEST = 1;
+
     Button finalizar;
+    Button buttonAdicionarFoto;
 
     ToggleButton buttonAdocao;
     ToggleButton buttonApadrinhar;
@@ -60,10 +78,14 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
 
     TextView title;
 
+    ArrayList<String> downloadUrl = new ArrayList<>();
+
     FirebaseFirestore db;
     Map<String, Object> animalObj;
 
     View view;
+
+    private StorageReference mStorageRef;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,6 +97,7 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
         buttonAdocao = view.findViewById(R.id.button_adocao);
         buttonApadrinhar = view.findViewById(R.id.button_apadrinhar);
         buttonAjuda = view.findViewById(R.id.button_ajuda);
+        buttonAdicionarFoto = view.findViewById(R.id.button_adicionar_fotos);
         adocaoLayout = view.findViewById(R.id.adocao);
         apadrinharLayout = view.findViewById(R.id.apadrinhamento);
         ajudarLayout = view.findViewById(R.id.ajudar);
@@ -98,6 +121,17 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
         for(int i = 0; i < acompanhamento_radio_group.getChildCount(); i++){
             (acompanhamento_radio_group.getChildAt(i)).setEnabled(false);
         }
+
+        buttonAdicionarFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Adicionar Foto");
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Escolha uma foto"), PICK_IMAGE_REQUEST);
+            }
+        });
 
         finalizar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,7 +234,7 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-       animalObj = new HashMap<>();
+        animalObj = new HashMap<>();
 
         animalObj.put("dono", currentUser.getUid());
 
@@ -352,7 +386,6 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
         CheckBox ajuda_financeira = view.findViewById(R.id.ajuda_financeira);
         animalObj.put("ajuda_financeira", ajuda_financeira.isChecked());
 
-
         CheckBox medicamento = view.findViewById(R.id.medicamento);
         animalObj.put("ajuda_medicamento", medicamento.isChecked());
         if (medicamento.isChecked()) {
@@ -374,6 +407,13 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
             animalObj.put("historia", sobre_o_animal.getText().toString());
         else
             animalObj.put("historia", "");
+
+        if (downloadUrl.size() > 0) {
+            String fotos = TextUtils.join(",", downloadUrl);
+            animalObj.put("fotos", fotos);
+        } else {
+            animalObj.put("fotos", "");
+        }
 
         db.collection("users").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -409,5 +449,43 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
                 }
             }
         });
+    }
+
+    private void uploadFile(Uri filePath) {
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+
+        StorageReference imageRef = mStorageRef.child("animals/" + System.currentTimeMillis() + ".jpg");
+
+        Toast.makeText(getActivity(), "Fazendo upload da imagem", Toast.LENGTH_SHORT).show();
+
+        imageRef.putFile(filePath)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // Get a URL to the uploaded content
+                        downloadUrl.add(taskSnapshot.getDownloadUrl().toString());
+//                        downloadUrl = taskSnapshot.getDownloadUrl();
+                        Log.d(TAG, "onSuccess: Photo uploaded: " + downloadUrl.get(downloadUrl.size() - 1));
+                        Toast.makeText(getActivity(), "Imagem enviada com sucesso", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Log.d(TAG, "onFailure: Error uploading photo");
+                        Toast.makeText(getActivity(), "Erro ao enviar imagem", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            Log.d(TAG, "onActivityResult: " + filePath);
+            uploadFile(filePath);
+        }
     }
 }

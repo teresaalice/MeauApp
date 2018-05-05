@@ -3,6 +3,8 @@ package com.unb.meau.fragments;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -25,15 +27,22 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.app.Activity.RESULT_OK;
+
 public class SignUpFragment extends Fragment {
 
     private static final String TAG = "SignUpFragment";
+
+    private int PICK_IMAGE_REQUEST = 1;
 
     private FirebaseAuth mAuth;
 
@@ -41,7 +50,11 @@ public class SignUpFragment extends Fragment {
     EditText mPasswordEdit;
     EditText mPasswordConfirmationEdit;
     EditText mUsername;
+    Button buttonAdicionarFoto;
     FirebaseUser user;
+
+    private StorageReference mStorageRef;
+    Uri downloadUrl;
 
     View v;
 
@@ -58,6 +71,18 @@ public class SignUpFragment extends Fragment {
         mPasswordEdit = v.findViewById(R.id.senha);
         mPasswordConfirmationEdit = v.findViewById(R.id.senha2);
         mUsername = v.findViewById(R.id.username);
+        buttonAdicionarFoto = v.findViewById(R.id.add_photo);
+
+        buttonAdicionarFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Adicionar Foto");
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Escolha uma foto"), PICK_IMAGE_REQUEST);
+            }
+        });
 
         button_signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,7 +169,7 @@ public class SignUpFragment extends Fragment {
 
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(nomeView.getText().toString())
-//                .setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
+                .setPhotoUri(downloadUrl)
                 .build();
 
         user.updateProfile(profileUpdates)
@@ -189,6 +214,43 @@ public class SignUpFragment extends Fragment {
 
         if (getActivity() != null) {
             getActivity().getFragmentManager().popBackStack();
+        }
+    }
+
+    private void uploadFile(Uri filePath) {
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+
+        StorageReference imageRef = mStorageRef.child("users/" + System.currentTimeMillis() + ".jpg");
+
+        Toast.makeText(getActivity(), "Fazendo upload da imagem", Toast.LENGTH_SHORT).show();
+
+        imageRef.putFile(filePath)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // Get a URL to the uploaded content
+                        downloadUrl = taskSnapshot.getDownloadUrl();
+                        Log.d(TAG, "onSuccess: Photo uploaded: " + downloadUrl);
+                        Toast.makeText(getActivity(), "Imagem enviada com sucesso", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Log.d(TAG, "onFailure: Error uploading photo");
+                        Toast.makeText(getActivity(), "Erro ao enviar imagem", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            Log.d(TAG, "onActivityResult: " + filePath);
+            uploadFile(filePath);
         }
     }
 }

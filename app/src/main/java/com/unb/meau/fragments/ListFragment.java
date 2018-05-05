@@ -2,6 +2,7 @@ package com.unb.meau.fragments;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -22,6 +24,9 @@ import com.google.firebase.firestore.Query;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
 import com.unb.meau.objects.Animal;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -99,7 +104,18 @@ public class ListFragment extends Fragment {
                 holder.textPorte.setText(model.getPorte());
                 holder.textLocalizacao.setText(model.getLocalizacao());
 
-//                holder.image;
+                String fotos = model.getFotos();
+
+                if (fotos != null && !fotos.isEmpty()) {
+                    List<String> fotosList = Arrays.asList(fotos.split(","));
+
+                    if (fotosList.size() > 0) {
+                        Uri fotoUri = Uri.parse(fotosList.get(0));
+                        Glide.with(getActivity())
+                                .load(fotoUri)
+                                .into(holder.image);
+                    }
+                }
 
                 holder.buttonFav.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -2,6 +2,7 @@ package com.unb.meau.activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,8 +16,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.unb.meau.R;
@@ -72,8 +75,6 @@ public class MainActivity extends AppCompatActivity {
 
         expandableListView = findViewById(R.id.expandable_list);
 
-        setDrawerInfo();
-
         enterFullScreen();
 
         fragment = new IntroFragment();
@@ -82,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.beginTransaction()
                 .add(R.id.content_frame, fragment, FRAGMENT_INTRO_TAG)
                 .commit();
+
+        setDrawerInfo();
+
     }
 
     public void enterFullScreen() {
@@ -99,9 +103,21 @@ public class MainActivity extends AppCompatActivity {
     public void setDrawerInfo() {
         FirebaseUser user = mAuth.getCurrentUser();
 
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        ImageView fotoPerfil = navigationView.getHeaderView(0).findViewById(R.id.fotoPerfil);
+
         if (user != null) {
             initializeNavigationDrawer(user.getDisplayName());
+            if (user.getPhotoUrl() != null) {
+                Log.d(TAG, "setDrawerInfo: " + user.getPhotoUrl());
+                if (fotoPerfil != null) {
+                    Glide.with(this)
+                            .load(user.getPhotoUrl())
+                            .into(fotoPerfil);
+                }
+            }
         } else {
+            fotoPerfil.setImageResource(R.mipmap.ic_launcher_round);
             initializeNavigationDrawer("Usuário");
         }
         addDrawerItems();

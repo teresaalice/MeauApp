@@ -2,6 +2,7 @@ package com.unb.meau.fragments;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -9,10 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -25,6 +29,7 @@ import com.unb.meau.activities.MainActivity;
 import com.unb.meau.objects.Animal;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PerfilAnimalFragment extends Fragment {
@@ -76,6 +81,7 @@ public class PerfilAnimalFragment extends Fragment {
     }
 
     private void bindData(Animal animal) {
+        ImageView foto = getView().findViewById(R.id.foto_animal);
         TextView nome = getView().findViewById(R.id.nome);
         TextView sexo = getView().findViewById(R.id.sexo);
         TextView porte = getView().findViewById(R.id.porte);
@@ -106,6 +112,19 @@ public class PerfilAnimalFragment extends Fragment {
             case "Ajudar":
                 button_finalizar.setText("Pretendo ajudar");
                 break;
+        }
+
+        String fotos = animal.getFotos();
+
+        if (fotos != null && !fotos.isEmpty()) {
+            List<String> fotosList = Arrays.asList(fotos.split(","));
+
+            if (fotosList.size() > 0) {
+                Uri fotoUri = Uri.parse(fotosList.get(0));
+                Glide.with(this)
+                        .load(fotoUri)
+                        .into(foto);
+            }
         }
 
         nome.setText(animal.getNome());

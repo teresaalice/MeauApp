@@ -214,8 +214,7 @@ public class SignInFragment extends Fragment {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             Toast.makeText(getActivity(), "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
-
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            ((MainActivity) getActivity()).setDrawerInfo();
                             returnToIntro();
                         } else {
                             // If sign in fails, display a message to the user.
@@ -240,8 +239,7 @@ public class SignInFragment extends Fragment {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             Toast.makeText(getActivity(), "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
-
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            ((MainActivity) getActivity()).setDrawerInfo();
                             returnToIntro();
                         } else {
                             // If sign in fails, display a message to the user.
@@ -270,7 +268,6 @@ public class SignInFragment extends Fragment {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             Toast.makeText(getActivity(), "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
-
                             ((MainActivity) getActivity()).setDrawerInfo();
                             returnToIntro();
                         } else {

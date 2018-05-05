@@ -11,6 +11,7 @@ public class Animal {
     private String sexo;
     private String porte;
     private String idade;
+    private String fotos;
     private Boolean brincalhao;
     private Boolean timido;
     private Boolean calmo;
@@ -42,7 +43,7 @@ public class Animal {
 
     public Animal() {} // Needed for Firebase
 
-    public Animal(String dono, Boolean cadastro_adocao, Boolean cadastro_apadrinhar, Boolean cadastro_ajuda, String nome, String especie, String sexo, String porte, String idade, Boolean brincalhao, Boolean timido, Boolean calmo, Boolean guarda, Boolean amoroso, Boolean preguicoso, Boolean vacinado, Boolean vermifugado, Boolean castrado, String doencas, Boolean termo_de_adocao, Boolean fotos_da_casa, Boolean visita_previa_ao_animal, String acompanhamento_pos_adocao, Boolean termo_de_apadrinhamento, Boolean auxilio_financeiro, Boolean auxilio_alimentacao, Boolean auxilio_saude, Boolean auxilio_objetos, Boolean visitas_ao_animal, Boolean alimento, Boolean ajuda_financeira, Boolean ajuda_medicamento, String ajuda_medicamento_nome, Boolean ajuda_objeto, String ajuda_objetos_nome, String historia, String localizacao) {
+    public Animal(String dono, Boolean cadastro_adocao, Boolean cadastro_apadrinhar, Boolean cadastro_ajuda, String nome, String especie, String sexo, String porte, String idade, String fotos, Boolean brincalhao, Boolean timido, Boolean calmo, Boolean guarda, Boolean amoroso, Boolean preguicoso, Boolean vacinado, Boolean vermifugado, Boolean castrado, String doencas, Boolean termo_de_adocao, Boolean fotos_da_casa, Boolean visita_previa_ao_animal, String acompanhamento_pos_adocao, Boolean termo_de_apadrinhamento, Boolean auxilio_financeiro, Boolean auxilio_alimentacao, Boolean auxilio_saude, Boolean auxilio_objetos, Boolean visitas_ao_animal, Boolean alimento, Boolean ajuda_financeira, Boolean ajuda_medicamento, String ajuda_medicamento_nome, Boolean ajuda_objeto, String ajuda_objetos_nome, String historia, String localizacao) {
         this.dono = dono;
         this.cadastro_adocao = cadastro_adocao;
         this.cadastro_apadrinhar = cadastro_apadrinhar;
@@ -52,6 +53,7 @@ public class Animal {
         this.sexo = sexo;
         this.porte = porte;
         this.idade = idade;
+        this.fotos = fotos;
         this.brincalhao = brincalhao;
         this.timido = timido;
         this.calmo = calmo;
@@ -152,6 +154,14 @@ public class Animal {
 
     public void setIdade(String idade) {
         this.idade = idade;
+    }
+
+    public String getFotos() {
+        return fotos;
+    }
+
+    public void setFotos(String fotos) {
+        this.fotos = fotos;
     }
 
     public Boolean getBrincalhao() {
