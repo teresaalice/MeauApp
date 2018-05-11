@@ -15,4 +15,14 @@
     <string name="fb_login_protocol_scheme">fb193719447928535</string>
     <string name="cadastro_animal_sucesso_message">O cadastro do seu pet foi realizado com sucesso!\n\nCertifique-se que permitiu o envio de notificações por push no campo privacidade do menu configurações do aplicativo. Assim, poderemos te avisar assim que alguém interessado entrar em contato!</string>
 
+    <string name="artigo_4.1">É permitida a realização de eventos de doação de cães e gatos em estabelecimentos devidamente legalizados.</string>
+    <string name="artigo_4.2">§ 1º A feira só poderá ser realizada sob a responsabilidade de pessoa física ou jurídica, de direito público ou privado, sem fins lucrativos mantenedoras ou responsáveis por cães e gatos.</string>
+    <string name="artigo_4.3">§ 2º Para identificação da entidade, associação, instituição ou pessoa promotora do evento é necessário a existência de uma placa, em local visível, no espaço de realização do evento de doação, contendo: nome do promotor, seja pessoa física ou jurídica, CPF ou CNPJ, com respectivo telefone.</string>
+    <string name="artigo_4.4">§ 3º Pet shops ou clínicas veterinárias podem promover doações de animais, desde que haja identificação do responsável pela atividade, no local de exposição dos animais, atendendo-se às exigências previstas no parágrafo anterior.</string>
+    <string name="artigo_4.5">§ 4º Os animais expostos para doação devem estar devidamente esterilizados e submetidos a controle de endo e ectoparasitas, bem como submetidos ao esquema de vacinação contra a raiva e doenças espécie-específicas, conforme respectiva faixa etária, mediante atestados.</string>
+    <string name="artigo_5.1">As doações serão regidas por contrato específico, cujas obrigações previstas, por escrito, devem contemplar os dados qualificativos do animal, do adotante e do doador, as responsabilidades do adotante, as penalidades no caso de descumprimento, a permissão de monitoramento pelo doador e as condições de bem-estar e manutenção do animal.</string>
+    <string name="artigo_5.2">Parágrafo único. Antes da consumação da doação e da assinatura do contrato, o potencial adotante deve ser amplamente informado e conscientizado sobre a convivência da família com um animal, noções de comportamento, expectativa de vida, provável porte do animal na fase adulta (no caso de filhotes), necessidades nutricionais e de saúde.</string>
+    <string name="artigo_6">No ato da doação deve ser providenciado o RGA do animal, em nome do novo proprietário.</string>
+    <string name="artigo_7">Aqueles elencados no § 1º do art. 4º podem cobrar taxa de adoção do animal, devendo para tanto fornecer ao adotante recibo especificando o valor da taxa e demais gastos.</string>
+
 </resources>

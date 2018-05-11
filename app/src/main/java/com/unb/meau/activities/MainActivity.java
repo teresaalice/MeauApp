@@ -23,6 +23,7 @@ import com.unb.meau.R;
 import com.unb.meau.adapters.CustomExpandableListAdapter;
 import com.unb.meau.fragments.CadastroAnimalFragment;
 import com.unb.meau.fragments.IntroFragment;
+import com.unb.meau.fragments.Legislacao;
 import com.unb.meau.fragments.ListFragment;
 import com.unb.meau.fragments.NotLoggedFragment;
 import com.unb.meau.fragments.SignInFragment;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String FRAGMENT_LISTAR_ANIMAIS_TAG = "FRAGMENT_LISTAR_ANIMAIS_TAG";
     private static final String FRAGMENT_SIGN_IN_TAG = "FRAGMENT_SIGN_IN_TAG";
     private static final String FRAGMENT_SIGN_UP_TAG = "FRAGMENT_SIGN_UP_TAG";
+    private static final String FRAGMENT_LEGISLACAO_TAG = "FRAGMENT_LEGISLACAO_TAG";
     public DrawerLayout drawer;
     Fragment fragment;
     FragmentManager fragmentManager;
@@ -125,6 +127,9 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case "Apadrinhar um pet":
                             showListarAnimaisFragment("Apadrinhar");
+                            break;
+                        case "Legislação":
+                            showLegislacaoFragment();
                             break;
                     }
                 }
@@ -212,6 +217,14 @@ public class MainActivity extends AppCompatActivity {
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, fragment, FRAGMENT_LISTAR_ANIMAIS_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void showLegislacaoFragment(){
+        fragment = new Legislacao();
+        fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame,fragment,FRAGMENT_LEGISLACAO_TAG)
                 .addToBackStack(null)
                 .commit();
     }
