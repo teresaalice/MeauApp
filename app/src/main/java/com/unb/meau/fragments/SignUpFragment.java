@@ -1,8 +1,6 @@
 package com.unb.meau.fragments;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,7 +24,6 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -41,22 +39,18 @@ import static android.app.Activity.RESULT_OK;
 public class SignUpFragment extends Fragment {
 
     private static final String TAG = "SignUpFragment";
-
-    private int PICK_IMAGE_REQUEST = 1;
-
-    private FirebaseAuth mAuth;
-
     EditText mEmailEdit;
     EditText mPasswordEdit;
     EditText mPasswordConfirmationEdit;
     EditText mUsername;
     Button buttonAdicionarFoto;
+    ProgressBar mProgressBar;
     FirebaseUser user;
-
-    private StorageReference mStorageRef;
     Uri downloadUrl;
-
     View v;
+    private int PICK_IMAGE_REQUEST = 1;
+    private FirebaseAuth mAuth;
+    private StorageReference mStorageRef;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,6 +58,8 @@ public class SignUpFragment extends Fragment {
         v = inflater.inflate(R.layout.fragment_signup, container, false);
 
         mAuth = FirebaseAuth.getInstance();
+
+        mProgressBar = v.findViewById(R.id.progress_bar);
 
         Button button_signup = v.findViewById(R.id.button_signup);
 
@@ -94,7 +90,7 @@ public class SignUpFragment extends Fragment {
                 String password = mPasswordEdit.getText().toString();
                 String username = mUsername.getText().toString();
 
-                if(email.isEmpty() || password.isEmpty() || username.isEmpty()) {
+                if (email.isEmpty() || password.isEmpty() || username.isEmpty()) {
                     Log.d(TAG, "onClick: Enter an email, username and password");
                     Toast.makeText(getActivity(), "Insira um email, nome de usuário e senha", Toast.LENGTH_SHORT).show();
                     return;
@@ -102,7 +98,7 @@ public class SignUpFragment extends Fragment {
 
                 Log.d(TAG, "onClick: " + email + " : " + password);
 
-                if(!password.equals(mPasswordConfirmationEdit.getText().toString())) {
+                if (!password.equals(mPasswordConfirmationEdit.getText().toString())) {
                     Log.d(TAG, "onClick: Senhas diferentes");
                     Toast.makeText(getActivity(), "As senhas não são iguais", Toast.LENGTH_SHORT).show();
                     return;
@@ -112,6 +108,8 @@ public class SignUpFragment extends Fragment {
                     Log.d(TAG, "onClick: Invalid username");
                     return;
                 }
+
+                showProgressDialog();
 
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -124,7 +122,6 @@ public class SignUpFragment extends Fragment {
                                     storeUserData();
                                     returnToIntro();
                                 } else {
-
                                     // If sign in fails, display a message to the user.
                                     Log.w(TAG, "createUserWithEmail:failure", task.getException());
 
@@ -138,6 +135,7 @@ public class SignUpFragment extends Fragment {
                                         Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
                                     }
                                 }
+                                hideProgressDialog();
                             }
                         });
             }
@@ -165,7 +163,6 @@ public class SignUpFragment extends Fragment {
         EditText cidadeView = v.findViewById(R.id.cidade);
         EditText enderecoView = v.findViewById(R.id.endereco);
         EditText telefoneView = v.findViewById(R.id.telefone);
-//        EditText usernameView = v.findViewById(R.id.username);
 
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(nomeView.getText().toString())
@@ -208,10 +205,6 @@ public class SignUpFragment extends Fragment {
     }
 
     private void returnToIntro() {
-//        IntroFragment introFragment = new IntroFragment();
-//        FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
-//        fragmentTransaction.replace(R.id.content_frame, introFragment);
-
         if (getActivity() != null) {
             getActivity().getFragmentManager().popBackStack();
         }
@@ -252,5 +245,13 @@ public class SignUpFragment extends Fragment {
             Log.d(TAG, "onActivityResult: " + filePath);
             uploadFile(filePath);
         }
+    }
+
+    private void showProgressDialog() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressDialog() {
+        mProgressBar.setVisibility(View.GONE);
     }
 }

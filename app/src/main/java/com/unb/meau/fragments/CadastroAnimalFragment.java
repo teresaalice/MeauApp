@@ -1,13 +1,9 @@
 package com.unb.meau.fragments;
 
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
@@ -20,13 +16,12 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,7 +37,6 @@ import com.google.firebase.storage.UploadTask;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,40 +46,28 @@ import static android.app.Activity.RESULT_OK;
 public class CadastroAnimalFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = "CadastroAnimalFragment";
-
-    private int PICK_IMAGE_REQUEST = 1;
-
+    ProgressBar mProgressBar;
     Button finalizar;
     Button buttonAdicionarFoto;
-
     ToggleButton buttonAdocao;
     ToggleButton buttonApadrinhar;
     ToggleButton buttonAjuda;
-
     LinearLayout adocaoLayout;
     LinearLayout apadrinharLayout;
     LinearLayout ajudarLayout;
-
     CheckBox acompanhamento;
     CheckBox auxilio_financeiro;
     CheckBox sub_checkbox_alimentacao;
     CheckBox sub_checkbox_saude;
     CheckBox sub_checkbox_objetos;
-
     RadioGroup acompanhamento_radio_group;
-
     ConstraintLayout second_layout_page;
-
     TextView title;
-
     ArrayList<String> downloadUrl = new ArrayList<>();
-
     FirebaseFirestore db;
     Map<String, Object> animalObj;
-
     View view;
-
-    private StorageReference mStorageRef;
+    private int PICK_IMAGE_REQUEST = 1;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -93,14 +75,22 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_cadastro_animal, container, false);
 
+        second_layout_page = view.findViewById(R.id.cadastro_animal_second_layout);
+        second_layout_page.setVisibility(View.GONE);
+
+        adocaoLayout = view.findViewById(R.id.adocao);
+        apadrinharLayout = view.findViewById(R.id.apadrinhamento);
+        ajudarLayout = view.findViewById(R.id.ajudar);
+
+        adocaoLayout.setVisibility(View.GONE);
+        apadrinharLayout.setVisibility(View.GONE);
+        ajudarLayout.setVisibility(View.GONE);
+
         finalizar = view.findViewById(R.id.button_finalizar);
         buttonAdocao = view.findViewById(R.id.button_adocao);
         buttonApadrinhar = view.findViewById(R.id.button_apadrinhar);
         buttonAjuda = view.findViewById(R.id.button_ajuda);
         buttonAdicionarFoto = view.findViewById(R.id.button_adicionar_fotos);
-        adocaoLayout = view.findViewById(R.id.adocao);
-        apadrinharLayout = view.findViewById(R.id.apadrinhamento);
-        ajudarLayout = view.findViewById(R.id.ajudar);
         acompanhamento = view.findViewById(R.id.acompanhamento);
         acompanhamento_radio_group = view.findViewById(R.id.acompanhamento_radio_group);
         title = view.findViewById(R.id.action_info);
@@ -108,19 +98,13 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
         sub_checkbox_alimentacao = view.findViewById(R.id.auxilio_alimentacao);
         sub_checkbox_saude = view.findViewById(R.id.auxilio_saude);
         sub_checkbox_objetos = view.findViewById(R.id.auxilio_objetos);
-        second_layout_page = view.findViewById(R.id.cadastro_animal_second_layout);
-
-        second_layout_page.setVisibility(View.GONE);
+        mProgressBar = view.findViewById(R.id.progress_bar);
 
         buttonAdocao.setOnCheckedChangeListener(this);
         buttonApadrinhar.setOnCheckedChangeListener(this);
         buttonAjuda.setOnCheckedChangeListener(this);
         acompanhamento.setOnCheckedChangeListener(this);
         auxilio_financeiro.setOnCheckedChangeListener(this);
-
-        for(int i = 0; i < acompanhamento_radio_group.getChildCount(); i++){
-            (acompanhamento_radio_group.getChildAt(i)).setEnabled(false);
-        }
 
         buttonAdicionarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +121,7 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: finalizar");
+                showProgressDialog();
                 addToDatabase();
             }
         });
@@ -158,6 +143,7 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
             case R.id.button_apadrinhar:
             case R.id.button_ajuda:
 
+                // mostra ou esconde restante da página
                 if (isChecked) {
                     second_layout_page.setVisibility(View.VISIBLE);
                 } else {
@@ -172,13 +158,11 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
 
             case R.id.button_adocao:
                 if (isChecked) {
-//                    buttonAdocao.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                     title.setText("Adotar");
                     finalizar.setText("COLOCAR PARA ADOÇÃO");
                     adocaoLayout.setVisibility(View.VISIBLE);
                     buttonApadrinhar.setEnabled(false);
                 } else {
-//                    buttonAdocao.setBackgroundColor(getResources().getColor(R.color.cinza));
                     adocaoLayout.setVisibility(View.GONE);
                     buttonApadrinhar.setEnabled(true);
                 }
@@ -209,21 +193,15 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
                 break;
 
             case R.id.acompanhamento:
-                for(int i = 0; i < acompanhamento_radio_group.getChildCount(); i++){
+                for (int i = 0; i < acompanhamento_radio_group.getChildCount(); i++) {
                     (acompanhamento_radio_group.getChildAt(i)).setEnabled(isChecked);
                 }
                 break;
 
             case R.id.auxilio_financeiro:
-                if (isChecked) {
-                    sub_checkbox_alimentacao.setEnabled(true);
-                    sub_checkbox_saude.setEnabled(true);
-                    sub_checkbox_objetos.setEnabled(true);
-                } else {
-                    sub_checkbox_alimentacao.setEnabled(false);
-                    sub_checkbox_saude.setEnabled(false);
-                    sub_checkbox_objetos.setEnabled(false);
-                }
+                sub_checkbox_alimentacao.setEnabled(isChecked);
+                sub_checkbox_saude.setEnabled(isChecked);
+                sub_checkbox_objetos.setEnabled(isChecked);
                 break;
         }
     }
@@ -282,7 +260,6 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
                 animalObj.put("porte", "Grande");
                 break;
         }
-
 
         RadioGroup idade = view.findViewById(R.id.idade);
         switch (idade.getCheckedRadioButtonId()) {
@@ -403,7 +380,7 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
         }
 
         EditText sobre_o_animal = view.findViewById(R.id.sobre_o_animal);
-        if(!sobre_o_animal.getText().toString().isEmpty())
+        if (!sobre_o_animal.getText().toString().isEmpty())
             animalObj.put("historia", sobre_o_animal.getText().toString());
         else
             animalObj.put("historia", "");
@@ -440,19 +417,21 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
                                         Log.w(TAG, "Error adding document", task.getException());
                                         Toast.makeText(getActivity(), "Erro ao cadastrar o animal", Toast.LENGTH_SHORT).show();
                                     }
+                                    hideProgressDialog();
                                 }
                             });
 
                 } else {
                     Log.w(TAG, "onComplete: Error getting user location", task.getException());
                     Toast.makeText(getActivity(), "Erro ao verificar localização do usuário", Toast.LENGTH_SHORT).show();
+                    hideProgressDialog();
                 }
             }
         });
     }
 
     private void uploadFile(Uri filePath) {
-        mStorageRef = FirebaseStorage.getInstance().getReference();
+        StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
 
         StorageReference imageRef = mStorageRef.child("animals/" + System.currentTimeMillis() + ".jpg");
 
@@ -464,7 +443,6 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         // Get a URL to the uploaded content
                         downloadUrl.add(taskSnapshot.getDownloadUrl().toString());
-//                        downloadUrl = taskSnapshot.getDownloadUrl();
                         Log.d(TAG, "onSuccess: Photo uploaded: " + downloadUrl.get(downloadUrl.size() - 1));
                         Toast.makeText(getActivity(), "Imagem enviada com sucesso", Toast.LENGTH_SHORT).show();
                     }
@@ -487,5 +465,13 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
             Log.d(TAG, "onActivityResult: " + filePath);
             uploadFile(filePath);
         }
+    }
+
+    private void showProgressDialog() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressDialog() {
+        mProgressBar.setVisibility(View.GONE);
     }
 }

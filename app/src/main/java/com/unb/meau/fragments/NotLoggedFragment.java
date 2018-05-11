@@ -33,27 +33,15 @@ public class NotLoggedFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: button_signup");
-
-                SignUpFragment fragment = new SignUpFragment();
-
-                getActivity().getFragmentManager().beginTransaction()
-                        .replace(R.id.content_frame, fragment)
-                        .addToBackStack(null)
-                        .commit();
-        }
+                ((MainActivity) getActivity()).showSignUpFragment();
+            }
         });
 
         button_signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: button_signin");
-
-                SignInFragment fragment = new SignInFragment();
-
-                getActivity().getFragmentManager().beginTransaction()
-                        .replace(R.id.content_frame, fragment)
-                        .addToBackStack(null)
-                        .commit();
+                ((MainActivity) getActivity()).showSignUpFragment();
             }
         });
 

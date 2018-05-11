@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:layout_marginStart="8dp"
+    android:layout_marginBottom="8dp"
     android:layout_marginEnd="8dp"
-    android:layout_marginBottom="8dp" >
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/nome"
@@ -35,18 +35,18 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="10dp"
                 android:layout_marginTop="4dp"
-                android:padding="0dp"
-                android:scaleType="fitCenter"
                 android:adjustViewBounds="true"
                 android:backgroundTint="#FEE29B"
+                android:padding="0dp"
+                android:scaleType="fitCenter"
                 android:src="@drawable/fav_button" />
-            
+
             <ImageView
                 android:id="@+id/image_animal"
                 android:layout_width="match_parent"
                 android:layout_height="183dp"
-                android:scaleType="centerCrop"
-                android:layout_below="@id/nome"/>
+                android:layout_below="@id/nome"
+                android:scaleType="centerCrop" />
 
             <LinearLayout
                 android:id="@+id/atributos"
@@ -61,8 +61,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".30"
                     android:gravity="center"
-                    android:textAllCaps="true"
-                    android:text="Sexo" />
+                    android:text="Sexo"
+                    android:textAllCaps="true" />
 
                 <TextView
                     android:id="@+id/idade"
@@ -70,8 +70,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".30"
                     android:gravity="center"
-                    android:textAllCaps="true"
-                    android:text="Idade" />
+                    android:text="Idade"
+                    android:textAllCaps="true" />
 
                 <TextView
                     android:id="@+id/porte"
@@ -79,8 +79,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".30"
                     android:gravity="center"
-                    android:textAllCaps="true"
-                    android:text="Porte" />
+                    android:text="Porte"
+                    android:textAllCaps="true" />
             </LinearLayout>
 
             <TextView
@@ -89,8 +89,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/atributos"
                 android:layout_centerHorizontal="true"
-                android:textAllCaps="true"
-                android:text="Localização" />
+                android:text="Localização"
+                android:textAllCaps="true" />
 
         </RelativeLayout>
 

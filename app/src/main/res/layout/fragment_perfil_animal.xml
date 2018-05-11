@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content" >
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/foto_layout"
@@ -41,383 +47,384 @@
 
         </android.support.constraint.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/cadastro_animal_second_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp" >
-
-        <TextView
-            android:id="@+id/nome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Nome"
-            android:fontFamily="@font/roboto_medium"
-            android:textSize="16sp"
-            android:textColor="#434343" />
-
-        <LinearLayout
-            android:id="@+id/caracteristicas_info"
+        <android.support.constraint.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/cadastro_animal_second_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/nome">
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_below="@id/foto_layout">
 
             <TextView
-                android:id="@+id/sexo_info"
+                android:id="@+id/nome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="SEXO"
-                android:layout_weight=".30"
-                android:textColor="#F7A800" />
-
-            <TextView
-                android:id="@+id/porte_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="PORTE"
-                android:layout_weight=".30"
-                android:textColor="#F7A800" />
-
-            <TextView
-                android:id="@+id/idade_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="IDADE"
-                android:layout_weight=".30"
-                android:textColor="#F7A800" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/caracteristicas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/caracteristicas_info">
-
-            <TextView
-                android:id="@+id/sexo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="Sexo"
-                android:layout_weight=".30"
-                android:textColor="#757575" />
-
-            <TextView
-                android:id="@+id/porte"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="Porte"
-                android:layout_weight=".30"
-                android:textColor="#757575" />
-
-            <TextView
-                android:id="@+id/idade"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="Idade"
-                android:layout_weight=".30"
-                android:textColor="#757575" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/localizacao_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/roboto"
-            android:text="LOCALIZAÇÃO"
-            android:layout_weight=".30"
-            android:textColor="#F7A800"
-            app:layout_constraintTop_toBottomOf="@id/caracteristicas"/>
-
-        <TextView
-            android:id="@+id/localizacao"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:fontFamily="@font/roboto"
-            android:text="Localização"
-            android:layout_weight=".30"
-            android:textColor="#757575"
-            app:layout_constraintTop_toBottomOf="@id/localizacao_info"/>
-
-        <LinearLayout
-            android:id="@+id/saude_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/localizacao">
-
-            <TextView
-                android:id="@+id/castrado_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="CASTRADO"
-                android:layout_weight=".50"
-                android:textColor="#F7A800" />
-
-            <TextView
-                android:id="@+id/vermifugado_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="VERMIFUGADO"
-                android:layout_weight=".50"
-                android:textColor="#F7A800" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/saude"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/saude_info">
-
-            <TextView
-                android:id="@+id/castrado"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="Castrado"
-                android:layout_weight=".50"
-                android:textColor="#757575" />
-
-            <TextView
-                android:id="@+id/vermifugado"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="Vermifugado"
-                android:layout_weight=".50"
-                android:textColor="#757575" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/saude_2_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/saude">
-
-            <TextView
-                android:id="@+id/vacinado_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="VACINADO"
-                android:layout_weight=".50"
-                android:textColor="#F7A800" />
-
-            <TextView
-                android:id="@+id/doencas_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="DOENÇAS"
-                android:layout_weight=".50"
-                android:textColor="#F7A800" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/saude_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/saude_2_info">
-
-            <TextView
-                android:id="@+id/vacinado"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="Vacinado"
-                android:layout_weight=".50"
-                android:textColor="#757575" />
-
-            <TextView
-                android:id="@+id/doencas"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
-                android:text="Doeças"
-                android:layout_weight=".50"
-                android:textColor="#757575" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/temperamento_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/roboto"
-            android:text="TEMPERAMENTO"
-            android:textColor="#F7A800"
-            app:layout_constraintTop_toBottomOf="@id/saude_2"/>
-
-        <TextView
-            android:id="@+id/temperamento"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:fontFamily="@font/roboto"
-            android:text="Temperamento"
-            android:textColor="#757575"
-            app:layout_constraintTop_toBottomOf="@id/temperamento_info"/>
-
-        <LinearLayout
-            android:id="@+id/blocos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/temperamento">
+                android:layout_marginTop="16dp"
+                android:text="Nome"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="16sp"
+                android:textColor="#434343" />
 
             <LinearLayout
-                android:id="@+id/adocao"
+                android:id="@+id/caracteristicas_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:orientation="vertical" >
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/nome">
 
                 <TextView
-                    android:id="@+id/exigencias_doacao_info"
+                    android:id="@+id/sexo_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/roboto"
-                    android:text="EXIGÊNCIAS DO DOADOR"
+                    android:text="SEXO"
+                    android:layout_weight=".30"
                     android:textColor="#F7A800" />
 
                 <TextView
-                    android:id="@+id/exigencias_doacao"
+                    android:id="@+id/porte_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
                     android:fontFamily="@font/roboto"
-                    android:text="Exigencias do doador"
+                    android:text="PORTE"
+                    android:layout_weight=".30"
+                    android:textColor="#F7A800" />
+
+                <TextView
+                    android:id="@+id/idade_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="IDADE"
+                    android:layout_weight=".30"
+                    android:textColor="#F7A800" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/caracteristicas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/caracteristicas_info">
+
+                <TextView
+                    android:id="@+id/sexo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Sexo"
+                    android:layout_weight=".30"
+                    android:textColor="#757575" />
+
+                <TextView
+                    android:id="@+id/porte"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Porte"
+                    android:layout_weight=".30"
+                    android:textColor="#757575" />
+
+                <TextView
+                    android:id="@+id/idade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Idade"
+                    android:layout_weight=".30"
+                    android:textColor="#757575" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/localizacao_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="LOCALIZAÇÃO"
+                android:layout_weight=".30"
+                android:textColor="#F7A800"
+                app:layout_constraintTop_toBottomOf="@id/caracteristicas"/>
+
+            <TextView
+                android:id="@+id/localizacao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="Localização"
+                android:layout_weight=".30"
+                android:textColor="#757575"
+                app:layout_constraintTop_toBottomOf="@id/localizacao_info"/>
+
+            <LinearLayout
+                android:id="@+id/saude_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/localizacao">
+
+                <TextView
+                    android:id="@+id/castrado_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="CASTRADO"
+                    android:layout_weight=".50"
+                    android:textColor="#F7A800" />
+
+                <TextView
+                    android:id="@+id/vermifugado_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="VERMIFUGADO"
+                    android:layout_weight=".50"
+                    android:textColor="#F7A800" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/saude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/saude_info">
+
+                <TextView
+                    android:id="@+id/castrado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Castrado"
+                    android:layout_weight=".50"
+                    android:textColor="#757575" />
+
+                <TextView
+                    android:id="@+id/vermifugado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Vermifugado"
+                    android:layout_weight=".50"
                     android:textColor="#757575" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/apadrinhamento"
+                android:id="@+id/saude_2_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:orientation="vertical" >
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/saude">
 
                 <TextView
-                    android:id="@+id/exigencias_apadrinhamento_info"
+                    android:id="@+id/vacinado_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/roboto"
-                    android:text="EXIGÊNCIAS DO DONO"
+                    android:text="VACINADO"
+                    android:layout_weight=".50"
                     android:textColor="#F7A800" />
 
                 <TextView
-                    android:id="@+id/exigencias_apadrinhamento"
+                    android:id="@+id/doencas_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
                     android:fontFamily="@font/roboto"
-                    android:text="Exigencias do dono"
-                    android:textColor="#757575" />
+                    android:text="DOENÇAS"
+                    android:layout_weight=".50"
+                    android:textColor="#F7A800" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ajuda"
+                android:id="@+id/saude_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:orientation="vertical" >
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/saude_2_info">
 
                 <TextView
-                    android:id="@+id/exigencias_ajuda_info"
+                    android:id="@+id/vacinado"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/roboto"
-                    android:text="O ANIMAL PRECISA DE"
-                    android:textColor="#F7A800" />
+                    android:text="Vacinado"
+                    android:layout_weight=".50"
+                    android:textColor="#757575" />
 
                 <TextView
-                    android:id="@+id/exigencias_ajuda"
+                    android:id="@+id/doencas"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
                     android:fontFamily="@font/roboto"
-                    android:text="O animal precisa de"
+                    android:text="Doeças"
+                    android:layout_weight=".50"
                     android:textColor="#757575" />
 
             </LinearLayout>
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/temperamento_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="TEMPERAMENTO"
+                android:textColor="#F7A800"
+                app:layout_constraintTop_toBottomOf="@id/saude_2"/>
 
-        <TextView
-            android:id="@+id/sobre_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/roboto"
-            android:text="MAIS SOBRE O ANIMAL"
-            android:textColor="#F7A800"
-            app:layout_constraintTop_toBottomOf="@id/blocos"/>
+            <TextView
+                android:id="@+id/temperamento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="Temperamento"
+                android:textColor="#757575"
+                app:layout_constraintTop_toBottomOf="@id/temperamento_info"/>
 
-        <TextView
-            android:id="@+id/sobre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/roboto"
-            android:text="Sobre"
-            android:textColor="#757575"
-            app:layout_constraintTop_toBottomOf="@id/sobre_info"/>
+            <LinearLayout
+                android:id="@+id/blocos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/temperamento">
 
-        <Button
-            android:id="@+id/button_finalizar"
-            android:layout_width="232dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginBottom="24dp"
-            android:backgroundTint="#FFD358"
-            android:text="FINALIZAR"
-            android:textAllCaps="true"
-            app:layout_constraintTop_toBottomOf="@id/sobre"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+                <LinearLayout
+                    android:id="@+id/adocao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="vertical" >
 
-    </android.support.constraint.ConstraintLayout>
-    </LinearLayout>
+                    <TextView
+                        android:id="@+id/exigencias_doacao_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="EXIGÊNCIAS DO DOADOR"
+                        android:textColor="#F7A800" />
+
+                    <TextView
+                        android:id="@+id/exigencias_doacao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="Exigencias do doador"
+                        android:textColor="#757575" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/apadrinhamento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/exigencias_apadrinhamento_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="EXIGÊNCIAS DO DONO"
+                        android:textColor="#F7A800" />
+
+                    <TextView
+                        android:id="@+id/exigencias_apadrinhamento"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="Exigencias do dono"
+                        android:textColor="#757575" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ajuda"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/exigencias_ajuda_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="O ANIMAL PRECISA DE"
+                        android:textColor="#F7A800" />
+
+                    <TextView
+                        android:id="@+id/exigencias_ajuda"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:fontFamily="@font/roboto"
+                        android:text="O animal precisa de"
+                        android:textColor="#757575" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/sobre_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="MAIS SOBRE O ANIMAL"
+                android:textColor="#F7A800"
+                app:layout_constraintTop_toBottomOf="@id/blocos"/>
+
+            <TextView
+                android:id="@+id/sobre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto"
+                android:text="Sobre"
+                android:textColor="#757575"
+                app:layout_constraintTop_toBottomOf="@id/sobre_info"/>
+
+            <Button
+                android:id="@+id/button_finalizar"
+                android:layout_width="232dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="24dp"
+                android:backgroundTint="#FFD358"
+                android:text="FINALIZAR"
+                android:textAllCaps="true"
+                app:layout_constraintTop_toBottomOf="@id/sobre"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
 </ScrollView>

@@ -1,12 +1,15 @@
 package com.unb.meau.fragments;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,16 +24,17 @@ import com.unb.meau.activities.MainActivity;
 public class IntroFragment extends Fragment {
 
     private static final String TAG = "IntroFragment";
-
+    TextView text_login;
+    Toolbar toolbar;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-
-    TextView text_login;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_intro, container, false);
+
+        toolbar = getActivity().findViewById(R.id.toolbar);
 
         ImageView drawer_icon = v.findViewById(R.id.drawer_icon);
         Button button_adotar = v.findViewById(R.id.button_adotar);
@@ -44,7 +48,6 @@ public class IntroFragment extends Fragment {
         drawer_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Log.d(TAG, "onClick: drawer_icon");
                 ((MainActivity) getActivity()).drawer.openDrawer(Gravity.START);
             }
         });
@@ -56,10 +59,9 @@ public class IntroFragment extends Fragment {
 
                 currentUser = mAuth.getCurrentUser();
                 if (currentUser == null) {
-                    signIn();
+                    ((MainActivity) getActivity()).showNotLoggedFragment();
                 } else {
-                    Log.d(TAG, "onClick: Adotar Animal");
-                    listarAnimais("Adotar");
+                    ((MainActivity) getActivity()).showListarAnimaisFragment("Adotar");
                 }
             }
         });
@@ -71,10 +73,9 @@ public class IntroFragment extends Fragment {
 
                 currentUser = mAuth.getCurrentUser();
                 if (currentUser == null) {
-                    signIn();
+                    ((MainActivity) getActivity()).showNotLoggedFragment();
                 } else {
-                    Log.d(TAG, "onClick: Ajudar Animal");
-                    listarAnimais("Ajudar");
+                    ((MainActivity) getActivity()).showListarAnimaisFragment("Ajudar");
                 }
             }
         });
@@ -86,10 +87,17 @@ public class IntroFragment extends Fragment {
 
                 currentUser = mAuth.getCurrentUser();
                 if (currentUser == null) {
-                    signIn();
+                    ((MainActivity) getActivity()).showNotLoggedFragment();
                 } else {
-                    Log.d(TAG, "onClick: Cadastrar Animal");
-                    cadastrarAnimal();
+//                    ((MainActivity) getActivity()).showCadastrarAnimalFragment();
+
+                    Fragment fragment = new CadastroAnimalFragment();
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.content_frame, fragment, "FRAGMENT_CADASTRO_ANIMAL_TAG")
+                            .addToBackStack(null)
+                            .commit();
+
                 }
             }
         });
@@ -101,7 +109,7 @@ public class IntroFragment extends Fragment {
 
                 currentUser = mAuth.getCurrentUser();
                 if (currentUser == null) {
-                    login();
+                    ((MainActivity) getActivity()).showSignInFragment();
                 } else {
                     Log.d(TAG, "onClick: Logging out");
                     mAuth.signOut();
@@ -120,14 +128,15 @@ public class IntroFragment extends Fragment {
     public void onStart() {
         super.onStart();
         Log.d(TAG, "onStart");
-        ((MainActivity)getActivity()).enterFullScreen();
+        enterFullScreen();
         updateLoginButton();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        ((MainActivity)getActivity()).exitFullScreen();
+        Log.d(TAG, "onPause");
+        exitFullScreen();
     }
 
     private void updateLoginButton() {
@@ -136,48 +145,28 @@ public class IntroFragment extends Fragment {
             Log.d(TAG, "updateLoginButton: User not logged");
             text_login.setText(R.string.login);
         } else {
-            text_login.setText(R.string.logout);
             Log.d(TAG, "updateLoginButton: User " + currentUser.getEmail() + " logged");
-//            Log.d(TAG, "onCreateView: DisplayName: " + currentUser.getDisplayName() +
-//                    " ProviderId: " + currentUser.getProviderId() +
-//                    " Uid: " + currentUser.getUid());
+            text_login.setText(R.string.logout);
         }
     }
 
-    private void login() {
-        SignInFragment fragment = new SignInFragment();
-        getActivity().getFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .addToBackStack(null)
-                .commit();
+    public void enterFullScreen() {
+        toolbar.setVisibility(View.GONE);
+
+        // hide status bar
+//        View decorView = getWindow().getDecorView();
+//        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
-    private void signIn() {
-        NotLoggedFragment fragment = new NotLoggedFragment();
-        getActivity().getFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
+    public void exitFullScreen() {
+        toolbar.setVisibility(View.VISIBLE);
 
-    private void cadastrarAnimal() {
-        CadastroAnimalFragment fragment = new CadastroAnimalFragment();
-        getActivity().getFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
+        // show status bar
+//        View decorView = getWindow().getDecorView();
+//        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
-    private void listarAnimais(String acao) {
-        ListFragment fragment = new ListFragment();
-
-        Bundle args = new Bundle();
-        args.putString("acao", acao);
-        fragment.setArguments(args);
-
-        getActivity().getFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, fragment)
-                .addToBackStack(null)
-                .commit();
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
     }
 }

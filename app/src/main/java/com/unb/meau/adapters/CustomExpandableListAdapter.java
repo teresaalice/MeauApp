@@ -1,7 +1,6 @@
 package com.unb.meau.adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +10,14 @@ import android.widget.TextView;
 
 import com.unb.meau.R;
 
-import org.w3c.dom.Text;
-
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> listTitle;
-    private LinkedHashMap<String,List<String>> listItem;
+    private LinkedHashMap<String, List<String>> listItem;
 
     public CustomExpandableListAdapter(Context context, List<String> listTitle, LinkedHashMap<String, List<String>> listItem) {
         this.context = context;
@@ -66,10 +62,12 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        String title = (String)getGroup(groupPosition);
-        if(convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.nav_list_group, null);
+
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.nav_list_group, parent, false);
         }
+
+        String title = (String) getGroup(groupPosition);
         TextView text_title = convertView.findViewById(R.id.expandable_list_group);
         text_title.setText(title);
 
@@ -82,7 +80,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             case 0:
                 icon.setVisibility(View.GONE);
                 float scale = context.getResources().getDisplayMetrics().density;
-                text_title.setPadding((int)(16 * scale), (int)(16 * scale), (int)(40 * scale), (int)(20 * scale));
+                text_title.setPadding((int) (16 * scale), (int) (16 * scale), (int) (40 * scale), (int) (20 * scale));
                 text_title.setBackgroundColor(context.getResources().getColor(R.color.nav_primary));
                 break;
             case 1:
@@ -104,9 +102,9 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        String title = (String)getChild(groupPosition, childPosition);
-        if(convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.nav_list_item, null);
+        String title = (String) getChild(groupPosition, childPosition);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.nav_list_item, parent, false);
         }
         TextView text_item = convertView.findViewById(R.id.expandable_list_item);
         text_item.setText(title);

@@ -1,10 +1,10 @@
 package com.unb.meau.fragments;
 
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,15 +12,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -36,6 +34,10 @@ public class PerfilAnimalFragment extends Fragment {
 
     private static final String TAG = "PerfilAnimalFragment";
 
+    ProgressBar mProgressBar;
+    ConstraintLayout foto_layout;
+    ConstraintLayout cadastro_animal_second_layout;
+
     String nomeAnimal;
     String acao;
 
@@ -43,6 +45,14 @@ public class PerfilAnimalFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_perfil_animal, container, false);
+
+        mProgressBar = v.findViewById(R.id.progress_bar);
+        foto_layout = v.findViewById(R.id.foto_layout);
+        cadastro_animal_second_layout = v.findViewById(R.id.cadastro_animal_second_layout);
+
+        mProgressBar.setVisibility(View.VISIBLE);
+        foto_layout.setVisibility(View.GONE);
+        cadastro_animal_second_layout.setVisibility(View.GONE);
 
         Bundle bundle = this.getArguments();
 
@@ -125,6 +135,13 @@ public class PerfilAnimalFragment extends Fragment {
                         .load(fotoUri)
                         .into(foto);
             }
+        } else {
+            if (animal.getEspecie() != null && animal.getEspecie().equals("Cachorro")) {
+                foto.setImageResource(R.drawable.dog_silhouette);
+            } else {
+                foto.setImageResource(R.drawable.cat_silhouette);
+            }
+            foto.setScaleType(ImageView.ScaleType.FIT_CENTER);
         }
 
         nome.setText(animal.getNome());
@@ -153,17 +170,21 @@ public class PerfilAnimalFragment extends Fragment {
             ajuda.setVisibility(View.VISIBLE);
             exigencias_ajuda.setText(getAjudaString(animal));
         }
+
+        mProgressBar.setVisibility(View.GONE);
+        foto_layout.setVisibility(View.VISIBLE);
+        cadastro_animal_second_layout.setVisibility(View.VISIBLE);
     }
 
     private String getTemperamentoString(Animal animal) {
         List<String> temperamentoArray = new ArrayList<String>();
 
-        if(animal.getBrincalhao()) temperamentoArray.add("Brincalhão");
-        if(animal.getTimido()) temperamentoArray.add("Tímido");
-        if(animal.getCalmo()) temperamentoArray.add("Calmo");
-        if(animal.getGuarda()) temperamentoArray.add("Guarda");
-        if(animal.getAmoroso()) temperamentoArray.add("Amoroso");
-        if(animal.getPreguicoso()) temperamentoArray.add("Preguiçoso");
+        if (animal.getBrincalhao()) temperamentoArray.add("Brincalhão");
+        if (animal.getTimido()) temperamentoArray.add("Tímido");
+        if (animal.getCalmo()) temperamentoArray.add("Calmo");
+        if (animal.getGuarda()) temperamentoArray.add("Guarda");
+        if (animal.getAmoroso()) temperamentoArray.add("Amoroso");
+        if (animal.getPreguicoso()) temperamentoArray.add("Preguiçoso");
 
         String temperamentoString = "";
         if (temperamentoArray.size() > 0) {
@@ -183,10 +204,11 @@ public class PerfilAnimalFragment extends Fragment {
     private String getAdocaoString(Animal animal) {
         List<String> adocaoArray = new ArrayList<String>();
 
-        if(animal.getTermo_de_adocao()) adocaoArray.add("Termo de adoção");
-        if(animal.getFotos_da_casa()) adocaoArray.add("Fotos da casa");
-        if(animal.getVisita_previa_ao_animal()) adocaoArray.add("Visita prévia ao animal");
-        if(animal.getAcompanhamento_pos_adocao() != null) adocaoArray.add("Acompanhamento durante " + animal.getAcompanhamento_pos_adocao());
+        if (animal.getTermo_de_adocao()) adocaoArray.add("Termo de adoção");
+        if (animal.getFotos_da_casa()) adocaoArray.add("Fotos da casa");
+        if (animal.getVisita_previa_ao_animal()) adocaoArray.add("Visita prévia ao animal");
+        if (animal.getAcompanhamento_pos_adocao() != null)
+            adocaoArray.add("Acompanhamento durante " + animal.getAcompanhamento_pos_adocao());
 
         String adocaoString = "";
         if (adocaoArray.size() > 0) {
@@ -206,9 +228,9 @@ public class PerfilAnimalFragment extends Fragment {
     private String getApadrinhamentoString(Animal animal) {
         List<String> apadrinhamentoArray = new ArrayList<String>();
 
-        if(animal.getTermo_de_apadrinhamento()) apadrinhamentoArray.add("Termo de apadrinhamento");
-        if(animal.getVisitas_ao_animal()) apadrinhamentoArray.add("Visitas ao animal");
-        if(animal.getAuxilio_financeiro()) apadrinhamentoArray.add("Auxílio financeiro");
+        if (animal.getTermo_de_apadrinhamento()) apadrinhamentoArray.add("Termo de apadrinhamento");
+        if (animal.getVisitas_ao_animal()) apadrinhamentoArray.add("Visitas ao animal");
+        if (animal.getAuxilio_financeiro()) apadrinhamentoArray.add("Auxílio financeiro");
 
         String apadrinhamentoString = "";
         if (apadrinhamentoArray.size() > 0) {
@@ -226,12 +248,12 @@ public class PerfilAnimalFragment extends Fragment {
     }
 
     private String getAjudaString(Animal animal) {
-        List<String> ajudaArray = new ArrayList<String>();
+        List<String> ajudaArray = new ArrayList<>();
 
-        if(animal.getAlimento()) ajudaArray.add("Alimento");
-        if(animal.getAjuda_financeira()) ajudaArray.add("Ajuda financeira");
-        if(animal.getAjuda_medicamento()) ajudaArray.add(animal.getAjuda_medicamento_nome());
-        if(animal.getAjuda_objeto()) ajudaArray.add(animal.getAjuda_objetos_nome());
+        if (animal.getAlimento()) ajudaArray.add("Alimento");
+        if (animal.getAjuda_financeira()) ajudaArray.add("Ajuda financeira");
+        if (animal.getAjuda_medicamento()) ajudaArray.add(animal.getAjuda_medicamento_nome());
+        if (animal.getAjuda_objeto()) ajudaArray.add(animal.getAjuda_objetos_nome());
 
         String ajudaString = "";
         if (ajudaArray.size() > 0) {

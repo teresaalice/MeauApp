@@ -34,13 +34,11 @@ public class ListFragment extends Fragment {
 
     private static final String TAG = "ListFragment";
 
-    RecyclerView animalList;
-
+    RecyclerView mRecyclerView;
+    LinearLayoutManager linearLayoutManager;
+    String acao;
     private FirebaseFirestore db;
     private FirestoreRecyclerAdapter adapter;
-    LinearLayoutManager linearLayoutManager;
-
-    String acao;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,27 +50,27 @@ public class ListFragment extends Fragment {
 
         linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
 
-        animalList = rootView.findViewById(R.id.listRecyclerView);
+        mRecyclerView = rootView.findViewById(R.id.recyclerView);
 
-        animalList.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
         db = FirebaseFirestore.getInstance();
 
         Bundle bundle = this.getArguments();
 
-        if (bundle == null) {
-            Log.d(TAG, "onCreateView: bundle null");
-            acao = "Animais";
-        } else {
+        if (bundle != null && bundle.getString("acao") != null) {
             Log.d(TAG, "onCreateView: Listar pets para " + bundle.getString("acao"));
             acao = bundle.getString("acao");
+        } else {
+            Log.d(TAG, "onCreateView: bundle null");
+            acao = "Animais";
         }
 
-        getAnimalList(acao);
+        getAnimalList();
 
         return rootView;
     }
 
-    private void getAnimalList(final String acao){
+    private void getAnimalList() {
         Query query;
 
         switch (acao) {
@@ -115,6 +113,13 @@ public class ListFragment extends Fragment {
                                 .load(fotoUri)
                                 .into(holder.image);
                     }
+                } else {
+                    if (model.getEspecie() != null && model.getEspecie().equals("Cachorro")) {
+                        holder.image.setImageResource(R.drawable.dog_silhouette);
+                    } else {
+                        holder.image.setImageResource(R.drawable.cat_silhouette);
+                    }
+                    holder.image.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 }
 
                 holder.buttonFav.setOnClickListener(new View.OnClickListener() {
@@ -145,12 +150,11 @@ public class ListFragment extends Fragment {
                         args.putString("dono", animal.getDono());
                         args.putString("acao", acao);
                         perfilAnimalFragment.setArguments(args);
-                        
+
                         FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.content_frame, perfilAnimalFragment);
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
-
                     }
                 });
             }
@@ -170,29 +174,7 @@ public class ListFragment extends Fragment {
         };
 
         adapter.notifyDataSetChanged();
-        animalList.setAdapter(adapter);
-    }
-
-    public class AnimalsHolder extends RecyclerView.ViewHolder {
-
-        TextView textNome;
-        ImageButton buttonFav;
-        ImageView image;
-        TextView textSexo;
-        TextView textIdade;
-        TextView textPorte;
-        TextView textLocalizacao;
-
-        public AnimalsHolder(View itemView) {
-            super(itemView);
-            textNome = itemView.findViewById(R.id.nome);
-            buttonFav = itemView.findViewById(R.id.button_fav);
-            image = itemView.findViewById(R.id.image_animal);
-            textSexo = itemView.findViewById(R.id.sexo);
-            textIdade = itemView.findViewById(R.id.idade);
-            textPorte = itemView.findViewById(R.id.porte);
-            textLocalizacao = itemView.findViewById(R.id.localizacao);
-        }
+        mRecyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -206,5 +188,27 @@ public class ListFragment extends Fragment {
     public void onStop() {
         super.onStop();
         adapter.stopListening();
+    }
+
+    public class AnimalsHolder extends RecyclerView.ViewHolder {
+
+        TextView textNome;
+        ImageButton buttonFav;
+        ImageView image;
+        TextView textSexo;
+        TextView textIdade;
+        TextView textPorte;
+        TextView textLocalizacao;
+
+        private AnimalsHolder(View itemView) {
+            super(itemView);
+            textNome = itemView.findViewById(R.id.nome);
+            buttonFav = itemView.findViewById(R.id.button_fav);
+            image = itemView.findViewById(R.id.image_animal);
+            textSexo = itemView.findViewById(R.id.sexo);
+            textIdade = itemView.findViewById(R.id.idade);
+            textPorte = itemView.findViewById(R.id.porte);
+            textLocalizacao = itemView.findViewById(R.id.localizacao);
+        }
     }
 }

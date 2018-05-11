@@ -2,22 +2,19 @@ package com.unb.meau.activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,33 +25,28 @@ import com.unb.meau.fragments.CadastroAnimalFragment;
 import com.unb.meau.fragments.IntroFragment;
 import com.unb.meau.fragments.ListFragment;
 import com.unb.meau.fragments.NotLoggedFragment;
+import com.unb.meau.fragments.SignInFragment;
+import com.unb.meau.fragments.SignUpFragment;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
-
     public static final String FRAGMENT_INTRO_TAG = "FRAGMENT_INTRO_TAG";
+    private static final String TAG = "MainActivity";
     private static final String FRAGMENT_CADASTRO_ANIMAL_TAG = "FRAGMENT_CADASTRO_ANIMAL_TAG";
-    private static final String FRAGMENT_SIGN_IN_TAG = "FRAGMENT_SIGN_IN_TAG";
+    private static final String FRAGMENT_NOT_LOGGED_TAG = "FRAGMENT_NOT_LOGGED_TAG";
     private static final String FRAGMENT_LISTAR_ANIMAIS_TAG = "FRAGMENT_LISTAR_ANIMAIS_TAG";
-
-    Fragment fragment;
-    Bundle args;
-    FragmentManager fragmentManager;
-
+    private static final String FRAGMENT_SIGN_IN_TAG = "FRAGMENT_SIGN_IN_TAG";
+    private static final String FRAGMENT_SIGN_UP_TAG = "FRAGMENT_SIGN_UP_TAG";
     public DrawerLayout drawer;
-
-    private ExpandableListView expandableListView;
-    private List<String> listTitle;
-    private LinkedHashMap<String,List<String>> listItem;
+    Fragment fragment;
+    FragmentManager fragmentManager;
+    private LinkedHashMap<String, List<String>> listItem;
 
     private FirebaseAuth mAuth;
-    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,113 +57,74 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        mAuth = FirebaseAuth.getInstance();
-
-        expandableListView = findViewById(R.id.expandable_list);
-
-        enterFullScreen();
-
         fragment = new IntroFragment();
-
         fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .add(R.id.content_frame, fragment, FRAGMENT_INTRO_TAG)
                 .commit();
 
+        mAuth = FirebaseAuth.getInstance();
+
+        drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
         setDrawerInfo();
-
-    }
-
-    public void enterFullScreen() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setVisibility(View.GONE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-    }
-
-    public void exitFullScreen() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setVisibility(View.VISIBLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
     }
 
     public void setDrawerInfo() {
+        String userName = "Usuário";
         FirebaseUser user = mAuth.getCurrentUser();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         ImageView fotoPerfil = navigationView.getHeaderView(0).findViewById(R.id.fotoPerfil);
 
         if (user != null) {
-            initializeNavigationDrawer(user.getDisplayName());
+            userName = user.getDisplayName();
             if (user.getPhotoUrl() != null) {
-                Log.d(TAG, "setDrawerInfo: " + user.getPhotoUrl());
-                if (fotoPerfil != null) {
-                    Glide.with(this)
-                            .load(user.getPhotoUrl())
-                            .into(fotoPerfil);
-                }
+                Glide.with(this)
+                        .load(user.getPhotoUrl())
+                        .into(fotoPerfil);
             }
         } else {
             fotoPerfil.setImageResource(R.mipmap.ic_launcher_round);
-            initializeNavigationDrawer("Usuário");
         }
-        addDrawerItems();
-    }
 
-    private void initializeNavigationDrawer(String user) {
-
-        List <String> usuario = Arrays.asList("Meu perfil", "Meus pets", "Favoritos", "Chat");
-        List <String> atalhos = Arrays.asList("Cadastrar um pet", "Adotar um pet", "Ajudar um pet", "Apadrinhar um pet");
-        List <String> informacoes = Arrays.asList("Dicas", "Eventos", "Legislação", "Termo de Adoção", "Histórias de adoção");
-        List <String> configuracoes = Arrays.asList("Privacidade");
+        final List<String> groupNames = Arrays.asList(userName, "Atalhos", "Informações", "Configurações");
 
         listItem = new LinkedHashMap<>();
-        listItem.put(user, usuario);
-        listItem.put("Atalhos", atalhos);
-        listItem.put("Informações", informacoes);
-        listItem.put("Configurações", configuracoes);
+        listItem.put(userName, Arrays.asList("Meu perfil", "Meus pets", "Favoritos", "Chat"));
+        listItem.put("Atalhos", Arrays.asList("Cadastrar um pet", "Adotar um pet", "Ajudar um pet", "Apadrinhar um pet"));
+        listItem.put("Informações", Arrays.asList("Dicas", "Eventos", "Legislação", "Termo de Adoção", "Histórias de adoção"));
+        listItem.put("Configurações", Arrays.asList("Privacidade"));
 
-        listTitle = new ArrayList<>(listItem.keySet());
-    }
-
-    private void addDrawerItems() {
-        ExpandableListAdapter expandableListViewAdapter = new CustomExpandableListAdapter(this, listTitle, listItem);
-
+        ExpandableListAdapter expandableListViewAdapter = new CustomExpandableListAdapter(this, groupNames, listItem);
+        ExpandableListView expandableListView = findViewById(R.id.expandable_list);
         expandableListView.setAdapter(expandableListViewAdapter);
 
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                String selectedItem = ((List) (listItem.get(listTitle.get(groupPosition)))).get(childPosition).toString();
+                String selectedItem = ((List) (listItem.get(groupNames.get(groupPosition)))).get(childPosition).toString();
 
-                DrawerLayout drawer = findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);
 
                 if (mAuth.getCurrentUser() == null) {
-                    signIn();
+                    showNotLoggedFragment();
                 } else {
                     switch (selectedItem) {
                         case "Cadastrar um pet":
-                            fragment = new CadastroAnimalFragment();
-                            fragmentManager = getFragmentManager();
-                            fragmentManager.beginTransaction()
-                                    .replace(R.id.content_frame, fragment, FRAGMENT_CADASTRO_ANIMAL_TAG)
-                                    .addToBackStack(null)
-                                    .commit();
+                            showCadastrarAnimalFragment();
                             break;
                         case "Adotar um pet":
-                            listarAnimais("Adotar");
+                            showListarAnimaisFragment("Adotar");
                             break;
                         case "Ajudar um pet":
-                            listarAnimais("Ajudar");
+                            showListarAnimaisFragment("Ajudar");
                             break;
                         case "Apadrinhar um pet":
-                            listarAnimais("Apadrinhar");
+                            showListarAnimaisFragment("Apadrinhar");
                             break;
                     }
                 }
@@ -206,31 +159,59 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View view) {
-        Toast.makeText(this, "Sair", Toast.LENGTH_SHORT).show();
+        // fechar aplicacao
+        moveTaskToBack(true);
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(1);
     }
 
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
     }
 
-    private void signIn() {
+    public void showNotLoggedFragment() {
         fragment = new NotLoggedFragment();
         fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.content_frame, fragment, FRAGMENT_SIGN_IN_TAG)
+                .replace(R.id.content_frame, fragment, FRAGMENT_NOT_LOGGED_TAG)
                 .addToBackStack(null)
                 .commit();
     }
 
-    private void listarAnimais(String acao) {
-        ListFragment fragment = new ListFragment();
+    public void showSignUpFragment() {
+        fragment = new SignUpFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment, FRAGMENT_SIGN_UP_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void showSignInFragment() {
+        fragment = new SignInFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment, FRAGMENT_SIGN_IN_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void showCadastrarAnimalFragment() {
+        fragment = new CadastroAnimalFragment();
+        fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment, FRAGMENT_CADASTRO_ANIMAL_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void showListarAnimaisFragment(String acao) {
+        fragment = new ListFragment();
 
         Bundle args = new Bundle();
         args.putString("acao", acao);
         fragment.setArguments(args);
 
         getFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, fragment)
+                .replace(R.id.content_frame, fragment, FRAGMENT_LISTAR_ANIMAIS_TAG)
                 .addToBackStack(null)
                 .commit();
     }

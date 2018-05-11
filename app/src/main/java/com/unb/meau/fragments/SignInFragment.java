@@ -1,7 +1,6 @@
 package com.unb.meau.fragments;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -34,7 +34,6 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -48,17 +47,13 @@ public class SignInFragment extends Fragment {
 
     private static final String TAG = "SignInFragment";
     private static final int RC_SIGN_IN = 9001;
-    private static final int FACEBOOK_RC_SIGN_IN = 64206;
-
-    private FirebaseAuth mAuth;
-    private GoogleSignInClient mGoogleSignInClient;
-
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-    private CallbackManager mCallbackManager;
-
     EditText mUsernameEdit;
     EditText mPasswordEdit;
+    ProgressBar mProgressBar;
+    private FirebaseAuth mAuth;
+    private GoogleSignInClient mGoogleSignInClient;
+    private CallbackManager mCallbackManager;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,6 +64,8 @@ public class SignInFragment extends Fragment {
         Button button_login = v.findViewById(R.id.button_signin);
         SignInButton button_google = v.findViewById(R.id.login_with_google);
         LoginButton button_facebook = v.findViewById(R.id.login_with_facebook);
+
+        mProgressBar = v.findViewById(R.id.progress_bar);
 
         button_facebook.setFragment(this);
 
@@ -95,7 +92,7 @@ public class SignInFragment extends Fragment {
                 if (username.isEmpty() || password.isEmpty()) {
                     Log.d(TAG, "onClick: Digite um nome de usuário e senha");
                     Toast.makeText(getActivity(), "Digite um nome de usuário e senha", Toast.LENGTH_SHORT).show();
-                } else if(username.contains("@")) {
+                } else if (username.contains("@")) {
                     signIn(username, password);
                 } else {
                     Query query = db.collection("users").whereEqualTo("username", username).limit(1);
@@ -104,12 +101,12 @@ public class SignInFragment extends Fragment {
                         public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                             if (e == null) {
                                 Log.d(TAG, "onEvent: Success");
-                                String email = null;
+                                String email;
                                 if (queryDocumentSnapshots != null && queryDocumentSnapshots.getDocuments().size() > 0) {
                                     Log.d(TAG, "onEvent: queryDocumentSnapshots != null");
                                     email = queryDocumentSnapshots.getDocuments().get(0).getString("email");
 
-                                    if(email != null) {
+                                    if (email != null) {
                                         signIn(email, password);
                                     } else {
                                         Log.d(TAG, "onEvent: Error retrieving email");
@@ -203,7 +200,7 @@ public class SignInFragment extends Fragment {
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-//        showProgressDialog();
+        showProgressDialog();
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -221,14 +218,14 @@ public class SignInFragment extends Fragment {
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(getActivity(), "Erro", Toast.LENGTH_SHORT).show();
                         }
-//                        hideProgressDialog();
+                        hideProgressDialog();
                     }
                 });
     }
 
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
-//        showProgressDialog();
+        showProgressDialog();
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
@@ -246,7 +243,7 @@ public class SignInFragment extends Fragment {
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(getActivity(), "Erro", Toast.LENGTH_SHORT).show();
                         }
-//                        hideProgressDialog();
+                        hideProgressDialog();
                     }
                 });
     }
@@ -254,11 +251,13 @@ public class SignInFragment extends Fragment {
     private void signIn(String email, String password) {
         Log.d(TAG, "signIn: " + email + " : " + password);
 
-        if(email.isEmpty() || password.isEmpty()) {
+        if (email.isEmpty() || password.isEmpty()) {
             Log.d(TAG, "signIn: Enter an username and password");
             Toast.makeText(getActivity(), "Digite seu nome de usuário e senha", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        showProgressDialog();
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -283,6 +282,7 @@ public class SignInFragment extends Fragment {
                                 Toast.makeText(getActivity(), "Senha inválida", Toast.LENGTH_SHORT).show();
                             }
                         }
+                        hideProgressDialog();
                     }
                 });
     }
@@ -293,14 +293,16 @@ public class SignInFragment extends Fragment {
     }
 
     private void returnToIntro() {
-//        IntroFragment fragment = new IntroFragment();
-//        getActivity().getFragmentManager().beginTransaction()
-//                .replace(R.id.content_frame, fragment)
-//                .commit();
-
         if (getActivity() != null) {
-            FragmentManager fm = getActivity().getFragmentManager();
-            fm.popBackStack();
+            getActivity().getFragmentManager().popBackStack();
         }
+    }
+
+    private void showProgressDialog() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressDialog() {
+        mProgressBar.setVisibility(View.GONE);
     }
 }
