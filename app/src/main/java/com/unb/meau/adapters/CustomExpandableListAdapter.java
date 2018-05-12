@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.unb.meau.R;
@@ -68,32 +69,34 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         String title = (String) getGroup(groupPosition);
-        TextView text_title = convertView.findViewById(R.id.expandable_list_group);
+        TextView text_title = convertView.findViewById(R.id.expandable_list_group_text);
         text_title.setText(title);
 
         ImageView group_indicator = convertView.findViewById(R.id.expandable_list_group_indicator);
         group_indicator.setSelected(isExpanded);
 
         ImageView icon = convertView.findViewById(R.id.expandable_list_group_icon);
+        LinearLayout goup = convertView.findViewById(R.id.expandable_list_group);
 
         switch (groupPosition) {
             case 0:
                 icon.setVisibility(View.GONE);
-                float scale = context.getResources().getDisplayMetrics().density;
-                text_title.setPadding((int) (16 * scale), (int) (16 * scale), (int) (40 * scale), (int) (20 * scale));
-                text_title.setBackgroundColor(context.getResources().getColor(R.color.nav_primary));
+                goup.setBackgroundColor(context.getResources().getColor(R.color.nav_primary));
                 break;
             case 1:
+                icon.setVisibility(View.VISIBLE);
                 icon.setImageResource(R.drawable.ic_pets_black_24dp);
-                text_title.setBackgroundColor(context.getResources().getColor(R.color.nav_atalhos));
+                goup.setBackgroundColor(context.getResources().getColor(R.color.nav_atalhos));
                 break;
             case 2:
+                icon.setVisibility(View.VISIBLE);
                 icon.setImageResource(R.drawable.ic_info_black_24dp);
-                text_title.setBackgroundColor(context.getResources().getColor(R.color.nav_informacoes));
+                goup.setBackgroundColor(context.getResources().getColor(R.color.nav_informacoes));
                 break;
             case 3:
+                icon.setVisibility(View.VISIBLE);
                 icon.setImageResource(R.drawable.ic_settings_black_24dp);
-                text_title.setBackgroundColor(context.getResources().getColor(R.color.nav_configuracoes));
+                goup.setBackgroundColor(context.getResources().getColor(R.color.nav_configuracoes));
                 break;
         }
 
