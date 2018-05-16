@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
 
-public class Legislacao extends Fragment {
+public class LegislacaoFragment extends Fragment {
 
     private static final String TAG = "Legislacao";
 
@@ -45,9 +45,7 @@ public class Legislacao extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        String color = "#589b9b";
         ((MainActivity) getActivity()).setActionBarTitle("Legislação");
-        //((MainActivity)getActivity()).getActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.action_azul)));
-
+        ((MainActivity) getActivity()).setActionBarTheme("Verde");
     }
 }

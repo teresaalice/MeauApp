@@ -170,6 +170,7 @@ public class SignInFragment extends Fragment {
     public void onStart() {
         super.onStart();
         ((MainActivity) getActivity()).setActionBarTitle("Login");
+        ((MainActivity) getActivity()).setActionBarTheme("Verde");
     }
 
     @Override

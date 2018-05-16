@@ -50,7 +50,6 @@ public class SignUpFragment extends Fragment {
     View v;
     private int PICK_IMAGE_REQUEST = 1;
     private FirebaseAuth mAuth;
-    private StorageReference mStorageRef;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -148,6 +147,7 @@ public class SignUpFragment extends Fragment {
     public void onStart() {
         super.onStart();
         ((MainActivity) getActivity()).setActionBarTitle("Cadastro");
+        ((MainActivity) getActivity()).setActionBarTheme("Verde");
     }
 
     private void storeUserData() {
@@ -211,7 +211,7 @@ public class SignUpFragment extends Fragment {
     }
 
     private void uploadFile(Uri filePath) {
-        mStorageRef = FirebaseStorage.getInstance().getReference();
+        StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
 
         StorageReference imageRef = mStorageRef.child("users/" + System.currentTimeMillis() + ".jpg");
 

@@ -154,7 +154,7 @@ public class IntroFragment extends Fragment {
         toolbar.setVisibility(View.GONE);
 
         // hide status bar
-//        View decorView = getWindow().getDecorView();
+//        View decorView = getActivity().getWindow().getDecorView();
 //        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
 
         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -164,7 +164,7 @@ public class IntroFragment extends Fragment {
         toolbar.setVisibility(View.VISIBLE);
 
         // show status bar
-//        View decorView = getWindow().getDecorView();
+//        View decorView = getActivity().getWindow().getDecorView();
 //        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);

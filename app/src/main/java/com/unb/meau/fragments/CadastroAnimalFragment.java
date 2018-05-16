@@ -133,6 +133,7 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
     public void onStart() {
         super.onStart();
         ((MainActivity) getActivity()).setActionBarTitle("Cadastro do Animal");
+        ((MainActivity) getActivity()).setActionBarTheme("Amarelo");
     }
 
     @Override

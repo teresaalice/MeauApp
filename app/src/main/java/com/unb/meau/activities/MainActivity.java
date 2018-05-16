@@ -23,7 +23,7 @@ import com.unb.meau.R;
 import com.unb.meau.adapters.CustomExpandableListAdapter;
 import com.unb.meau.fragments.CadastroAnimalFragment;
 import com.unb.meau.fragments.IntroFragment;
-import com.unb.meau.fragments.Legislacao;
+import com.unb.meau.fragments.LegislacaoFragment;
 import com.unb.meau.fragments.ListFragment;
 import com.unb.meau.fragments.NotLoggedFragment;
 import com.unb.meau.fragments.SignInFragment;
@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -112,27 +111,36 @@ public class MainActivity extends AppCompatActivity {
 
                 drawer.closeDrawer(GravityCompat.START);
 
-                if (mAuth.getCurrentUser() == null) {
-                    showNotLoggedFragment();
-                } else {
-                    switch (selectedItem) {
-                        case "Cadastrar um pet":
-                            showCadastrarAnimalFragment();
-                            break;
-                        case "Adotar um pet":
-                            showListarAnimaisFragment("Adotar");
-                            break;
-                        case "Ajudar um pet":
-                            showListarAnimaisFragment("Ajudar");
-                            break;
-                        case "Apadrinhar um pet":
-                            showListarAnimaisFragment("Apadrinhar");
-                            break;
-                        case "Legislação":
-                            showLegislacaoFragment();
-                            break;
-                    }
+                switch (selectedItem) {
+                    case "Cadastrar um pet":
+                    case "Adotar um pet":
+                    case "Ajudar um pet":
+                    case "Apadrinhar um pet":
+                        if (mAuth.getCurrentUser() == null) {
+                            showNotLoggedFragment();
+                            return false;
+                        }
+                        break;
                 }
+
+                switch (selectedItem) {
+                    case "Cadastrar um pet":
+                        showCadastrarAnimalFragment();
+                        break;
+                    case "Adotar um pet":
+                        showListarAnimaisFragment("Adotar");
+                        break;
+                    case "Ajudar um pet":
+                        showListarAnimaisFragment("Ajudar");
+                        break;
+                    case "Apadrinhar um pet":
+                        showListarAnimaisFragment("Apadrinhar");
+                        break;
+                    case "Legislação":
+                        showLegislacaoFragment();
+                        break;
+                }
+
                 return false;
             }
         });
@@ -172,6 +180,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
+    }
+
+    public void setActionBarTheme(String theme) {
+        Toolbar actionBarToolbar = findViewById(R.id.toolbar);
+
+        switch (theme) {
+            case "Amarelo":
+                actionBarToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                break;
+            case "Verde":
+                actionBarToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary2));
+                break;
+        }
     }
 
     public void showNotLoggedFragment() {
@@ -221,10 +242,10 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void showLegislacaoFragment(){
-        fragment = new Legislacao();
+    public void showLegislacaoFragment() {
+        fragment = new LegislacaoFragment();
         fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame,fragment,FRAGMENT_LEGISLACAO_TAG)
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_LEGISLACAO_TAG)
                 .addToBackStack(null)
                 .commit();
     }

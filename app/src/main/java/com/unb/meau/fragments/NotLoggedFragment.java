@@ -41,7 +41,7 @@ public class NotLoggedFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: button_signin");
-                ((MainActivity) getActivity()).showSignUpFragment();
+                ((MainActivity) getActivity()).showSignInFragment();
             }
         });
 
@@ -52,6 +52,7 @@ public class NotLoggedFragment extends Fragment {
     public void onStart() {
         super.onStart();
         ((MainActivity) getActivity()).setActionBarTitle("Cadastro");
+        ((MainActivity) getActivity()).setActionBarTheme("Verde");
 
         if (mAuth.getCurrentUser() != null) {
             getActivity().getFragmentManager().popBackStack();

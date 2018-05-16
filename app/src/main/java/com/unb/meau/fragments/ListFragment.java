@@ -182,6 +182,7 @@ public class ListFragment extends Fragment {
         super.onStart();
         adapter.startListening();
         ((MainActivity) getActivity()).setActionBarTitle(acao);
+        ((MainActivity) getActivity()).setActionBarTheme("Amarelo");
     }
 
     @Override

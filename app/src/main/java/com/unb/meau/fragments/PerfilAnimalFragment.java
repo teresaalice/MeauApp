@@ -88,6 +88,7 @@ public class PerfilAnimalFragment extends Fragment {
     public void onStart() {
         super.onStart();
         ((MainActivity) getActivity()).setActionBarTitle(nomeAnimal);
+        ((MainActivity) getActivity()).setActionBarTheme("Amarelo");
     }
 
     private void bindData(Animal animal) {

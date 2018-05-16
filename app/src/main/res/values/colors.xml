@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#F7A800</color>
     <color name="colorAccent">#58BD97</color>
 
+    <color name="colorPrimary2">#589B9B</color>
+
     <color name="nav_primary">#88C9BF</color>
     <color name="nav_atalhos">#FEE29B</color>
     <color name="nav_informacoes">#CFE9E5</color>
@@ -11,5 +13,6 @@
     <color name="nav_icons">#757575</color>
 
     <color name="cinza">#F1F2F2</color>
+    <color name="preto">#434343</color>
 
 </resources>
