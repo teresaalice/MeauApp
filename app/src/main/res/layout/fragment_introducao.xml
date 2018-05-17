@@ -77,11 +77,11 @@
 
     <TextView
         android:id="@+id/text_login"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/button_cadastrar_animal"
         android:layout_marginTop="44dp"
-        android:gravity="center"
+        android:layout_centerHorizontal="true"
         android:textSize="16dp"
         android:textColor="#88C9BF"
         android:text="login" />

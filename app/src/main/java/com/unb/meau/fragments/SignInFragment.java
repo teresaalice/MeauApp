@@ -1,6 +1,6 @@
 package com.unb.meau.fragments;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -208,18 +208,19 @@ public class SignInFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        hideProgressDialog();
+
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             Toast.makeText(getActivity(), "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
                             ((MainActivity) getActivity()).setDrawerInfo();
-                            returnToIntro();
+                            getActivity().onBackPressed();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(getActivity(), "Erro", Toast.LENGTH_SHORT).show();
                         }
-                        hideProgressDialog();
                     }
                 });
     }
@@ -233,18 +234,19 @@ public class SignInFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        hideProgressDialog();
+
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             Toast.makeText(getActivity(), "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
                             ((MainActivity) getActivity()).setDrawerInfo();
-                            returnToIntro();
+                            getActivity().onBackPressed();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(getActivity(), "Erro", Toast.LENGTH_SHORT).show();
                         }
-                        hideProgressDialog();
                     }
                 });
     }
@@ -264,12 +266,14 @@ public class SignInFragment extends Fragment {
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        hideProgressDialog();
+
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             Toast.makeText(getActivity(), "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
                             ((MainActivity) getActivity()).setDrawerInfo();
-                            returnToIntro();
+                            getActivity().onBackPressed();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -283,7 +287,6 @@ public class SignInFragment extends Fragment {
                                 Toast.makeText(getActivity(), "Senha inválida", Toast.LENGTH_SHORT).show();
                             }
                         }
-                        hideProgressDialog();
                     }
                 });
     }
@@ -291,12 +294,6 @@ public class SignInFragment extends Fragment {
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-    private void returnToIntro() {
-        if (getActivity() != null) {
-            getActivity().getFragmentManager().popBackStack();
-        }
     }
 
     private void showProgressDialog() {

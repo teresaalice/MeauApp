@@ -18,8 +18,8 @@
         android:layout_alignParentTop="true"
         android:fontFamily="@font/courgette"
         android:gravity="center"
-        android:text="Eba!"
-        android:textColor="#FFD358"
+        android:text="Pronto!"
+        android:textColor="@color/verde2"
         android:textSize="53sp" />
 
     <TextView
@@ -31,7 +31,18 @@
         android:gravity="center"
         android:textSize="14sp"
         android:textColor="#757575"
-        android:text="@string/cadastro_animal_sucesso_message" />
+        android:text="O pet foi removido da nossa lista com sucesso!" />
+
+    <TextView
+        android:id="@+id/text3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text2"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textColor="#757575"
+        android:text="@string/remocao_animal_sucesso_message" />
 
     <Button
         android:id="@+id/button_meus_pets"
@@ -39,9 +50,9 @@
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="24dp"
-        android:textColor="#434343"
-        android:backgroundTint="#FFD358"
+        android:textColor="@color/preto"
+        android:backgroundTint="@color/verde2"
         android:layout_centerHorizontal="true"
-        android:text="MEUS PETS" />
+        android:text="Voltar à meus pets" />
 
 </RelativeLayout>

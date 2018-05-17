@@ -1,6 +1,6 @@
 package com.unb.meau.fragments;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,11 +26,7 @@ public class CadastroAnimalSucessoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: meus_pets");
-
-//                MeusPetsFragment fragment = new MeusPetsFragment();
-//                getActivity().getFragmentManager().beginTransaction()
-//                        .replace(R.id.content_frame, fragment)
-//                        .commit();
+                ((MainActivity) getActivity()).showListarAnimaisFragment("Meus Pets");
             }
         });
 

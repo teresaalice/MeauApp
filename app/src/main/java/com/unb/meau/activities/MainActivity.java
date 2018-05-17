@@ -1,7 +1,7 @@
 package com.unb.meau.activities;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,10 +23,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.unb.meau.R;
 import com.unb.meau.adapters.CustomExpandableListAdapter;
 import com.unb.meau.fragments.CadastroAnimalFragment;
-import com.unb.meau.fragments.IntroFragment;
+import com.unb.meau.fragments.CadastroAnimalSucessoFragment;
+import com.unb.meau.fragments.IntroducaoFragment;
 import com.unb.meau.fragments.LegislacaoFragment;
 import com.unb.meau.fragments.ListFragment;
 import com.unb.meau.fragments.NotLoggedFragment;
+import com.unb.meau.fragments.RemocaoAnimalSucessoFragment;
 import com.unb.meau.fragments.SignInFragment;
 import com.unb.meau.fragments.SignUpFragment;
 
@@ -35,14 +38,18 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String FRAGMENT_INTRO_TAG = "FRAGMENT_INTRO_TAG";
     private static final String TAG = "MainActivity";
-    private static final String FRAGMENT_CADASTRO_ANIMAL_TAG = "FRAGMENT_CADASTRO_ANIMAL_TAG";
-    private static final String FRAGMENT_NOT_LOGGED_TAG = "FRAGMENT_NOT_LOGGED_TAG";
-    private static final String FRAGMENT_LISTAR_ANIMAIS_TAG = "FRAGMENT_LISTAR_ANIMAIS_TAG";
-    private static final String FRAGMENT_SIGN_IN_TAG = "FRAGMENT_SIGN_IN_TAG";
-    private static final String FRAGMENT_SIGN_UP_TAG = "FRAGMENT_SIGN_UP_TAG";
-    private static final String FRAGMENT_LEGISLACAO_TAG = "FRAGMENT_LEGISLACAO_TAG";
+
+    public static final String FRAGMENT_INTRO_TAG = "FRAGMENT_INTRO_TAG";
+    public static final String FRAGMENT_CADASTRO_ANIMAL_TAG = "FRAGMENT_CADASTRO_ANIMAL_TAG";
+    public static final String FRAGMENT_NOT_LOGGED_TAG = "FRAGMENT_NOT_LOGGED_TAG";
+    public static final String FRAGMENT_LISTAR_ANIMAIS_TAG = "FRAGMENT_LISTAR_ANIMAIS_TAG";
+    public static final String FRAGMENT_SIGN_IN_TAG = "FRAGMENT_SIGN_IN_TAG";
+    public static final String FRAGMENT_SIGN_UP_TAG = "FRAGMENT_SIGN_UP_TAG";
+    public static final String FRAGMENT_LEGISLACAO_TAG = "FRAGMENT_LEGISLACAO_TAG";
+    public static final String FRAGMENT_REMOCAO_ANIMAL_SUCESSO_TAG = "FRAGMENT_REMOCAO_ANIMAL_SUCESSO_TAG";
+    public static final String FRAGMENT_CADASTRO_ANIMAL_SUCESSO_TAG = "FRAGMENT_CADASTRO_ANIMAL_SUCESSO_TAG";
+
     public DrawerLayout drawer;
     Fragment fragment;
     FragmentManager fragmentManager;
@@ -58,8 +65,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        fragment = new IntroFragment();
-        fragmentManager = getFragmentManager();
+        fragment = new IntroducaoFragment();
+        fragmentManager = getSupportFragmentManager();
+
         fragmentManager.beginTransaction()
                 .add(R.id.content_frame, fragment, FRAGMENT_INTRO_TAG)
                 .commit();
@@ -112,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 drawer.closeDrawer(GravityCompat.START);
 
                 switch (selectedItem) {
+                    case "Meus pets":
                     case "Cadastrar um pet":
                     case "Adotar um pet":
                     case "Ajudar um pet":
@@ -124,6 +133,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 switch (selectedItem) {
+                    case "Meus pets":
+                        showListarAnimaisFragment("Meus Pets");
+                        break;
                     case "Cadastrar um pet":
                         showCadastrarAnimalFragment();
                         break;
@@ -197,7 +209,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void showNotLoggedFragment() {
         fragment = new NotLoggedFragment();
-        fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment, FRAGMENT_NOT_LOGGED_TAG)
                 .addToBackStack(null)
@@ -222,10 +233,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void showCadastrarAnimalFragment() {
         fragment = new CadastroAnimalFragment();
-        fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment, FRAGMENT_CADASTRO_ANIMAL_TAG)
-                .addToBackStack(null)
+                .addToBackStack("CADASTRAR_TAG")
                 .commit();
     }
 
@@ -233,10 +243,17 @@ public class MainActivity extends AppCompatActivity {
         fragment = new ListFragment();
 
         Bundle args = new Bundle();
+
         args.putString("acao", acao);
+
+        if (acao.equals("Meus Pets")) {
+            FirebaseUser user = mAuth.getCurrentUser();
+            args.putString("uid", user.getUid());
+        }
+
         fragment.setArguments(args);
 
-        getFragmentManager().beginTransaction()
+        fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment, FRAGMENT_LISTAR_ANIMAIS_TAG)
                 .addToBackStack(null)
                 .commit();
@@ -244,9 +261,37 @@ public class MainActivity extends AppCompatActivity {
 
     public void showLegislacaoFragment() {
         fragment = new LegislacaoFragment();
-        fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_LEGISLACAO_TAG)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+//        Log.d(TAG, "onBackPressed");
+
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.content_frame);
+
+        if (currentFragment instanceof SignUpFragment || currentFragment instanceof SignInFragment) {
+            Log.d(TAG, "onBackPressed: SignIn/UpFragment");
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            return;
+        }
+
+        if (currentFragment instanceof CadastroAnimalSucessoFragment) {
+            Log.d(TAG, "onBackPressed: CadastroAnimalSucessoFragment");
+            fragmentManager.popBackStack("CADASTRAR_TAG", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            return;
+        }
+
+        if (currentFragment instanceof RemocaoAnimalSucessoFragment) {
+            Log.d(TAG, "onBackPressed: RemocaoAnimalSucessoFragment");
+            fragmentManager.popBackStack("LIST_PERFIL_ANIMAL_TAG", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            return;
+        }
+
+        Log.d(TAG, "onBackPressed: super.onBackPressed()");
+        super.onBackPressed();
+
     }
 }

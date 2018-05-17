@@ -15,6 +15,8 @@
     <string name="fb_login_protocol_scheme">fb193719447928535</string>
     <string name="cadastro_animal_sucesso_message">O cadastro do seu pet foi realizado com sucesso!\n\nCertifique-se que permitiu o envio de notificações por push no campo privacidade do menu configurações do aplicativo. Assim, poderemos te avisar assim que alguém interessado entrar em contato!</string>
 
+    <string name="remocao_animal_sucesso_message">Porém, as conversas relacionadas à ele serão mantidas para o caso de você desejar manter contato. Caso deseje apagá-las, você pode realizar esta ação nas configurações no chat dos usuários relacionados à este pet.</string>
+
     <string name="artigo_4.1">É permitida a realização de eventos de doação de cães e gatos em estabelecimentos devidamente legalizados.</string>
     <string name="artigo_4.2">§ 1º A feira só poderá ser realizada sob a responsabilidade de pessoa física ou jurídica, de direito público ou privado, sem fins lucrativos mantenedoras ou responsáveis por cães e gatos.</string>
     <string name="artigo_4.3">§ 2º Para identificação da entidade, associação, instituição ou pessoa promotora do evento é necessário a existência de uma placa, em local visível, no espaço de realização do evento de doação, contendo: nome do promotor, seja pessoa física ou jurídica, CPF ou CNPJ, com respectivo telefone.</string>

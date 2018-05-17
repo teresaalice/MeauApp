@@ -1,10 +1,10 @@
 package com.unb.meau.fragments;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +48,9 @@ public class SignUpFragment extends Fragment {
     FirebaseUser user;
     Uri downloadUrl;
     View v;
+    FirebaseFirestore db;
+    Button button_signup;
+    Map<String, Object> userObj;
     private int PICK_IMAGE_REQUEST = 1;
     private FirebaseAuth mAuth;
 
@@ -60,7 +63,7 @@ public class SignUpFragment extends Fragment {
 
         mProgressBar = v.findViewById(R.id.progress_bar);
 
-        Button button_signup = v.findViewById(R.id.button_signup);
+        button_signup = v.findViewById(R.id.button_signup);
 
         mEmailEdit = v.findViewById(R.id.email);
         mPasswordEdit = v.findViewById(R.id.senha);
@@ -119,10 +122,10 @@ public class SignUpFragment extends Fragment {
                                     Log.d(TAG, "createUserWithEmail:success");
                                     user = mAuth.getCurrentUser();
                                     storeUserData();
-                                    returnToIntro();
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                    hideProgressDialog();
 
                                     if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                                         Log.d(TAG, "onComplete: User with this email already exist");
@@ -134,7 +137,6 @@ public class SignUpFragment extends Fragment {
                                         Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
                                     }
                                 }
-                                hideProgressDialog();
                             }
                         });
             }
@@ -152,9 +154,8 @@ public class SignUpFragment extends Fragment {
 
     private void storeUserData() {
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        Map<String, Object> userObj = new HashMap<>();
+        db = FirebaseFirestore.getInstance();
+        userObj = new HashMap<>();
 
         EditText nomeView = v.findViewById(R.id.nome);
         EditText idadeView = v.findViewById(R.id.idade);
@@ -169,45 +170,48 @@ public class SignUpFragment extends Fragment {
                 .setPhotoUri(downloadUrl)
                 .build();
 
+        userObj.put("email", emailView.getText().toString());
+        userObj.put("nome", nomeView.getText().toString());
+        userObj.put("username", mUsername.getText().toString());
+        if (!idadeView.getText().toString().isEmpty())
+            userObj.put("idade", Integer.parseInt(idadeView.getText().toString()));
+        if (!estadoView.getText().toString().isEmpty())
+            userObj.put("estado", estadoView.getText().toString());
+        if (!cidadeView.getText().toString().isEmpty())
+            userObj.put("cidade", cidadeView.getText().toString());
+        if (!enderecoView.getText().toString().isEmpty())
+            userObj.put("endereco", enderecoView.getText().toString());
+        if (!telefoneView.getText().toString().isEmpty())
+            userObj.put("telefone", telefoneView.getText().toString());
+
         user.updateProfile(profileUpdates)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "User profile updated.");
+
+                            db.collection("users").document(user.getUid())
+                                    .set(userObj)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            hideProgressDialog();
+
+                                            if (task.isSuccessful()) {
+                                                Log.d(TAG, "Document added successfully");
+                                                Toast.makeText(getActivity(), "Cadastro realizado com sucesso", Toast.LENGTH_SHORT).show();
+                                                ((MainActivity) getActivity()).setDrawerInfo();
+                                                getActivity().onBackPressed();
+                                            } else {
+                                                Log.w(TAG, "Error adding document", task.getException());
+                                                Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
                         }
                     }
                 });
-
-        userObj.put("email", emailView.getText().toString());
-        userObj.put("nome", nomeView.getText().toString());
-        userObj.put("username", mUsername.getText().toString());
-        userObj.put("idade", Integer.parseInt(idadeView.getText().toString()));
-        userObj.put("estado", estadoView.getText().toString());
-        userObj.put("cidade", cidadeView.getText().toString());
-        userObj.put("endereco", enderecoView.getText().toString());
-        userObj.put("telefone", telefoneView.getText().toString());
-
-        db.collection("users").document(user.getUid())
-                .set(userObj)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "Document added successfully");
-                            Toast.makeText(getActivity(), "Cadastro realizado com sucesso", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Log.w(TAG, "Error adding document", task.getException());
-                            Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
-    private void returnToIntro() {
-        if (getActivity() != null) {
-            getActivity().getFragmentManager().popBackStack();
-        }
     }
 
     private void uploadFile(Uri filePath) {
@@ -217,7 +221,9 @@ public class SignUpFragment extends Fragment {
 
         Toast.makeText(getActivity(), "Fazendo upload da imagem", Toast.LENGTH_SHORT).show();
 
-        imageRef.putFile(filePath)
+        button_signup.setEnabled(false);
+
+                imageRef.putFile(filePath)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -225,6 +231,7 @@ public class SignUpFragment extends Fragment {
                         downloadUrl = taskSnapshot.getDownloadUrl();
                         Log.d(TAG, "onSuccess: Photo uploaded: " + downloadUrl);
                         Toast.makeText(getActivity(), "Imagem enviada com sucesso", Toast.LENGTH_SHORT).show();
+                        button_signup.setEnabled(true);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

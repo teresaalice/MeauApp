@@ -1,11 +1,12 @@
 package com.unb.meau.fragments;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -408,12 +409,14 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
                                 public void onComplete(@NonNull Task<DocumentReference> task) {
                                     if (task.isSuccessful()) {
                                         Log.d(TAG, "DocumentSnapshot written with ID: " + task.getResult().getId());
-                                        Toast.makeText(getActivity(), "Animal cadastrado com sucesso", Toast.LENGTH_SHORT).show();
 
-                                        CadastroAnimalSucessoFragment fragment = new CadastroAnimalSucessoFragment();
-                                        getActivity().getFragmentManager().beginTransaction()
-                                                .replace(R.id.content_frame, fragment)
+                                        CadastroAnimalSucessoFragment cadastroAnimalSucessoFragment = new CadastroAnimalSucessoFragment();
+                                        FragmentManager fragmentManager = getFragmentManager();
+                                        fragmentManager.beginTransaction()
+                                                .replace(R.id.content_frame, cadastroAnimalSucessoFragment, MainActivity.FRAGMENT_CADASTRO_ANIMAL_SUCESSO_TAG)
+                                                .addToBackStack("CADASTRO_TAG")
                                                 .commit();
+
                                     } else {
                                         Log.w(TAG, "Error adding document", task.getException());
                                         Toast.makeText(getActivity(), "Erro ao cadastrar o animal", Toast.LENGTH_SHORT).show();

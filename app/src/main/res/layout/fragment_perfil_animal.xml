@@ -420,10 +420,55 @@
                 android:layout_marginBottom="24dp"
                 android:backgroundTint="#FFD358"
                 android:text="FINALIZAR"
+                android:fontFamily="@font/roboto"
+                android:textSize="12sp"
                 android:textAllCaps="true"
                 app:layout_constraintTop_toBottomOf="@id/sobre"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/buttons_meus_pets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="24dp"
+                app:layout_constraintTop_toBottomOf="@id/sobre"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:weightSum="1.0"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_interessados"
+                    android:layout_width="148dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="@color/verde2"
+                    android:text="Ver interessados"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="12sp"
+                    android:textAllCaps="true"
+                    app:layout_constraintTop_toBottomOf="@id/sobre"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_weight="0.5"/>
+
+                <Button
+                    android:id="@+id/button_remover"
+                    android:layout_width="148dp"
+                    android:layout_height="40dp"
+                    android:backgroundTint="@color/verde2"
+                    android:text="Remover pet"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="12sp"
+                    android:textAllCaps="true"
+                    app:layout_constraintTop_toBottomOf="@id/sobre"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_weight="0.5"/>
+
+            </LinearLayout>
 
         </android.support.constraint.ConstraintLayout>
     </RelativeLayout>

@@ -1,10 +1,12 @@
 package com.unb.meau.fragments;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,8 +40,17 @@ public class PerfilAnimalFragment extends Fragment {
     ConstraintLayout foto_layout;
     ConstraintLayout cadastro_animal_second_layout;
 
+    Button button_finalizar;
+    Button button_interessados;
+    Button button_remover;
+
+    FloatingActionButton fab;
+
     String nomeAnimal;
     String acao;
+    String animalId;
+
+    FirebaseFirestore db;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,7 +61,14 @@ public class PerfilAnimalFragment extends Fragment {
         foto_layout = v.findViewById(R.id.foto_layout);
         cadastro_animal_second_layout = v.findViewById(R.id.cadastro_animal_second_layout);
 
-        mProgressBar.setVisibility(View.VISIBLE);
+        button_finalizar = v.findViewById(R.id.button_finalizar);
+        button_interessados = v.findViewById(R.id.button_interessados);
+        button_remover = v.findViewById(R.id.button_remover);
+
+        fab = v.findViewById(R.id.fab);
+
+        showProgressDialog();
+
         foto_layout.setVisibility(View.GONE);
         cadastro_animal_second_layout.setVisibility(View.GONE);
 
@@ -65,19 +83,87 @@ public class PerfilAnimalFragment extends Fragment {
         String dono = bundle.getString("dono");
         acao = bundle.getString("acao");
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         Query query = db.collection("animals").whereEqualTo("dono", dono).whereEqualTo("nome", nomeAnimal).limit(1);
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    Animal animal = task.getResult().getDocuments().get(0).toObject(Animal.class);
-                    bindData(animal);
+                    if (task.getResult().getDocuments().size() > 0) {
+                        Animal animal = task.getResult().getDocuments().get(0).toObject(Animal.class);
+                        animalId = task.getResult().getDocuments().get(0).getId();
+                        bindData(animal);
+                    }
                 } else {
                     Log.w(TAG, "onComplete: Animal not found", task.getException());
                     Toast.makeText(getActivity(), "Animal não encontrado", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        if (acao.equals("Meus Pets")) {
+            fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_black_24dp));
+            button_finalizar.setVisibility(View.GONE);
+        } else {
+            button_interessados.setVisibility(View.GONE);
+            button_remover.setVisibility(View.GONE);
+        }
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Clicked");
+            }
+        });
+
+        button_finalizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Clicked");
+            }
+        });
+
+        button_interessados.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Clicked");
+            }
+        });
+
+        button_remover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Clicked");
+                showProgressDialog();
+
+                db.collection("animals").document(animalId)
+                        .delete()
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                    hideProgressDialog();
+
+                                    RemocaoAnimalSucessoFragment remocaoAnimalSucessoFragment = new RemocaoAnimalSucessoFragment();
+
+                                    Bundle args = new Bundle();
+                                    args.putString("nome", nomeAnimal);
+                                    remocaoAnimalSucessoFragment.setArguments(args);
+
+                                    getFragmentManager().beginTransaction().replace(R.id.content_frame, remocaoAnimalSucessoFragment, MainActivity.FRAGMENT_REMOCAO_ANIMAL_SUCESSO_TAG)
+                                            .addToBackStack(null)
+                                            .commit();
+
+                                } else {
+                                    Log.w(TAG, "Error deleting document", task.getException());
+                                    hideProgressDialog();
+                                    Toast.makeText(getActivity(), "Erro ao remover o animal", Toast.LENGTH_SHORT).show();
+                                }
+                                hideProgressDialog();
+                            }
+                        });
             }
         });
 
@@ -88,7 +174,13 @@ public class PerfilAnimalFragment extends Fragment {
     public void onStart() {
         super.onStart();
         ((MainActivity) getActivity()).setActionBarTitle(nomeAnimal);
-        ((MainActivity) getActivity()).setActionBarTheme("Amarelo");
+
+        if (acao.equals("Meus Pets")) {
+            ((MainActivity) getActivity()).setActionBarTheme("Verde");
+        } else {
+            ((MainActivity) getActivity()).setActionBarTheme("Amarelo");
+        }
+
     }
 
     private void bindData(Animal animal) {
@@ -110,8 +202,6 @@ public class PerfilAnimalFragment extends Fragment {
         LinearLayout ajuda = getView().findViewById(R.id.ajuda);
         TextView exigencias_ajuda = getView().findViewById(R.id.exigencias_ajuda);
         TextView sobre = getView().findViewById(R.id.sobre);
-
-        Button button_finalizar = getView().findViewById(R.id.button_finalizar);
 
         switch (acao) {
             case "Adotar":
@@ -172,7 +262,7 @@ public class PerfilAnimalFragment extends Fragment {
             exigencias_ajuda.setText(getAjudaString(animal));
         }
 
-        mProgressBar.setVisibility(View.GONE);
+        hideProgressDialog();
         foto_layout.setVisibility(View.VISIBLE);
         cadastro_animal_second_layout.setVisibility(View.VISIBLE);
     }
@@ -269,5 +359,13 @@ public class PerfilAnimalFragment extends Fragment {
             }
         }
         return ajudaString;
+    }
+
+    private void showProgressDialog() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressDialog() {
+        mProgressBar.setVisibility(View.GONE);
     }
 }

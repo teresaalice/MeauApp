@@ -1,6 +1,6 @@
 package com.unb.meau.fragments;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +17,6 @@ public class NotLoggedFragment extends Fragment {
     private static final String TAG = "NotLoggedFragment";
 
     private FirebaseAuth mAuth;
-
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,7 +54,7 @@ public class NotLoggedFragment extends Fragment {
         ((MainActivity) getActivity()).setActionBarTheme("Verde");
 
         if (mAuth.getCurrentUser() != null) {
-            getActivity().getFragmentManager().popBackStack();
+            getActivity().getSupportFragmentManager().popBackStack();
         }
     }
 }

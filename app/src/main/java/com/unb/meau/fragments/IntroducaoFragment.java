@@ -1,7 +1,6 @@
 package com.unb.meau.fragments;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,9 +20,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
 
-public class IntroFragment extends Fragment {
+public class IntroducaoFragment extends Fragment {
 
-    private static final String TAG = "IntroFragment";
+    private static final String TAG = "IntroducaoFragment";
     TextView text_login;
     Toolbar toolbar;
     private FirebaseAuth mAuth;
@@ -32,7 +31,7 @@ public class IntroFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_intro, container, false);
+        View v = inflater.inflate(R.layout.fragment_introducao, container, false);
 
         toolbar = getActivity().findViewById(R.id.toolbar);
 
@@ -89,15 +88,7 @@ public class IntroFragment extends Fragment {
                 if (currentUser == null) {
                     ((MainActivity) getActivity()).showNotLoggedFragment();
                 } else {
-//                    ((MainActivity) getActivity()).showCadastrarAnimalFragment();
-
-                    Fragment fragment = new CadastroAnimalFragment();
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.content_frame, fragment, "FRAGMENT_CADASTRO_ANIMAL_TAG")
-                            .addToBackStack(null)
-                            .commit();
-
+                    ((MainActivity) getActivity()).showCadastrarAnimalFragment();
                 }
             }
         });

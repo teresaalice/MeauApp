@@ -1,17 +1,20 @@
 package com.unb.meau.fragments;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +28,7 @@ import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
 import com.unb.meau.objects.Animal;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,6 +41,7 @@ public class ListFragment extends Fragment {
     RecyclerView mRecyclerView;
     LinearLayoutManager linearLayoutManager;
     String acao;
+    String uid;
     private FirebaseFirestore db;
     private FirestoreRecyclerAdapter adapter;
 
@@ -58,8 +63,12 @@ public class ListFragment extends Fragment {
         Bundle bundle = this.getArguments();
 
         if (bundle != null && bundle.getString("acao") != null) {
-            Log.d(TAG, "onCreateView: Listar pets para " + bundle.getString("acao"));
+            Log.d(TAG, "onCreateView: Listar pets: " + bundle.getString("acao"));
             acao = bundle.getString("acao");
+            if (acao.equals("Meus Pets")) {
+                uid = bundle.getString("uid");
+                Log.d(TAG, "onCreateView: uid: " + uid);
+            }
         } else {
             Log.d(TAG, "onCreateView: bundle null");
             acao = "Animais";
@@ -83,6 +92,9 @@ public class ListFragment extends Fragment {
             case "Ajudar":
                 query = db.collection("animals").whereEqualTo("cadastro_ajuda", true);
                 break;
+            case "Meus Pets":
+                query = db.collection("animals").whereEqualTo("dono", uid);
+                break;
             default:
                 query = db.collection("animals");
                 break;
@@ -97,10 +109,32 @@ public class ListFragment extends Fragment {
             public void onBindViewHolder(final AnimalsHolder holder, final int position, Animal model) {
 
                 holder.textNome.setText(model.getNome());
-                holder.textSexo.setText(model.getSexo());
-                holder.textIdade.setText(model.getIdade());
-                holder.textPorte.setText(model.getPorte());
-                holder.textLocalizacao.setText(model.getLocalizacao());
+
+                if (acao.equals("Meus Pets")) {
+                    holder.atributos.setVisibility(View.GONE);
+                    holder.textLocalizacao.setVisibility(View.GONE);
+                    holder.buttonFav.setVisibility(View.GONE);
+                    holder.textNome.setBackgroundColor(getResources().getColor(R.color.verde1));
+
+                    holder.textInteressados.setText("0 novos interessados");
+
+                    List<String> categoriaArray = new ArrayList<String>();
+                    if (model.getCadastro_adocao()) categoriaArray.add("Adoção");
+                    if (model.getCadastro_apadrinhar()) categoriaArray.add("Apadrinhamento");
+                    if (model.getCadastro_ajuda()) categoriaArray.add("Ajuda");
+
+                    holder.textCategoria.setText(TextUtils.join(" | ", categoriaArray));
+
+                } else {
+                    holder.textInteressados.setVisibility(View.GONE);
+                    holder.textCategoria.setVisibility(View.GONE);
+                    holder.iconError.setVisibility(View.GONE);
+
+                    holder.textSexo.setText(model.getSexo());
+                    holder.textIdade.setText(model.getIdade());
+                    holder.textPorte.setText(model.getPorte());
+                    holder.textLocalizacao.setText(model.getLocalizacao());
+                }
 
                 String fotos = model.getFotos();
 
@@ -151,10 +185,10 @@ public class ListFragment extends Fragment {
                         args.putString("acao", acao);
                         perfilAnimalFragment.setArguments(args);
 
-                        FragmentTransaction fragmentTransaction = getActivity().getFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.content_frame, perfilAnimalFragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
+                        getFragmentManager().beginTransaction()
+                                .replace(R.id.content_frame, perfilAnimalFragment)
+                                .addToBackStack("LIST_PERFIL_ANIMAL_TAG")
+                                .commit();
                     }
                 });
             }
@@ -182,7 +216,12 @@ public class ListFragment extends Fragment {
         super.onStart();
         adapter.startListening();
         ((MainActivity) getActivity()).setActionBarTitle(acao);
-        ((MainActivity) getActivity()).setActionBarTheme("Amarelo");
+
+        if (acao.equals("Meus Pets")) {
+            ((MainActivity) getActivity()).setActionBarTheme("Verde");
+        } else {
+            ((MainActivity) getActivity()).setActionBarTheme("Amarelo");
+        }
     }
 
     @Override
@@ -195,21 +234,32 @@ public class ListFragment extends Fragment {
 
         TextView textNome;
         ImageButton buttonFav;
+        ImageButton iconError;
         ImageView image;
+
         TextView textSexo;
         TextView textIdade;
         TextView textPorte;
         TextView textLocalizacao;
 
+        TextView textInteressados;
+        TextView textCategoria;
+
+        LinearLayout atributos;
+
         private AnimalsHolder(View itemView) {
             super(itemView);
             textNome = itemView.findViewById(R.id.nome);
             buttonFav = itemView.findViewById(R.id.button_fav);
+            iconError = itemView.findViewById(R.id.icon_error);
             image = itemView.findViewById(R.id.image_animal);
             textSexo = itemView.findViewById(R.id.sexo);
             textIdade = itemView.findViewById(R.id.idade);
             textPorte = itemView.findViewById(R.id.porte);
             textLocalizacao = itemView.findViewById(R.id.localizacao);
+            textInteressados = itemView.findViewById(R.id.interessados);
+            textCategoria = itemView.findViewById(R.id.categoria);
+            atributos = itemView.findViewById(R.id.atributos);
         }
     }
 }

@@ -175,7 +175,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginBottom="32dp"
             android:backgroundTint="#88C9BF"
-            android:text="FAZER CADSATRO"
+            android:text="FAZER CADASTRO"
             android:textColor="#434343" />
 
         <ProgressBar
