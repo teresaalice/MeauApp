@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/privacidade"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginEnd="24dp"
+    android:layout_marginStart="24dp"
+    android:paddingTop="12dp"
+    android:orientation="vertical" >
+
+
+    <TextView
+        android:id="@+id/notificacoes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:text="@string/privacidade_not"
+        android:textColor="@color/preto_texto"
+        android:textAllCaps="true"/>
+
+    <CheckBox
+
+        android:id="@+id/notificacoes_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/cinza_medio"
+        android:buttonTint="@color/cinza_button"
+        android:fontFamily="@font/roboto"
+        android:text="@string/chk_chat"
+        android:layout_below="@+id/notificacoes" />
+
+    <CheckBox
+
+        android:id="@+id/notificacoes_recordacao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/cinza_medio"
+        android:buttonTint="@color/cinza_button"
+        android:fontFamily="@font/roboto"
+        android:text="@string/chk_recordacao"
+        android:layout_below="@+id/notificacoes_chat"/>
+
+    <CheckBox
+        android:id="@+id/notificacoes_eventos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/cinza_medio"
+        android:buttonTint="@color/cinza_button"
+        android:fontFamily="@font/roboto"
+        android:text="@string/chk_eventos"
+        android:layout_below="@+id/notificacoes_recordacao"/>
+
+    <TextView
+        android:id="@+id/privacidade_texto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="24dp"
+        android:textColor="@color/cinza_medio"
+        android:fontFamily="@font/roboto"
+        android:text="@string/privacy_message"
+        android:layout_below="@+id/notificacoes_eventos"/>
+
+    <Button
+        android:id="@+id/button_salvarprivacidade"
+        android:layout_width="232dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:fontFamily="@font/roboto"
+        android:backgroundTint="@color/cinza_button"
+        android:text="@string/save_alt"
+        android:textAllCaps="true" />
+
+</RelativeLayout>

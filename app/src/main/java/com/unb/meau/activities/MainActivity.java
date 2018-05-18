@@ -28,6 +28,7 @@ import com.unb.meau.fragments.IntroducaoFragment;
 import com.unb.meau.fragments.LegislacaoFragment;
 import com.unb.meau.fragments.ListFragment;
 import com.unb.meau.fragments.NotLoggedFragment;
+import com.unb.meau.fragments.PrivacidadeFragment;
 import com.unb.meau.fragments.RemocaoAnimalSucessoFragment;
 import com.unb.meau.fragments.SignInFragment;
 import com.unb.meau.fragments.SignUpFragment;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String FRAGMENT_LEGISLACAO_TAG = "FRAGMENT_LEGISLACAO_TAG";
     public static final String FRAGMENT_REMOCAO_ANIMAL_SUCESSO_TAG = "FRAGMENT_REMOCAO_ANIMAL_SUCESSO_TAG";
     public static final String FRAGMENT_CADASTRO_ANIMAL_SUCESSO_TAG = "FRAGMENT_CADASTRO_ANIMAL_SUCESSO_TAG";
+    public static final String FRAGMENT_PRIVACIDADE_TAG = "FRAGMENT_PRIVACIDADE_TAG";
 
     public DrawerLayout drawer;
     Fragment fragment;
@@ -151,8 +153,10 @@ public class MainActivity extends AppCompatActivity {
                     case "Legislação":
                         showLegislacaoFragment();
                         break;
+                    case "Privacidade":
+                        showPrivacidadeFragment();
+                        break;
                 }
-
                 return false;
             }
         });
@@ -203,6 +207,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "Verde":
                 actionBarToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary2));
+                break;
+            case "Cinza":
+                actionBarToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary3));
                 break;
         }
     }
@@ -262,6 +269,13 @@ public class MainActivity extends AppCompatActivity {
     public void showLegislacaoFragment() {
         fragment = new LegislacaoFragment();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_LEGISLACAO_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void showPrivacidadeFragment() {
+        fragment = new PrivacidadeFragment();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_PRIVACIDADE_TAG)
                 .addToBackStack(null)
                 .commit();
     }
