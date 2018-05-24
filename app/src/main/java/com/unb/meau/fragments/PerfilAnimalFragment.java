@@ -21,6 +21,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -40,7 +42,12 @@ public class PerfilAnimalFragment extends Fragment {
     ConstraintLayout foto_layout;
     ConstraintLayout cadastro_animal_second_layout;
 
-    Button button_finalizar;
+    LinearLayout buttons_meu_pets;
+    LinearLayout buttons_finalizar;
+
+    Button button_adotar;
+    Button button_apadrinhar;
+    Button button_ajudar;
     Button button_interessados;
     Button button_remover;
 
@@ -61,7 +68,13 @@ public class PerfilAnimalFragment extends Fragment {
         foto_layout = v.findViewById(R.id.foto_layout);
         cadastro_animal_second_layout = v.findViewById(R.id.cadastro_animal_second_layout);
 
-        button_finalizar = v.findViewById(R.id.button_finalizar);
+        buttons_meu_pets = v.findViewById(R.id.buttons_meu_pets);
+
+        button_adotar = v.findViewById(R.id.button_adotar);
+        button_apadrinhar = v.findViewById(R.id.button_apadrinhar);
+        button_ajudar = v.findViewById(R.id.button_ajudar);
+
+        buttons_finalizar = v.findViewById(R.id.buttons_finalizar);
         button_interessados = v.findViewById(R.id.button_interessados);
         button_remover = v.findViewById(R.id.button_remover);
 
@@ -71,6 +84,9 @@ public class PerfilAnimalFragment extends Fragment {
 
         foto_layout.setVisibility(View.GONE);
         cadastro_animal_second_layout.setVisibility(View.GONE);
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
 
         Bundle bundle = this.getArguments();
 
@@ -82,6 +98,10 @@ public class PerfilAnimalFragment extends Fragment {
         nomeAnimal = bundle.getString("nome");
         String dono = bundle.getString("dono");
         acao = bundle.getString("acao");
+
+        if (!acao.equals("Meus Pets") && dono.equals(currentUser.getUid())) {
+            acao = "Meus Pets";
+        }
 
         db = FirebaseFirestore.getInstance();
 
@@ -104,37 +124,50 @@ public class PerfilAnimalFragment extends Fragment {
 
         if (acao.equals("Meus Pets")) {
             fab.setImageDrawable(getResources().getDrawable(R.drawable.ic_edit_black_24dp));
-            button_finalizar.setVisibility(View.GONE);
+            buttons_meu_pets.setVisibility(View.VISIBLE);
         } else {
-            button_interessados.setVisibility(View.GONE);
-            button_remover.setVisibility(View.GONE);
+            buttons_finalizar.setVisibility(View.VISIBLE);
         }
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: Clicked");
+                Log.d(TAG, "onClick: Clicked Favorite");
             }
         });
 
-        button_finalizar.setOnClickListener(new View.OnClickListener() {
+        button_adotar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: Clicked");
+                Log.d(TAG, "onClick: Clicked Adotar");
+            }
+        });
+
+        button_apadrinhar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Clicked Apadrinhar");
+            }
+        });
+
+        button_ajudar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Clicked Ajudar");
             }
         });
 
         button_interessados.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: Clicked");
+                Log.d(TAG, "onClick: Clicked Interessados");
             }
         });
 
         button_remover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: Clicked");
+                Log.d(TAG, "onClick: Clicked Remover");
                 showProgressDialog();
 
                 db.collection("animals").document(animalId)
@@ -203,16 +236,16 @@ public class PerfilAnimalFragment extends Fragment {
         TextView exigencias_ajuda = getView().findViewById(R.id.exigencias_ajuda);
         TextView sobre = getView().findViewById(R.id.sobre);
 
-        switch (acao) {
-            case "Adotar":
-                button_finalizar.setText("Pretendo adotar");
-                break;
-            case "Apadrinhar":
-                button_finalizar.setText("Pretendo apadrinhar");
-                break;
-            case "Ajudar":
-                button_finalizar.setText("Pretendo ajudar");
-                break;
+        if (animal.getCadastro_adocao()) {
+            button_adotar.setVisibility(View.VISIBLE);
+        }
+
+        if (animal.getCadastro_apadrinhar()) {
+            button_apadrinhar.setVisibility(View.VISIBLE);
+        }
+
+        if (animal.getCadastro_ajuda()) {
+            button_ajudar.setVisibility(View.VISIBLE);
         }
 
         String fotos = animal.getFotos();
