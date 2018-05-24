@@ -1,12 +1,11 @@
 package com.unb.meau.fragments;
 
-import android.support.v4.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +22,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -32,9 +32,11 @@ import com.unb.meau.objects.Animal;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class PerfilAnimalFragment extends Fragment {
+public class PerfilAnimalFragment extends Fragment implements Button.OnClickListener {
 
     private static final String TAG = "PerfilAnimalFragment";
 
@@ -53,9 +55,13 @@ public class PerfilAnimalFragment extends Fragment {
 
     FloatingActionButton fab;
 
+    Animal animal;
+
     String nomeAnimal;
     String acao;
     String animalId;
+
+    FirebaseUser currentUser;
 
     FirebaseFirestore db;
 
@@ -86,7 +92,7 @@ public class PerfilAnimalFragment extends Fragment {
         cadastro_animal_second_layout.setVisibility(View.GONE);
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        currentUser = mAuth.getCurrentUser();
 
         Bundle bundle = this.getArguments();
 
@@ -111,7 +117,7 @@ public class PerfilAnimalFragment extends Fragment {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     if (task.getResult().getDocuments().size() > 0) {
-                        Animal animal = task.getResult().getDocuments().get(0).toObject(Animal.class);
+                        animal = task.getResult().getDocuments().get(0).toObject(Animal.class);
                         animalId = task.getResult().getDocuments().get(0).getId();
                         bindData(animal);
                     }
@@ -136,26 +142,9 @@ public class PerfilAnimalFragment extends Fragment {
             }
         });
 
-        button_adotar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: Clicked Adotar");
-            }
-        });
-
-        button_apadrinhar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: Clicked Apadrinhar");
-            }
-        });
-
-        button_ajudar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: Clicked Ajudar");
-            }
-        });
+        button_adotar.setOnClickListener(this);
+        button_apadrinhar.setOnClickListener(this);
+        button_ajudar.setOnClickListener(this);
 
         button_interessados.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -400,5 +389,74 @@ public class PerfilAnimalFragment extends Fragment {
 
     private void hideProgressDialog() {
         mProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        final Map<String, Object> interesseObj;
+        interesseObj = new HashMap<>();
+        interesseObj.put("dono", animal.getDono());
+        interesseObj.put("interessado", currentUser.getUid());
+        interesseObj.put("animal", animalId);
+        interesseObj.put("estagio", "interesse");
+
+        switch (v.getId()) {
+            case R.id.button_adotar:
+                interesseObj.put("acao", "adoção");
+                break;
+            case R.id.button_apadrinhar:
+                interesseObj.put("acao", "apadrinhamento");
+                break;
+            case R.id.button_ajudar:
+                interesseObj.put("acao", "ajuda");
+                break;
+        }
+
+        showProgressDialog();
+
+        db.collection("processos")
+                .whereEqualTo("interessado", currentUser.getUid())
+                .whereEqualTo("animal", animalId)
+                .limit(1)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (task.getResult().getDocuments().isEmpty()) {
+                                Log.d(TAG, "onComplete: novo interesse");
+
+                                db.collection("processos")
+                                        .add(interesseObj)
+                                        .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                if (task.isSuccessful()) {
+                                                    Log.d(TAG, "DocumentSnapshot written with ID: " + task.getResult().getId());
+
+                                                    Toast.makeText(getActivity(), "Sucesso", Toast.LENGTH_SHORT).show();
+
+                                                } else {
+                                                    Log.w(TAG, "Error adding document", task.getException());
+                                                    Toast.makeText(getActivity(), "Erro ao adicionar interesse", Toast.LENGTH_SHORT).show();
+                                                }
+                                                hideProgressDialog();
+                                            }
+                                        });
+
+                            } else {
+                                Log.d(TAG, "onComplete: interesse existente");
+                                Toast.makeText(getActivity(), "Interesse já existente", Toast.LENGTH_SHORT).show();
+                                hideProgressDialog();
+                            }
+
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                            Toast.makeText(getActivity(), "Erro ao verificar interesses", Toast.LENGTH_SHORT).show();
+                            hideProgressDialog();
+                        }
+                    }
+                });
     }
 }
