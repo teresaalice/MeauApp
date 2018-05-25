@@ -26,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
+import com.unb.meau.adapters.CustomFirestoreRecyclerAdapter;
 import com.unb.meau.objects.Animal;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ import java.util.List;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment implements CustomFirestoreRecyclerAdapter.ListAnimalClickListener {
 
     private static final String TAG = "ListFragment";
 
@@ -104,111 +105,27 @@ public class ListFragment extends Fragment {
                 .setQuery(query, Animal.class)
                 .build();
 
-        adapter = new FirestoreRecyclerAdapter<Animal, AnimalsHolder>(options) {
-            @Override
-            public void onBindViewHolder(final AnimalsHolder holder, final int position, Animal model) {
-
-                holder.textNome.setText(model.getNome());
-
-                if (acao.equals("Meus Pets")) {
-                    holder.atributos.setVisibility(View.GONE);
-                    holder.textLocalizacao.setVisibility(View.GONE);
-                    holder.buttonFav.setVisibility(View.GONE);
-                    holder.textNome.setBackgroundColor(getResources().getColor(R.color.verde1));
-
-                    holder.textInteressados.setText("0 novos interessados");
-
-                    List<String> categoriaArray = new ArrayList<String>();
-                    if (model.getCadastro_adocao()) categoriaArray.add("Adoção");
-                    if (model.getCadastro_apadrinhar()) categoriaArray.add("Apadrinhamento");
-                    if (model.getCadastro_ajuda()) categoriaArray.add("Ajuda");
-
-                    holder.textCategoria.setText(TextUtils.join(" | ", categoriaArray));
-
-                } else {
-                    holder.textInteressados.setVisibility(View.GONE);
-                    holder.textCategoria.setVisibility(View.GONE);
-                    holder.iconError.setVisibility(View.GONE);
-
-                    holder.textSexo.setText(model.getSexo());
-                    holder.textIdade.setText(model.getIdade());
-                    holder.textPorte.setText(model.getPorte());
-                    holder.textLocalizacao.setText(model.getLocalizacao());
-                }
-
-                String fotos = model.getFotos();
-
-                if (fotos != null && !fotos.isEmpty()) {
-                    List<String> fotosList = Arrays.asList(fotos.split(","));
-
-                    if (fotosList.size() > 0) {
-                        Uri fotoUri = Uri.parse(fotosList.get(0));
-                        Glide.with(getActivity())
-                                .load(fotoUri)
-                                .into(holder.image);
-                    }
-                } else {
-                    if (model.getEspecie() != null && model.getEspecie().equals("Cachorro")) {
-                        holder.image.setImageResource(R.drawable.dog_silhouette);
-                    } else {
-                        holder.image.setImageResource(R.drawable.cat_silhouette);
-                    }
-                    holder.image.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                }
-
-                holder.buttonFav.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        holder.buttonFav.setSelected(!holder.buttonFav.isSelected());
-
-                        if (holder.buttonFav.isSelected()) {
-                            Log.d(TAG, "onClick: " + holder.textNome.getText() + " favoritado");
-                            Toast.makeText(getActivity(), "Adicionado aos favoritos", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Log.d(TAG, "onClick: " + holder.textNome.getText() + " desfavoritado");
-                            Toast.makeText(getActivity(), "Removido dos favoritos", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.d(TAG, "onClick: " + holder.textNome.getText());
-                        Animal animal = (Animal) adapter.getItem(position);
-
-                        PerfilAnimalFragment perfilAnimalFragment = new PerfilAnimalFragment();
-
-                        Bundle args = new Bundle();
-                        args.putString("nome", animal.getNome());
-                        args.putString("dono", animal.getDono());
-                        args.putString("acao", acao);
-                        perfilAnimalFragment.setArguments(args);
-
-                        getFragmentManager().beginTransaction()
-                                .replace(R.id.content_frame, perfilAnimalFragment)
-                                .addToBackStack("LIST_PERFIL_ANIMAL_TAG")
-                                .commit();
-                    }
-                });
-            }
-
-            @Override
-            public AnimalsHolder onCreateViewHolder(ViewGroup group, int i) {
-                View view = LayoutInflater.from(group.getContext())
-                        .inflate(R.layout.layout_animal_item, group, false);
-
-                return new AnimalsHolder(view);
-            }
-
-            @Override
-            public void onError(FirebaseFirestoreException e) {
-                Log.e("error", e.getMessage());
-            }
-        };
-
+        adapter = new CustomFirestoreRecyclerAdapter(this, options, acao, this);
         adapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onListAnimalClick(Animal animal) {
+        Log.d(TAG, "onClick: " + animal.getNome());
+
+        PerfilAnimalFragment perfilAnimalFragment = new PerfilAnimalFragment();
+
+        Bundle args = new Bundle();
+        args.putString("nome", animal.getNome());
+        args.putString("dono", animal.getDono());
+        args.putString("acao", acao);
+        perfilAnimalFragment.setArguments(args);
+
+        getFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, perfilAnimalFragment)
+                .addToBackStack("LIST_PERFIL_ANIMAL_TAG")
+                .commit();
     }
 
     @Override
@@ -228,38 +145,5 @@ public class ListFragment extends Fragment {
     public void onStop() {
         super.onStop();
         adapter.stopListening();
-    }
-
-    public class AnimalsHolder extends RecyclerView.ViewHolder {
-
-        TextView textNome;
-        ImageButton buttonFav;
-        ImageButton iconError;
-        ImageView image;
-
-        TextView textSexo;
-        TextView textIdade;
-        TextView textPorte;
-        TextView textLocalizacao;
-
-        TextView textInteressados;
-        TextView textCategoria;
-
-        LinearLayout atributos;
-
-        private AnimalsHolder(View itemView) {
-            super(itemView);
-            textNome = itemView.findViewById(R.id.nome);
-            buttonFav = itemView.findViewById(R.id.button_fav);
-            iconError = itemView.findViewById(R.id.icon_error);
-            image = itemView.findViewById(R.id.image_animal);
-            textSexo = itemView.findViewById(R.id.sexo);
-            textIdade = itemView.findViewById(R.id.idade);
-            textPorte = itemView.findViewById(R.id.porte);
-            textLocalizacao = itemView.findViewById(R.id.localizacao);
-            textInteressados = itemView.findViewById(R.id.interessados);
-            textCategoria = itemView.findViewById(R.id.categoria);
-            atributos = itemView.findViewById(R.id.atributos);
-        }
     }
 }
