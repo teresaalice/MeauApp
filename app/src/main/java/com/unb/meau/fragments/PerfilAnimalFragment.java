@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -138,7 +139,18 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: Clicked Favorite");
+
+                if (!acao.equals("Meus Pets")) {
+                    fab.setSelected(!fab.isSelected());
+
+                    if (fab.isSelected()) {
+                        Log.d(TAG, "onClick: " + animal.getNome() + " favoritado");
+                        favoritarAnimal(animalId, true);
+                    } else {
+                        Log.d(TAG, "onClick: " + animal.getNome() + " desfavoritado");
+                        favoritarAnimal(animalId, false);
+                    }
+                }
             }
         });
 
@@ -224,6 +236,15 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
         LinearLayout ajuda = getView().findViewById(R.id.ajuda);
         TextView exigencias_ajuda = getView().findViewById(R.id.exigencias_ajuda);
         TextView sobre = getView().findViewById(R.id.sobre);
+
+        if (!acao.equals("Meus Pets")) {
+            for (Map.Entry<String, Boolean> entry : animal.getFavoritos().entrySet()) {
+                if (entry.getKey().equals(currentUser.getUid()) && entry.getValue()) {
+                    fab.setSelected(true);
+                    break;
+                }
+            }
+        }
 
         if (animal.getCadastro_adocao()) {
             button_adotar.setVisibility(View.VISIBLE);
@@ -434,9 +455,7 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
                                             public void onComplete(@NonNull Task<DocumentReference> task) {
                                                 if (task.isSuccessful()) {
                                                     Log.d(TAG, "DocumentSnapshot written with ID: " + task.getResult().getId());
-
                                                     Toast.makeText(getActivity(), "Sucesso", Toast.LENGTH_SHORT).show();
-
                                                 } else {
                                                     Log.w(TAG, "Error adding document", task.getException());
                                                     Toast.makeText(getActivity(), "Erro ao adicionar interesse", Toast.LENGTH_SHORT).show();
@@ -456,6 +475,33 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
                             Toast.makeText(getActivity(), "Erro ao verificar interesses", Toast.LENGTH_SHORT).show();
                             hideProgressDialog();
                         }
+                    }
+                });
+    }
+
+    public void favoritarAnimal(String animalId, final Boolean favoritar) {
+
+        showProgressDialog();
+
+        // favoritar: adiciona userId:true
+        // desfavoritar: remove o campo userId:true
+        db.collection("animals").document(animalId)
+                .update("favoritos." + currentUser.getUid(), (favoritar) ? true : FieldValue.delete())
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "Document updated");
+                            if (favoritar)
+                                Toast.makeText(getActivity(), "Adicionado aos favoritos", Toast.LENGTH_SHORT).show();
+                            else
+                                Toast.makeText(getActivity(), "Removido dos favoritos", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            Log.w(TAG, "Error updating document", task.getException());
+                            Toast.makeText(getActivity(), "Erro", Toast.LENGTH_SHORT).show();
+                        }
+                        hideProgressDialog();
                     }
                 });
     }

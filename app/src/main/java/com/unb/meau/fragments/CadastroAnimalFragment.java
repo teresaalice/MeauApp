@@ -1,11 +1,11 @@
 package com.unb.meau.fragments;
 
-import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -39,6 +39,7 @@ import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -393,6 +394,8 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
         } else {
             animalObj.put("fotos", "");
         }
+
+        animalObj.put("favoritos", Collections.emptyMap());
 
         db.collection("users").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

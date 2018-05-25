@@ -1,37 +1,30 @@
 package com.unb.meau.fragments;
 
-import android.support.v4.app.Fragment;
-import android.app.FragmentTransaction;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
 import com.unb.meau.adapters.CustomFirestoreRecyclerAdapter;
 import com.unb.meau.objects.Animal;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -43,6 +36,7 @@ public class ListFragment extends Fragment implements CustomFirestoreRecyclerAda
     LinearLayoutManager linearLayoutManager;
     String acao;
     String uid;
+    FirebaseUser currentUser;
     private FirebaseFirestore db;
     private FirestoreRecyclerAdapter adapter;
 
@@ -61,12 +55,15 @@ public class ListFragment extends Fragment implements CustomFirestoreRecyclerAda
         mRecyclerView.setLayoutManager(linearLayoutManager);
         db = FirebaseFirestore.getInstance();
 
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
         Bundle bundle = this.getArguments();
 
         if (bundle != null && bundle.getString("acao") != null) {
             Log.d(TAG, "onCreateView: Listar pets: " + bundle.getString("acao"));
             acao = bundle.getString("acao");
-            if (acao.equals("Meus Pets")) {
+            if (acao.equals("Meus Pets") || acao.equals("Favoritos")) {
                 uid = bundle.getString("uid");
                 Log.d(TAG, "onCreateView: uid: " + uid);
             }
@@ -96,6 +93,9 @@ public class ListFragment extends Fragment implements CustomFirestoreRecyclerAda
             case "Meus Pets":
                 query = db.collection("animals").whereEqualTo("dono", uid);
                 break;
+            case "Favoritos":
+                query = db.collection("animals").whereEqualTo("favoritos." + currentUser.getUid(), true);
+                break;
             default:
                 query = db.collection("animals");
                 break;
@@ -105,7 +105,7 @@ public class ListFragment extends Fragment implements CustomFirestoreRecyclerAda
                 .setQuery(query, Animal.class)
                 .build();
 
-        adapter = new CustomFirestoreRecyclerAdapter(this, options, acao, this);
+        adapter = new CustomFirestoreRecyclerAdapter(this, options, acao, currentUser.getUid(), this);
         adapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(adapter);
     }
@@ -129,12 +129,53 @@ public class ListFragment extends Fragment implements CustomFirestoreRecyclerAda
     }
 
     @Override
+    public void onListAnimalFavClick(Animal animal, final Boolean favoritar) {
+        Log.d(TAG, "onClick: " + animal.getNome() + " favoritado");
+
+        db.collection("animals")
+                .whereEqualTo("nome", animal.getNome())
+                .whereEqualTo("dono", animal.getDono())
+                .limit(1)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (task.getResult().getDocuments().size() > 0) {
+                                String animalId = task.getResult().getDocuments().get(0).getId();
+
+                                db.collection("animals").document(animalId)
+                                        .update("favoritos." + currentUser.getUid(), (favoritar) ? true : FieldValue.delete())
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Log.d(TAG, "Document updated");
+                                                    if (favoritar)
+                                                        Toast.makeText(getActivity(), "Adicionado aos favoritos", Toast.LENGTH_SHORT).show();
+                                                    else
+                                                        Toast.makeText(getActivity(), "Removido dos favoritos", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Log.w(TAG, "Error updating document", task.getException());
+                                                }
+                                            }
+                                        });
+                            }
+                        } else {
+                            Log.w(TAG, "onComplete: Animal not found", task.getException());
+                            Toast.makeText(getActivity(), "Animal não encontrado", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         adapter.startListening();
         ((MainActivity) getActivity()).setActionBarTitle(acao);
 
-        if (acao.equals("Meus Pets")) {
+        if (acao.equals("Meus Pets") || acao.equals("Favoritos")) {
             ((MainActivity) getActivity()).setActionBarTheme("Verde");
         } else {
             ((MainActivity) getActivity()).setActionBarTheme("Amarelo");
@@ -146,4 +187,25 @@ public class ListFragment extends Fragment implements CustomFirestoreRecyclerAda
         super.onStop();
         adapter.stopListening();
     }
+
+//    public void favoritarAnimal(String nome, String dono, Boolean favoritar) {
+//
+//        showProgressDialog();
+//
+//        // favoritar: adiciona userId:true
+//        // desfavoritar: remove o campo userId:true
+//        db.collection("animals").document(animalId)
+//                .update("favorites." + currentUser.getUid(), (favoritar) ? true : FieldValue.delete())
+//                .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<Void> task) {
+//                        if (task.isSuccessful()) {
+//                            Log.d(TAG, "Document updated");
+//                        } else {
+//                            Log.w(TAG, "Error updating document", task.getException());
+//                        }
+//                        hideProgressDialog();
+//                    }
+//                });
+//    }
 }

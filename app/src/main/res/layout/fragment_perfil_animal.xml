@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <ProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true" />
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/foto_layout"
@@ -25,46 +23,43 @@
             <ImageView
                 android:id="@+id/foto_animal"
                 android:layout_width="match_parent"
-                android:scaleType="centerCrop"
-                android:layout_height="184dp" />
+                android:layout_height="184dp"
+                android:scaleType="centerCrop" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_margin="16dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:backgroundTint="#FAFAFA"
                 android:src="@drawable/fav_button"
+                app:backgroundTint="#FAFAFA"
+                app:elevation="3dp"
                 app:layout_constraintBottom_toBottomOf="@+id/foto_animal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/foto_animal"
-                app:layout_constraintVertical_bias="0.5" />
+                app:layout_constraintTop_toBottomOf="@+id/foto_animal" />
 
         </android.support.constraint.ConstraintLayout>
 
-        <android.support.constraint.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/cadastro_animal_second_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/foto_layout"
             android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp"
-            android:layout_below="@id/foto_layout">
+            android:layout_marginTop="1dp">
 
             <TextView
                 android:id="@+id/nome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Nome"
                 android:fontFamily="@font/roboto_medium"
-                android:textSize="16sp"
-                android:textColor="#434343" />
+                android:text="Nome"
+                android:textColor="#434343"
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:id="@+id/caracteristicas_info"
@@ -78,27 +73,27 @@
                     android:id="@+id/sexo_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight=".30"
                     android:fontFamily="@font/roboto"
                     android:text="SEXO"
-                    android:layout_weight=".30"
                     android:textColor="#F7A800" />
 
                 <TextView
                     android:id="@+id/porte_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight=".30"
                     android:fontFamily="@font/roboto"
                     android:text="PORTE"
-                    android:layout_weight=".30"
                     android:textColor="#F7A800" />
 
                 <TextView
                     android:id="@+id/idade_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight=".30"
                     android:fontFamily="@font/roboto"
                     android:text="IDADE"
-                    android:layout_weight=".30"
                     android:textColor="#F7A800" />
 
             </LinearLayout>
@@ -107,8 +102,8 @@
                 android:id="@+id/caracteristicas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@id/caracteristicas_info">
 
@@ -116,27 +111,27 @@
                     android:id="@+id/sexo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight=".30"
                     android:fontFamily="@font/roboto"
                     android:text="Sexo"
-                    android:layout_weight=".30"
                     android:textColor="#757575" />
 
                 <TextView
                     android:id="@+id/porte"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight=".30"
                     android:fontFamily="@font/roboto"
                     android:text="Porte"
-                    android:layout_weight=".30"
                     android:textColor="#757575" />
 
                 <TextView
                     android:id="@+id/idade"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight=".30"
                     android:fontFamily="@font/roboto"
                     android:text="Idade"
-                    android:layout_weight=".30"
                     android:textColor="#757575" />
 
             </LinearLayout>
@@ -146,23 +141,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_weight=".30"
                 android:fontFamily="@font/roboto"
                 android:text="LOCALIZAÇÃO"
-                android:layout_weight=".30"
                 android:textColor="#F7A800"
-                app:layout_constraintTop_toBottomOf="@id/caracteristicas"/>
+                app:layout_constraintTop_toBottomOf="@id/caracteristicas" />
 
             <TextView
                 android:id="@+id/localizacao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight=".30"
                 android:fontFamily="@font/roboto"
                 android:text="Localização"
-                android:layout_weight=".30"
                 android:textColor="#757575"
-                app:layout_constraintTop_toBottomOf="@id/localizacao_info"/>
+                app:layout_constraintTop_toBottomOf="@id/localizacao_info" />
 
             <LinearLayout
                 android:id="@+id/saude_info"
@@ -176,18 +171,18 @@
                     android:id="@+id/castrado_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight=".50"
                     android:fontFamily="@font/roboto"
                     android:text="CASTRADO"
-                    android:layout_weight=".50"
                     android:textColor="#F7A800" />
 
                 <TextView
                     android:id="@+id/vermifugado_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight=".50"
                     android:fontFamily="@font/roboto"
                     android:text="VERMIFUGADO"
-                    android:layout_weight=".50"
                     android:textColor="#F7A800" />
 
             </LinearLayout>
@@ -196,8 +191,8 @@
                 android:id="@+id/saude"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@id/saude_info">
 
@@ -205,18 +200,18 @@
                     android:id="@+id/castrado"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight=".50"
                     android:fontFamily="@font/roboto"
                     android:text="Castrado"
-                    android:layout_weight=".50"
                     android:textColor="#757575" />
 
                 <TextView
                     android:id="@+id/vermifugado"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight=".50"
                     android:fontFamily="@font/roboto"
                     android:text="Vermifugado"
-                    android:layout_weight=".50"
                     android:textColor="#757575" />
 
             </LinearLayout>
@@ -233,18 +228,18 @@
                     android:id="@+id/vacinado_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight=".50"
                     android:fontFamily="@font/roboto"
                     android:text="VACINADO"
-                    android:layout_weight=".50"
                     android:textColor="#F7A800" />
 
                 <TextView
                     android:id="@+id/doencas_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight=".50"
                     android:fontFamily="@font/roboto"
                     android:text="DOENÇAS"
-                    android:layout_weight=".50"
                     android:textColor="#F7A800" />
 
             </LinearLayout>
@@ -253,8 +248,8 @@
                 android:id="@+id/saude_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@id/saude_2_info">
 
@@ -262,18 +257,18 @@
                     android:id="@+id/vacinado"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight=".50"
                     android:fontFamily="@font/roboto"
                     android:text="Vacinado"
-                    android:layout_weight=".50"
                     android:textColor="#757575" />
 
                 <TextView
                     android:id="@+id/doencas"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight=".50"
                     android:fontFamily="@font/roboto"
                     android:text="Doeças"
-                    android:layout_weight=".50"
                     android:textColor="#757575" />
 
             </LinearLayout>
@@ -286,18 +281,18 @@
                 android:fontFamily="@font/roboto"
                 android:text="TEMPERAMENTO"
                 android:textColor="#F7A800"
-                app:layout_constraintTop_toBottomOf="@id/saude_2"/>
+                app:layout_constraintTop_toBottomOf="@id/saude_2" />
 
             <TextView
                 android:id="@+id/temperamento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/roboto"
                 android:text="Temperamento"
                 android:textColor="#757575"
-                app:layout_constraintTop_toBottomOf="@id/temperamento_info"/>
+                app:layout_constraintTop_toBottomOf="@id/temperamento_info" />
 
             <LinearLayout
                 android:id="@+id/blocos"
@@ -310,8 +305,8 @@
                     android:id="@+id/adocao"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:orientation="vertical" >
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/exigencias_doacao_info"
@@ -326,8 +321,8 @@
                         android:id="@+id/exigencias_doacao"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
+                        android:layout_marginTop="8dp"
                         android:fontFamily="@font/roboto"
                         android:text="Exigencias do doador"
                         android:textColor="#757575" />
@@ -338,8 +333,8 @@
                     android:id="@+id/apadrinhamento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:orientation="vertical" >
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/exigencias_apadrinhamento_info"
@@ -354,8 +349,8 @@
                         android:id="@+id/exigencias_apadrinhamento"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
+                        android:layout_marginTop="8dp"
                         android:fontFamily="@font/roboto"
                         android:text="Exigencias do dono"
                         android:textColor="#757575" />
@@ -366,8 +361,8 @@
                     android:id="@+id/ajuda"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:orientation="vertical" >
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/exigencias_ajuda_info"
@@ -382,8 +377,8 @@
                         android:id="@+id/exigencias_ajuda"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
+                        android:layout_marginTop="8dp"
                         android:fontFamily="@font/roboto"
                         android:text="O animal precisa de"
                         android:textColor="#757575" />
@@ -400,7 +395,7 @@
                 android:fontFamily="@font/roboto"
                 android:text="MAIS SOBRE O ANIMAL"
                 android:textColor="#F7A800"
-                app:layout_constraintTop_toBottomOf="@id/blocos"/>
+                app:layout_constraintTop_toBottomOf="@id/blocos" />
 
             <TextView
                 android:id="@+id/sobre"
@@ -410,63 +405,63 @@
                 android:fontFamily="@font/roboto"
                 android:text="Sobre"
                 android:textColor="#757575"
-                app:layout_constraintTop_toBottomOf="@id/sobre_info"/>
+                app:layout_constraintTop_toBottomOf="@id/sobre_info" />
 
             <LinearLayout
                 android:id="@+id/buttons_finalizar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
                 android:layout_marginBottom="24dp"
-                app:layout_constraintTop_toBottomOf="@id/sobre"
+                android:layout_marginTop="28dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="1.0"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:weightSum="1.0"
-                android:visibility="gone"
-                android:gravity="center"
-                android:orientation="horizontal">
+                app:layout_constraintTop_toBottomOf="@id/sobre">
 
                 <Button
                     android:id="@+id/button_adotar"
                     android:layout_width="148dp"
                     android:layout_height="40dp"
-                    android:layout_marginTop="28dp"
                     android:layout_marginBottom="24dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_weight="0.5"
                     android:backgroundTint="#FFD358"
-                    android:text="Pretendo Adotar"
                     android:fontFamily="@font/roboto"
-                    android:textSize="12sp"
+                    android:text="Pretendo Adotar"
                     android:textAllCaps="true"
-                    android:visibility="gone"
-                    android:layout_weight="0.5"/>
+                    android:textSize="12sp"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/button_apadrinhar"
                     android:layout_width="148dp"
                     android:layout_height="40dp"
-                    android:layout_marginTop="28dp"
                     android:layout_marginBottom="24dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_weight="0.5"
                     android:backgroundTint="#FFD358"
-                    android:text="Pretendo Apadrinhar"
                     android:fontFamily="@font/roboto"
-                    android:textSize="12sp"
+                    android:text="Pretendo Apadrinhar"
                     android:textAllCaps="true"
-                    android:visibility="gone"
-                    android:layout_weight="0.5"/>
+                    android:textSize="12sp"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/button_ajudar"
                     android:layout_width="148dp"
                     android:layout_height="40dp"
-                    android:layout_marginTop="28dp"
                     android:layout_marginBottom="24dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_weight="0.5"
                     android:backgroundTint="#FFD358"
-                    android:text="Pretendo Ajudar"
                     android:fontFamily="@font/roboto"
-                    android:textSize="12sp"
+                    android:text="Pretendo Ajudar"
                     android:textAllCaps="true"
-                    android:visibility="gone"
-                    android:layout_weight="0.5"/>
+                    android:textSize="12sp"
+                    android:visibility="gone" />
 
 
             </LinearLayout>
@@ -475,37 +470,37 @@
                 android:id="@+id/buttons_meu_pets"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
                 android:layout_marginBottom="24dp"
-                app:layout_constraintTop_toBottomOf="@id/sobre"
+                android:layout_marginTop="28dp"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="1.0"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:weightSum="1.0"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                app:layout_constraintTop_toBottomOf="@id/sobre">
 
                 <Button
                     android:id="@+id/button_interessados"
                     android:layout_width="148dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="16dp"
+                    android:layout_weight="0.5"
                     android:backgroundTint="@color/verde2"
-                    android:text="Ver interessados"
                     android:fontFamily="@font/roboto"
-                    android:textSize="12sp"
+                    android:text="Ver interessados"
                     android:textAllCaps="true"
-                    android:layout_weight="0.5"/>
+                    android:textSize="12sp" />
 
                 <Button
                     android:id="@+id/button_remover"
                     android:layout_width="148dp"
                     android:layout_height="40dp"
+                    android:layout_weight="0.5"
                     android:backgroundTint="@color/verde2"
-                    android:text="Remover pet"
                     android:fontFamily="@font/roboto"
-                    android:textSize="12sp"
+                    android:text="Remover pet"
                     android:textAllCaps="true"
-                    android:layout_weight="0.5"/>
+                    android:textSize="12sp" />
 
             </LinearLayout>
 

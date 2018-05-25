@@ -12,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -25,6 +24,7 @@ import com.unb.meau.objects.Animal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class CustomFirestoreRecyclerAdapter extends FirestoreRecyclerAdapter {
 
@@ -34,16 +34,20 @@ public class CustomFirestoreRecyclerAdapter extends FirestoreRecyclerAdapter {
 
     private ListFragment context;
     private String acao;
+    private String currentUserUid;
 
-    public CustomFirestoreRecyclerAdapter(ListFragment context, @NonNull FirestoreRecyclerOptions options, String acao, ListAnimalClickListener listener) {
+    public CustomFirestoreRecyclerAdapter(ListFragment context, @NonNull FirestoreRecyclerOptions options, String acao, String currentUserUid, ListAnimalClickListener listener) {
         super(options);
         this.context = context;
         this.acao = acao;
+        this.currentUserUid = currentUserUid;
         this.mOnClickListener = listener;
     }
 
     public interface ListAnimalClickListener {
         void onListAnimalClick(Animal animal);
+
+        void onListAnimalFavClick(Animal animal, Boolean favoritar);
     }
 
     @NonNull
@@ -78,6 +82,17 @@ public class CustomFirestoreRecyclerAdapter extends FirestoreRecyclerAdapter {
 
             mHolder.textCategoria.setText(TextUtils.join(" | ", categoriaArray));
 
+        } else if (acao.equals("Favoritos")) {
+            mHolder.textInteressados.setVisibility(View.GONE);
+            mHolder.textCategoria.setVisibility(View.GONE);
+            mHolder.iconError.setVisibility(View.GONE);
+            mHolder.textNome.setBackgroundColor(context.getResources().getColor(R.color.verde1));
+
+            mHolder.textSexo.setText(mModel.getSexo());
+            mHolder.textIdade.setText(mModel.getIdade());
+            mHolder.textPorte.setText(mModel.getPorte());
+            mHolder.textLocalizacao.setText(mModel.getLocalizacao());
+
         } else {
             mHolder.textInteressados.setVisibility(View.GONE);
             mHolder.textCategoria.setVisibility(View.GONE);
@@ -87,6 +102,13 @@ public class CustomFirestoreRecyclerAdapter extends FirestoreRecyclerAdapter {
             mHolder.textIdade.setText(mModel.getIdade());
             mHolder.textPorte.setText(mModel.getPorte());
             mHolder.textLocalizacao.setText(mModel.getLocalizacao());
+        }
+
+        for (Map.Entry<String, Boolean> entry : mModel.getFavoritos().entrySet()) {
+            if (entry.getKey().equals(currentUserUid) && entry.getValue()) {
+                mHolder.buttonFav.setSelected(true);
+                break;
+            }
         }
 
         String fotos = mModel.getFotos();
@@ -108,22 +130,6 @@ public class CustomFirestoreRecyclerAdapter extends FirestoreRecyclerAdapter {
             }
             mHolder.image.setScaleType(ImageView.ScaleType.FIT_CENTER);
         }
-
-        mHolder.buttonFav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mHolder.buttonFav.setSelected(!mHolder.buttonFav.isSelected());
-
-                if (mHolder.buttonFav.isSelected()) {
-                    Log.d(TAG, "onClick: " + mHolder.textNome.getText() + " favoritado");
-                    Toast.makeText(context.getActivity(), "Adicionado aos favoritos", Toast.LENGTH_SHORT).show();
-                } else {
-                    Log.d(TAG, "onClick: " + mHolder.textNome.getText() + " desfavoritado");
-                    Toast.makeText(context.getActivity(), "Removido dos favoritos", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
     }
 
     @Override
@@ -162,12 +168,19 @@ public class CustomFirestoreRecyclerAdapter extends FirestoreRecyclerAdapter {
             textCategoria = itemView.findViewById(R.id.categoria);
             atributos = itemView.findViewById(R.id.atributos);
             itemView.setOnClickListener(this);
+            buttonFav.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             int clickedPosition = getAdapterPosition();
-            mOnClickListener.onListAnimalClick((Animal)getItem(clickedPosition));
+
+            if (v.getId() == buttonFav.getId()) {
+                buttonFav.setSelected(!buttonFav.isSelected());
+                mOnClickListener.onListAnimalFavClick((Animal) getItem(clickedPosition), buttonFav.isSelected());
+            } else {
+                mOnClickListener.onListAnimalClick((Animal) getItem(clickedPosition));
+            }
         }
     }
 }

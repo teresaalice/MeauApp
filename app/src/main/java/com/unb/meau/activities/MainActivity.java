@@ -1,9 +1,9 @@
 package com.unb.meau.activities;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -138,6 +138,9 @@ public class MainActivity extends AppCompatActivity {
                     case "Meus pets":
                         showListarAnimaisFragment("Meus Pets");
                         break;
+                    case "Favoritos":
+                        showListarAnimaisFragment("Favoritos");
+                        break;
                     case "Cadastrar um pet":
                         showCadastrarAnimalFragment();
                         break;
@@ -253,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
 
         args.putString("acao", acao);
 
-        if (acao.equals("Meus Pets")) {
+        if (acao.equals("Meus Pets") || acao.equals("Favoritos")) {
             FirebaseUser user = mAuth.getCurrentUser();
             args.putString("uid", user.getUid());
         }
