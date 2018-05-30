@@ -27,7 +27,7 @@ public class SentTermFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_not_logged, container, false);
+        view = inflater.inflate(R.layout.fragment_sent_term, container, false);
 
         title_sent = view.findViewById(R.id.titulo);
         text_sent = view.findViewById(R.id.texto);
