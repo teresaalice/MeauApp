@@ -1,36 +1,22 @@
 package com.unb.meau.fragments;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
+
 import java.util.HashMap;
 
 public class PrivacidadeFragment extends Fragment {
@@ -38,8 +24,6 @@ public class PrivacidadeFragment extends Fragment {
     private static final String TAG = "PrivacidadeFragment";
 
     Button buttonSalvarPrivacidade;
-
-    RelativeLayout privacidadeLayout;
 
     TextView title;
     TextView texto_notificacoes;
@@ -49,14 +33,12 @@ public class PrivacidadeFragment extends Fragment {
     CheckBox not_recordacoes;
     CheckBox not_eventos;
 
-    FirebaseUser user;
+    FirebaseUser currentUser;
     FirebaseFirestore db;
 
     View view;
 
     HashMap<Object, Object> userObj = new HashMap<>();
-
-    ProgressBar mProgressBar;
 
     private FirebaseAuth mAuth;
 
@@ -67,8 +49,7 @@ public class PrivacidadeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_privacidade, container, false);
 
         mAuth = FirebaseAuth.getInstance();
-
-        mProgressBar = view.findViewById(R.id.progress_bar);
+        currentUser = mAuth.getCurrentUser();
 
         title = view.findViewById(R.id.action_info);
         texto_notificacoes = view.findViewById(R.id.notificacoes);
@@ -100,10 +81,8 @@ public class PrivacidadeFragment extends Fragment {
     }
 
     private void storeUserData() {
-
         db = FirebaseFirestore.getInstance();
         userObj = new HashMap<>();
-
         CheckBox not_chat = view.findViewById(R.id.notificacoes_chat);
         userObj.put("notificacoes_chat", not_chat.isChecked());
         CheckBox not_recordacoes = view.findViewById(R.id.notificacoes_recordacao);

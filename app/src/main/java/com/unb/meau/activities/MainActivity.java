@@ -30,8 +30,10 @@ import com.unb.meau.fragments.ListFragment;
 import com.unb.meau.fragments.NotLoggedFragment;
 import com.unb.meau.fragments.PrivacidadeFragment;
 import com.unb.meau.fragments.RemocaoAnimalSucessoFragment;
+import com.unb.meau.fragments.SentTermFragment;
 import com.unb.meau.fragments.SignInFragment;
 import com.unb.meau.fragments.SignUpFragment;
+import com.unb.meau.fragments.TermoAdocaoFragment;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -51,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
     public static final String FRAGMENT_REMOCAO_ANIMAL_SUCESSO_TAG = "FRAGMENT_REMOCAO_ANIMAL_SUCESSO_TAG";
     public static final String FRAGMENT_CADASTRO_ANIMAL_SUCESSO_TAG = "FRAGMENT_CADASTRO_ANIMAL_SUCESSO_TAG";
     public static final String FRAGMENT_PRIVACIDADE_TAG = "FRAGMENT_PRIVACIDADE_TAG";
+    public static final String FRAGMENT_TERMOS_TAG = "FRAGMENT_TERMOS_TAG";
+    public static final String FRAGMENT_SENT_TERM_TAG = "FRAGMENT_SENT_TERM_TAG";
+
 
     public DrawerLayout drawer;
     Fragment fragment;
@@ -158,6 +163,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case "Privacidade":
                         showPrivacidadeFragment();
+                        break;
+                    case "Termo de Adoção":
+                        showTermoAdocaoFragment();
                         break;
                 }
                 return false;
@@ -279,6 +287,20 @@ public class MainActivity extends AppCompatActivity {
     public void showPrivacidadeFragment() {
         fragment = new PrivacidadeFragment();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_PRIVACIDADE_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void showTermoAdocaoFragment() {
+        fragment = new TermoAdocaoFragment();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_TERMOS_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void showSentTermFragment() {
+        fragment = new SentTermFragment();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_SENT_TERM_TAG)
                 .addToBackStack(null)
                 .commit();
     }

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_sent_term"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginEnd="24dp"
+    android:layout_marginStart="24dp"
+    android:paddingTop="12dp"
+    android:orientation="vertical"
+    tools:context="com.unb.meau.activities.MainActivity">
+
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="52dp"
+        android:fontFamily="@font/courgette"
+        android:gravity="center"
+        android:text="@string/termo_pronto"
+        android:textColor="#88C9BF"
+        android:textSize="53sp" />
+
+    <TextView
+        android:id="@+id/texto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/titulo"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginTop="52dp"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textColor="#757575"
+        android:text="@string/termo_enviado" />
+
+    <Button
+        android:id="@+id/button_legislacao"
+        android:layout_width="232dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="#88C9BF"
+        android:text="@string/legislacao"
+        android:textColor="#434343" />
+
+</RelativeLayout>
