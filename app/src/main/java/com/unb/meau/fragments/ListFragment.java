@@ -180,32 +180,17 @@ public class ListFragment extends Fragment implements CustomFirestoreRecyclerAda
         } else {
             ((MainActivity) getActivity()).setActionBarTheme("Amarelo");
         }
+
+        ((MainActivity) getActivity()).menuItemName = "share";
+        getActivity().invalidateOptionsMenu();
     }
 
     @Override
     public void onStop() {
         super.onStop();
         adapter.stopListening();
-    }
 
-//    public void favoritarAnimal(String nome, String dono, Boolean favoritar) {
-//
-//        showProgressDialog();
-//
-//        // favoritar: adiciona userId:true
-//        // desfavoritar: remove o campo userId:true
-//        db.collection("animals").document(animalId)
-//                .update("favorites." + currentUser.getUid(), (favoritar) ? true : FieldValue.delete())
-//                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        if (task.isSuccessful()) {
-//                            Log.d(TAG, "Document updated");
-//                        } else {
-//                            Log.w(TAG, "Error updating document", task.getException());
-//                        }
-//                        hideProgressDialog();
-//                    }
-//                });
-//    }
+        ((MainActivity) getActivity()).menuItemName = "";
+        getActivity().invalidateOptionsMenu();
+    }
 }

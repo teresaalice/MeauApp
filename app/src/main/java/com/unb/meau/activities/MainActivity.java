@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
     private LinkedHashMap<String, List<String>> listItem;
 
+    public String menuItemName = "";
+
     private FirebaseAuth mAuth;
 
     @Override
@@ -178,38 +180,60 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
-//        MenuItem search = menu.findItem(R.id.action_search);
-//        search.setVisible(false);
+        MenuItem search;
+        MenuItem share;
+
+        switch (menuItemName) {
+            case "search":
+                search = menu.findItem(R.id.action_search);
+                search.setVisible(true);
+                break;
+            case "share":
+                share = menu.findItem(R.id.action_share);
+                share.setVisible(true);
+                break;
+            default:
+                search = menu.findItem(R.id.action_search);
+                share = menu.findItem(R.id.action_share);
+                search.setVisible(false);
+                share.setVisible(false);
+                break;
+        }
 
         return true;
+
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+    public boolean onOptionsItemSelected (MenuItem item){
 
-//        int id = item.getItemId();
-//
-//        if (id == R.id.action_settings) {
-//            Intent intent = new Intent(this, SettingsActivity.class);
-//            startActivityForResult(intent, 0);
-//            return true;
-//        }
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_search:
+                Log.d(TAG, "onOptionsItemSelected: search");
+                return true;
+            case R.id.action_share:
+                Log.d(TAG, "onOptionsItemSelected: share");
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
 
     }
 
-    public void onClick(View view) {
+    public void onClick (View view){
         // fechar aplicacao
         moveTaskToBack(true);
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(1);
     }
 
-    public void setActionBarTitle(String title) {
+    public void setActionBarTitle (String title){
         getSupportActionBar().setTitle(title);
     }
 
-    public void setActionBarTheme(String theme) {
+    public void setActionBarTheme (String theme){
         Toolbar actionBarToolbar = findViewById(R.id.toolbar);
 
         switch (theme) {
@@ -249,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void showCadastrarAnimalFragment() {
+    public void showCadastrarAnimalFragment () {
         fragment = new CadastroAnimalFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment, FRAGMENT_CADASTRO_ANIMAL_TAG)
@@ -257,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void showListarAnimaisFragment(String acao) {
+    public void showListarAnimaisFragment (String acao){
         fragment = new ListFragment();
 
         Bundle args = new Bundle();
@@ -277,14 +301,14 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void showLegislacaoFragment() {
+    public void showLegislacaoFragment () {
         fragment = new LegislacaoFragment();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_LEGISLACAO_TAG)
                 .addToBackStack(null)
                 .commit();
     }
 
-    public void showPrivacidadeFragment() {
+    public void showPrivacidadeFragment () {
         fragment = new PrivacidadeFragment();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_PRIVACIDADE_TAG)
                 .addToBackStack(null)
@@ -306,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed () {
 //        Log.d(TAG, "onBackPressed");
 
         Fragment currentFragment = fragmentManager.findFragmentById(R.id.content_frame);

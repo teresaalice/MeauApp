@@ -215,6 +215,16 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
             ((MainActivity) getActivity()).setActionBarTheme("Amarelo");
         }
 
+        ((MainActivity) getActivity()).menuItemName = "share";
+        getActivity().invalidateOptionsMenu();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((MainActivity) getActivity()).menuItemName = "";
+        getActivity().invalidateOptionsMenu();
     }
 
     private void bindData(Animal animal) {
