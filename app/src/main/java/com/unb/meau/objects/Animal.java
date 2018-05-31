@@ -42,11 +42,12 @@ public class Animal {
     private String ajuda_objetos_nome;
     private String historia;
     private String localizacao;
+    private Integer novos_interessados;
     private HashMap<String, Boolean> favoritos;
 
     public Animal() {} // Needed for Firebase
 
-    public Animal(String dono, Boolean cadastro_adocao, Boolean cadastro_apadrinhar, Boolean cadastro_ajuda, String nome, String especie, String sexo, String porte, String idade, String fotos, Boolean brincalhao, Boolean timido, Boolean calmo, Boolean guarda, Boolean amoroso, Boolean preguicoso, Boolean vacinado, Boolean vermifugado, Boolean castrado, String doencas, Boolean termo_de_adocao, Boolean fotos_da_casa, Boolean visita_previa_ao_animal, String acompanhamento_pos_adocao, Boolean termo_de_apadrinhamento, Boolean auxilio_financeiro, Boolean auxilio_alimentacao, Boolean auxilio_saude, Boolean auxilio_objetos, Boolean visitas_ao_animal, Boolean alimento, Boolean ajuda_financeira, Boolean ajuda_medicamento, String ajuda_medicamento_nome, Boolean ajuda_objeto, String ajuda_objetos_nome, String historia, String localizacao, HashMap<String, Boolean> favoritos) {
+    public Animal(String dono, Boolean cadastro_adocao, Boolean cadastro_apadrinhar, Boolean cadastro_ajuda, String nome, String especie, String sexo, String porte, String idade, String fotos, Boolean brincalhao, Boolean timido, Boolean calmo, Boolean guarda, Boolean amoroso, Boolean preguicoso, Boolean vacinado, Boolean vermifugado, Boolean castrado, String doencas, Boolean termo_de_adocao, Boolean fotos_da_casa, Boolean visita_previa_ao_animal, String acompanhamento_pos_adocao, Boolean termo_de_apadrinhamento, Boolean auxilio_financeiro, Boolean auxilio_alimentacao, Boolean auxilio_saude, Boolean auxilio_objetos, Boolean visitas_ao_animal, Boolean alimento, Boolean ajuda_financeira, Boolean ajuda_medicamento, String ajuda_medicamento_nome, Boolean ajuda_objeto, String ajuda_objetos_nome, String historia, String localizacao, Integer novos_interessados, HashMap<String, Boolean> favoritos) {
         this.dono = dono;
         this.cadastro_adocao = cadastro_adocao;
         this.cadastro_apadrinhar = cadastro_apadrinhar;
@@ -85,6 +86,7 @@ public class Animal {
         this.ajuda_objetos_nome = ajuda_objetos_nome;
         this.historia = historia;
         this.localizacao = localizacao;
+        this.novos_interessados = novos_interessados;
         this.favoritos = favoritos;
     }
 
@@ -390,6 +392,14 @@ public class Animal {
 
     public void setLocalizacao(String localizacao) {
         this.localizacao = localizacao;
+    }
+
+    public Integer getNovos_interessados() {
+        return novos_interessados;
+    }
+
+    public void setNovos_interessados(Integer novos_interessados) {
+        this.novos_interessados = novos_interessados;
     }
 
     public HashMap<String, Boolean> getFavoritos() {

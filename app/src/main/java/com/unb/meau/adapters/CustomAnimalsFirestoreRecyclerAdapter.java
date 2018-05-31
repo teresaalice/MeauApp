@@ -26,9 +26,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class CustomFirestoreRecyclerAdapter extends FirestoreRecyclerAdapter {
+public class CustomAnimalsFirestoreRecyclerAdapter extends FirestoreRecyclerAdapter {
 
-    private static final String TAG = "CustomFirestoreRecycler";
+    private static final String TAG = "CustomAnimalsFirestoreRecycler";
 
     final private ListAnimalClickListener mOnClickListener;
 
@@ -36,7 +36,7 @@ public class CustomFirestoreRecyclerAdapter extends FirestoreRecyclerAdapter {
     private String acao;
     private String currentUserUid;
 
-    public CustomFirestoreRecyclerAdapter(ListFragment context, @NonNull FirestoreRecyclerOptions options, String acao, String currentUserUid, ListAnimalClickListener listener) {
+    public CustomAnimalsFirestoreRecyclerAdapter(ListFragment context, @NonNull FirestoreRecyclerOptions options, String acao, String currentUserUid, ListAnimalClickListener listener) {
         super(options);
         this.context = context;
         this.acao = acao;
@@ -73,7 +73,10 @@ public class CustomFirestoreRecyclerAdapter extends FirestoreRecyclerAdapter {
             mHolder.buttonFav.setVisibility(View.GONE);
             mHolder.textNome.setBackgroundColor(context.getResources().getColor(R.color.verde1));
 
-            mHolder.textInteressados.setText("0 novos interessados");
+            if (((Animal) model).getNovos_interessados() == 1)
+                mHolder.textInteressados.setText(((Animal) model).getNovos_interessados().toString() + " novo interessado");
+            else
+                mHolder.textInteressados.setText(((Animal) model).getNovos_interessados().toString() + " novos interessados");
 
             List<String> categoriaArray = new ArrayList<String>();
             if (mModel.getCadastro_adocao()) categoriaArray.add("Adoção");

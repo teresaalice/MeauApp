@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="24dp"
+    android:layout_marginStart="24dp"
+    android:layout_marginEnd="24dp"
+    tools:context="com.unb.meau.activities.MainActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="232dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="IR PARA O CHAT"
+        android:textColor="@color/preto_texto"
+        android:fontFamily="@font/roboto"
+        android:backgroundTint="@color/verde2"/>
+
+</RelativeLayout>

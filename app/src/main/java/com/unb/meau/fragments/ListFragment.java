@@ -23,12 +23,12 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
-import com.unb.meau.adapters.CustomFirestoreRecyclerAdapter;
+import com.unb.meau.adapters.CustomAnimalsFirestoreRecyclerAdapter;
 import com.unb.meau.objects.Animal;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-public class ListFragment extends Fragment implements CustomFirestoreRecyclerAdapter.ListAnimalClickListener {
+public class ListFragment extends Fragment implements CustomAnimalsFirestoreRecyclerAdapter.ListAnimalClickListener {
 
     private static final String TAG = "ListFragment";
 
@@ -105,7 +105,7 @@ public class ListFragment extends Fragment implements CustomFirestoreRecyclerAda
                 .setQuery(query, Animal.class)
                 .build();
 
-        adapter = new CustomFirestoreRecyclerAdapter(this, options, acao, currentUser.getUid(), this);
+        adapter = new CustomAnimalsFirestoreRecyclerAdapter(this, options, acao, currentUser.getUid(), this);
         adapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(adapter);
     }

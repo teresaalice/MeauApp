@@ -395,6 +395,7 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
             animalObj.put("fotos", "");
         }
 
+        animalObj.put("novos_interessados", 0);
         animalObj.put("favoritos", Collections.emptyMap());
 
         db.collection("users").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

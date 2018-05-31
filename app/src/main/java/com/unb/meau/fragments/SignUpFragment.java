@@ -170,6 +170,7 @@ public class SignUpFragment extends Fragment {
                 .setPhotoUri(downloadUrl)
                 .build();
 
+        userObj.put("foto", downloadUrl.toString());
         userObj.put("email", emailView.getText().toString());
         userObj.put("nome", nomeView.getText().toString());
         userObj.put("username", mUsername.getText().toString());

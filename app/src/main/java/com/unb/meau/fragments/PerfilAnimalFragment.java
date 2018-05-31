@@ -26,7 +26,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.WriteBatch;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
 import com.unb.meau.objects.Animal;
@@ -162,6 +164,17 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: Clicked Interessados");
+
+                ListPeopleFragment listPeopleFragment = new ListPeopleFragment();
+
+                Bundle args = new Bundle();
+
+                args.putString("animalId", animalId);
+                listPeopleFragment.setArguments(args);
+
+                getFragmentManager().beginTransaction().replace(R.id.content_frame, listPeopleFragment, MainActivity.FRAGMENT_LISTAR_PESSOAS_TAG)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
@@ -198,6 +211,39 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
                                 hideProgressDialog();
                             }
                         });
+
+                db.collection("proccesses")
+                        .whereEqualTo("animal", animalId)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    WriteBatch batch = db.batch();
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        batch.delete(document.getReference());
+                                    }
+                                    batch.commit();
+                                }
+                            }
+                        });
+
+                db.collection("users")
+                        .whereEqualTo("interesses." + animalId, true)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    WriteBatch batch = db.batch();
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        batch.update(document.getReference(), "interesses." + animalId, FieldValue.delete());
+                                    }
+                                    batch.commit();
+                                }
+                            }
+                        });
+
             }
         });
 
@@ -446,7 +492,7 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
 
         showProgressDialog();
 
-        db.collection("processos")
+        db.collection("proccesses")
                 .whereEqualTo("interessado", currentUser.getUid())
                 .whereEqualTo("animal", animalId)
                 .limit(1)
@@ -458,7 +504,7 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
                             if (task.getResult().getDocuments().isEmpty()) {
                                 Log.d(TAG, "onComplete: novo interesse");
 
-                                db.collection("processos")
+                                db.collection("proccesses")
                                         .add(interesseObj)
                                         .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                             @Override
@@ -467,8 +513,37 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
                                                     Log.d(TAG, "DocumentSnapshot written with ID: " + task.getResult().getId());
                                                     Toast.makeText(getActivity(), "Sucesso", Toast.LENGTH_SHORT).show();
                                                 } else {
-                                                    Log.w(TAG, "Error adding document", task.getException());
+                                                    Log.w(TAG, "Error adding proccesses document", task.getException());
                                                     Toast.makeText(getActivity(), "Erro ao adicionar interesse", Toast.LENGTH_SHORT).show();
+                                                }
+                                                hideProgressDialog();
+                                            }
+                                        });
+
+                                db.collection("users").document(currentUser.getUid())
+                                        .update("interesses." + animalId, true)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Log.d(TAG, "User document updated");
+                                                } else {
+                                                    Log.w(TAG, "Error updating user document", task.getException());
+                                                    Toast.makeText(getActivity(), "Erro", Toast.LENGTH_SHORT).show();
+                                                }
+                                                hideProgressDialog();
+                                            }
+                                        });
+
+                                db.collection("animals").document(animalId)
+                                        .update("novos_interessados", animal.getNovos_interessados() + 1)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Log.d(TAG, "Animal document updated");
+                                                } else {
+                                                    Log.w(TAG, "Error updating animal document", task.getException());
                                                 }
                                                 hideProgressDialog();
                                             }

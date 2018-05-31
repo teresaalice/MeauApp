@@ -18,6 +18,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.unb.meau.R;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String FRAGMENT_PRIVACIDADE_TAG = "FRAGMENT_PRIVACIDADE_TAG";
     public static final String FRAGMENT_TERMOS_TAG = "FRAGMENT_TERMOS_TAG";
     public static final String FRAGMENT_SENT_TERM_TAG = "FRAGMENT_SENT_TERM_TAG";
+    public static final String FRAGMENT_LISTAR_PESSOAS_TAG = "FRAGMENT_LISTAR_PESSOAS_TAG";
 
 
     public DrawerLayout drawer;
@@ -103,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
             if (user.getPhotoUrl() != null) {
                 Glide.with(this)
                         .load(user.getPhotoUrl())
+                        .apply(RequestOptions.circleCropTransform())
                         .into(fotoPerfil);
             }
         } else {
