@@ -60,4 +60,7 @@
     verifique se o seu email está cadastrado corretamente na área “meu perfil”, no menu principal.\n\n Para entender um pouco mais sobre as
     leis que envolvem esse processo, acesse nossa área de legislação!</string>
 
+    // Filtro
+    <string name="filtro_msg"> Infelizmente, não encontramos nenhum animal com essas características em nosso aplicativo.\n\nMas não desista, pois temos lindos animais cadastrados! Experimente desabilitar e/ou alterar alguns filtros para encontrá-los.</string>
+
 </resources>

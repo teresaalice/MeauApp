@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/label1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center_horizontal"
+                android:paddingBottom="12dp"
+                android:text="SEU INTERESSE"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3.0">
+
+                <ToggleButton
+                    android:id="@+id/button_adotar"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/toggle_button"
+                    android:textColor="@color/toggle_text_color"
+                    android:textOff="ADOTAR"
+                    android:textOn="ADOTAR"
+                    android:textSize="12sp" />
+
+                <ToggleButton
+                    android:id="@+id/button_ajudar"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/toggle_button"
+                    android:textColor="@color/toggle_text_color"
+                    android:textOff="AJUDAR"
+                    android:textOn="AJUDAR"
+                    android:textSize="12sp" />
+
+                <ToggleButton
+                    android:id="@+id/button_apadrinhar"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/toggle_button"
+                    android:textColor="@color/toggle_text_color"
+                    android:textOff="APADRINHAR"
+                    android:textOn="APADRINHAR"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/label2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center_horizontal"
+                android:paddingTop="18dp"
+                android:paddingBottom="12dp"
+                android:text="ESPÉCIE"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1.0">
+
+                <ToggleButton
+                    android:id="@+id/button_cachorro"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/toggle_button"
+                    android:textColor="@color/toggle_text_color"
+                    android:textOff="CACHORRO"
+                    android:textOn="CACHORRO"
+                    android:textSize="12sp" />
+
+                <ToggleButton
+                    android:id="@+id/button_gato"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/toggle_button"
+                    android:textColor="@color/toggle_text_color"
+                    android:textOff="GATO"
+                    android:textOn="GATO"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/label3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center_horizontal"
+                android:paddingTop="18dp"
+                android:paddingBottom="12dp"
+                android:text="SEXO"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1.0">
+
+                <ToggleButton
+                    android:id="@+id/button_macho"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/toggle_button"
+                    android:textColor="@color/toggle_text_color"
+                    android:textOff="MACHO"
+                    android:textOn="MACHO"
+                    android:textSize="12sp" />
+
+                <ToggleButton
+                    android:id="@+id/button_femea"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/toggle_button"
+                    android:textColor="@color/toggle_text_color"
+                    android:textOff="FÊMEA"
+                    android:textOn="FÊMEA"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/label4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center_horizontal"
+                android:paddingTop="18dp"
+                android:paddingBottom="12dp"
+                android:text="IDADE"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3.0">
+
+                <ToggleButton
+                    android:id="@+id/button_filhote"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/toggle_button"
+                    android:textColor="@color/toggle_text_color"
+                    android:textOff="FILHOTE"
+                    android:textOn="FILHOTE"
+                    android:textSize="12sp" />
+
+                <ToggleButton
+                    android:id="@+id/button_adulto"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/toggle_button"
+                    android:textColor="@color/toggle_text_color"
+                    android:textOff="ADULTO"
+                    android:textOn="ADULTO"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toStartOf="@+id/button_ajuda" />
+
+                <ToggleButton
+                    android:id="@+id/button_idoso"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/toggle_button"
+                    android:textColor="@color/toggle_text_color"
+                    android:textOff="IDOSO"
+                    android:textOn="IDOSO"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/label5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center_horizontal"
+                android:paddingTop="18dp"
+                android:paddingBottom="12dp"
+                android:text="PORTE"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3.0">
+
+                <ToggleButton
+                    android:id="@+id/button_pequeno"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/toggle_button"
+                    android:textColor="@color/toggle_text_color"
+                    android:textOff="PEQUENO"
+                    android:textOn="PEQUENO"
+                    android:textSize="12sp" />
+
+                <ToggleButton
+                    android:id="@+id/button_medio"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/toggle_button"
+                    android:textColor="@color/toggle_text_color"
+                    android:textOff="MÉDIO"
+                    android:textOn="MÉDIO"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toStartOf="@+id/button_ajuda" />
+
+                <ToggleButton
+                    android:id="@+id/button_grande"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/toggle_button"
+                    android:textColor="@color/toggle_text_color"
+                    android:textOff="GRANDE"
+                    android:textOn="GRANDE"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/label6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center_horizontal"
+                android:paddingTop="18dp"
+                android:paddingBottom="12dp"
+                android:text="LOCALIZAÇÃO"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/estado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Estado"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/cidade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Cidade"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/label7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center_horizontal"
+                android:paddingTop="20dp"
+                android:paddingBottom="12dp"
+                android:text="PESQUISAR POR NOME"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/nome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nome do pet ou usuário"
+                android:singleLine="true" />
+
+            <Button
+                android:id="@+id/button_pesquisar"
+                android:layout_width="232dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:backgroundTint="#FFD358"
+                android:text="FAZER PESQUISA" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

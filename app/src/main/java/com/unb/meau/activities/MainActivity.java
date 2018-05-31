@@ -25,6 +25,7 @@ import com.unb.meau.R;
 import com.unb.meau.adapters.CustomExpandableListAdapter;
 import com.unb.meau.fragments.CadastroAnimalFragment;
 import com.unb.meau.fragments.CadastroAnimalSucessoFragment;
+import com.unb.meau.fragments.FiltroFragment;
 import com.unb.meau.fragments.IntroducaoFragment;
 import com.unb.meau.fragments.LegislacaoFragment;
 import com.unb.meau.fragments.ListFragment;
@@ -57,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String FRAGMENT_TERMOS_TAG = "FRAGMENT_TERMOS_TAG";
     public static final String FRAGMENT_SENT_TERM_TAG = "FRAGMENT_SENT_TERM_TAG";
     public static final String FRAGMENT_LISTAR_PESSOAS_TAG = "FRAGMENT_LISTAR_PESSOAS_TAG";
+    public static final String FRAGMENT_FILTRO_TAG = "FRAGMENT_FILTRO_TAG";
+    public static final String FRAGMENT_FILTRO_ERRO_TAG = "FRAGMENT_FILTRO_ERRO_TAG";
 
 
     public DrawerLayout drawer;
@@ -215,6 +218,13 @@ public class MainActivity extends AppCompatActivity {
         switch (id) {
             case R.id.action_search:
                 Log.d(TAG, "onOptionsItemSelected: search");
+
+                fragment = new FiltroFragment();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content_frame, fragment, FRAGMENT_FILTRO_TAG)
+                        .addToBackStack(null)
+                        .commit();
+
                 return true;
             case R.id.action_share:
                 Log.d(TAG, "onOptionsItemSelected: share");
@@ -291,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
 
         args.putString("acao", acao);
 
-        if (acao.equals("Meus Pets") || acao.equals("Favoritos")) {
+        if (acao.equals("Meus Pets") || acao.equals("Favoritos") || acao.equals("Filtro")) {
             FirebaseUser user = mAuth.getCurrentUser();
             args.putString("uid", user.getUid());
         }

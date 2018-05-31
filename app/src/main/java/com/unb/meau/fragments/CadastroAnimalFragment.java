@@ -218,6 +218,7 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
         animalObj = new HashMap<>();
 
         animalObj.put("dono", currentUser.getUid());
+        animalObj.put("dono_nome", currentUser.getDisplayName());
 
         ToggleButton button_adocao = view.findViewById(R.id.button_adocao);
         animalObj.put("cadastro_adocao", button_adocao.isChecked());

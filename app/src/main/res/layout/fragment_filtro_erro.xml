@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_not_logged"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="24dp"
+    android:layout_marginEnd="24dp"
+    android:layout_marginTop="52dp"
+    android:layout_marginBottom="24dp"
+    tools:context="com.unb.meau.activities.MainActivity">
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:fontFamily="@font/courgette"
+        android:gravity="center"
+        android:text="Ops!"
+        android:textColor="@color/colorPrimary"
+        android:textSize="72dp" />
+
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text1"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginTop="52dp"
+        android:gravity="center"
+        android:textSize="14dp"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/cinza_medio"
+        android:text="@string/filtro_msg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/button_editar"
+            android:layout_width="232dp"
+            android:layout_height="40dp"
+            android:textColor="@color/preto_texto"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_weight="0.5"
+            android:text="EDITAR FILTRAGEM" />
+
+        <Button
+            android:id="@+id/button_desabilitar"
+            android:layout_width="232dp"
+            android:layout_height="40dp"
+            android:textColor="@color/preto_texto"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_toEndOf="@id/button_editar"
+            android:layout_weight="0.5"
+            android:text="DESABILITAR FILTROS" />
+
+    </LinearLayout>
+
+</RelativeLayout>

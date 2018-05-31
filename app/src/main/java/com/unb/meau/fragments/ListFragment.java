@@ -63,7 +63,7 @@ public class ListFragment extends Fragment implements CustomAnimalsFirestoreRecy
         if (bundle != null && bundle.getString("acao") != null) {
             Log.d(TAG, "onCreateView: Listar pets: " + bundle.getString("acao"));
             acao = bundle.getString("acao");
-            if (acao.equals("Meus Pets") || acao.equals("Favoritos")) {
+            if (acao.equals("Meus Pets") || acao.equals("Favoritos") || acao.equals("Filtro")) {
                 uid = bundle.getString("uid");
                 Log.d(TAG, "onCreateView: uid: " + uid);
             }
@@ -95,6 +95,9 @@ public class ListFragment extends Fragment implements CustomAnimalsFirestoreRecy
                 break;
             case "Favoritos":
                 query = db.collection("animals").whereEqualTo("favoritos." + currentUser.getUid(), true);
+                break;
+            case "Filtro":
+                query = db.collection("animals").whereEqualTo("filteredBy." + currentUser.getUid(), true);
                 break;
             default:
                 query = db.collection("animals");
@@ -181,7 +184,7 @@ public class ListFragment extends Fragment implements CustomAnimalsFirestoreRecy
             ((MainActivity) getActivity()).setActionBarTheme("Amarelo");
         }
 
-        ((MainActivity) getActivity()).menuItemName = "share";
+        ((MainActivity) getActivity()).menuItemName = "search";
         getActivity().invalidateOptionsMenu();
     }
 
