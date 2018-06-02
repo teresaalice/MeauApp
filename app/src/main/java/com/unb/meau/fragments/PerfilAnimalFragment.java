@@ -212,7 +212,7 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
                             }
                         });
 
-                db.collection("proccesses")
+                db.collection("processes")
                         .whereEqualTo("animal", animalId)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -476,7 +476,9 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
         interesseObj.put("dono", animal.getDono());
         interesseObj.put("interessado", currentUser.getUid());
         interesseObj.put("animal", animalId);
+        interesseObj.put("animalNome", animal.getNome());
         interesseObj.put("estagio", "interesse");
+        interesseObj.put("interessadoNome", currentUser.getDisplayName());
 
         switch (v.getId()) {
             case R.id.button_adotar:
@@ -492,7 +494,7 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
 
         showProgressDialog();
 
-        db.collection("proccesses")
+        db.collection("processes")
                 .whereEqualTo("interessado", currentUser.getUid())
                 .whereEqualTo("animal", animalId)
                 .limit(1)
@@ -504,7 +506,7 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
                             if (task.getResult().getDocuments().isEmpty()) {
                                 Log.d(TAG, "onComplete: novo interesse");
 
-                                db.collection("proccesses")
+                                db.collection("processes")
                                         .add(interesseObj)
                                         .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                             @Override
@@ -513,7 +515,7 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
                                                     Log.d(TAG, "DocumentSnapshot written with ID: " + task.getResult().getId());
                                                     Toast.makeText(getActivity(), "Sucesso", Toast.LENGTH_SHORT).show();
                                                 } else {
-                                                    Log.w(TAG, "Error adding proccesses document", task.getException());
+                                                    Log.w(TAG, "Error adding processes document", task.getException());
                                                     Toast.makeText(getActivity(), "Erro ao adicionar interesse", Toast.LENGTH_SHORT).show();
                                                 }
                                                 hideProgressDialog();

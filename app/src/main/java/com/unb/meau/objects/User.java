@@ -13,12 +13,13 @@ public class User {
     private String endereco;
     private Integer idade;
     private String telefone;
+    private String uid;
     private HashMap<String, Boolean> interesses;
 
     public User() {
     } // Needed for Firebase
 
-    public User(String nome, String username, String email, String foto, String cidade, String estado, String endereco, Integer idade, String telefone, HashMap<String, Boolean> interesses) {
+    public User(String nome, String username, String email, String foto, String cidade, String estado, String endereco, Integer idade, String telefone, String uid, HashMap<String, Boolean> interesses) {
         this.nome = nome;
         this.username = username;
         this.email = email;
@@ -28,6 +29,7 @@ public class User {
         this.endereco = endereco;
         this.idade = idade;
         this.telefone = telefone;
+        this.uid = uid;
         this.interesses = interesses;
     }
 
@@ -109,5 +111,13 @@ public class User {
 
     public void setInteresses(HashMap<String, Boolean> interesses) {
         this.interesses = interesses;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

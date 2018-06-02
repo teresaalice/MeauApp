@@ -185,6 +185,8 @@ public class SignUpFragment extends Fragment {
         if (!telefoneView.getText().toString().isEmpty())
             userObj.put("telefone", telefoneView.getText().toString());
 
+        userObj.put("uid", user.getUid());
+
         user.updateProfile(profileUpdates)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -224,7 +226,7 @@ public class SignUpFragment extends Fragment {
 
         button_signup.setEnabled(false);
 
-                imageRef.putFile(filePath)
+        imageRef.putFile(filePath)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp" >
+
+    <ImageView
+        android:id="@+id/image_user"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_gravity="center_horizontal"
+        android:textSize="12sp"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/verde3"
+        android:layout_toEndOf="@id/image_user"
+        android:textAllCaps="true"
+        android:text="Nome | pet" />
+
+    <TextView
+        android:id="@+id/message_preview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="14sp"
+        android:textColor="@color/cinza_medio"
+        android:layout_toEndOf="@id/image_user"
+        android:layout_below="@id/name"
+        android:maxLength="35"
+        android:text="Message preview" />
+
+    <TextView
+        android:id="@+id/message_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_gravity="center_horizontal"
+        android:textSize="12sp"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/preto_texto"
+        android:layout_alignParentEnd="true"
+        android:text="00:00" />
+
+</RelativeLayout>

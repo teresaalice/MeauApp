@@ -18,4 +18,12 @@
         app:showAsAction="always"
         android:title="Share" />
 
+    <item
+        android:id="@+id/action_more"
+        android:orderInCategory="0"
+        android:icon="@drawable/ic_more_vert_black_24dp"
+        android:visible="false"
+        app:showAsAction="always"
+        android:title="More" />
+
 </menu>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/texts"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="14dp"
+        android:orientation="vertical"
+        android:background="#FFFFFF"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/roboto_medium"
+            android:text="LEIA ATENTAMENTE ANTES DE PROSSEGUIR"
+            android:textColor="@color/verde3"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/finalizar_processo"
+            android:textColor="@color/cinza_medio"
+            android:textSize="14sp"
+            android:layout_below="@id/label" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button_concordar"
+        android:layout_width="320dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/texts"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:background="@color/verde2"
+        android:text="LI E CONCORDO" />
+
+    <Button
+        android:id="@+id/button_cancelar"
+        android:layout_width="320dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/button_concordar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/verde2"
+        android:text="CANCELAR" />
+
+</RelativeLayout>

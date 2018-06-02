@@ -50,7 +50,7 @@ public class ListFragment extends Fragment implements CustomAnimalsFirestoreRecy
 
         linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
 
-        mRecyclerView = rootView.findViewById(R.id.recyclerView);
+        mRecyclerView = rootView.findViewById(R.id.listRecyclerView);
 
         mRecyclerView.setLayoutManager(linearLayoutManager);
         db = FirebaseFirestore.getInstance();

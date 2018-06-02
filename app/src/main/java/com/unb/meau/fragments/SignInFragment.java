@@ -86,6 +86,8 @@ public class SignInFragment extends Fragment {
             public void onClick(View v) {
                 Log.d(TAG, "onClick: button_login");
 
+                MainActivity.hideKeyboard(getActivity());
+
                 String username = mUsernameEdit.getText().toString();
                 final String password = mPasswordEdit.getText().toString();
 
@@ -271,7 +273,7 @@ public class SignInFragment extends Fragment {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            Toast.makeText(getActivity(), "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
+                            Toast.makeText((getActivity()), "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
                             ((MainActivity) getActivity()).setDrawerInfo();
                             getActivity().onBackPressed();
                         } else {

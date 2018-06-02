@@ -63,4 +63,9 @@
     // Filtro
     <string name="filtro_msg"> Infelizmente, não encontramos nenhum animal com essas características em nosso aplicativo.\n\nMas não desista, pois temos lindos animais cadastrados! Experimente desabilitar e/ou alterar alguns filtros para encontrá-los.</string>
 
+    // Finalizar Processo Dialog
+    <string name="finalizar_processo">Antes de realizar este passo, certifique-se de que o adotante ou padrinho tenha cumprido todos os requisitos prévios à adoção. Além disso, esteja certo de que ele já está em posse do animal em questão.\n\nApós finalizar este processo, o seu animal será automaticamente removido da lista de pets para adoção/apadrinhamento.\nnAlém disso, é importante ressaltar que as suas informações de cadastro serão disponibilizadas para o usuário que está adotando ou apadrinhando seu animal, assim como você também terá acesso à todas as informações fornecidas por ele(a).\n\nAo clicar em "li e concordo", você declara ter lido, compreendido e concordado com os termos acima expostos.</string>
+
+    <string name="processo_finalizado">Ficamos felizes com o sucesso do seu processo! Esperamos que o bichinho esteja curtindo muito essa nova experiência!\n\nAgora, que tal compartilhar a história do (nome do animal) com todos os outros membros do Meau?</string>
+
 </resources>

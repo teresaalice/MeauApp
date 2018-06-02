@@ -1,5 +1,6 @@
 package com.unb.meau.activities;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -28,6 +30,7 @@ import com.unb.meau.fragments.CadastroAnimalSucessoFragment;
 import com.unb.meau.fragments.FiltroFragment;
 import com.unb.meau.fragments.IntroducaoFragment;
 import com.unb.meau.fragments.LegislacaoFragment;
+import com.unb.meau.fragments.ListChatFragment;
 import com.unb.meau.fragments.ListFragment;
 import com.unb.meau.fragments.NotLoggedFragment;
 import com.unb.meau.fragments.PrivacidadeFragment;
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String FRAGMENT_LISTAR_PESSOAS_TAG = "FRAGMENT_LISTAR_PESSOAS_TAG";
     public static final String FRAGMENT_FILTRO_TAG = "FRAGMENT_FILTRO_TAG";
     public static final String FRAGMENT_FILTRO_ERRO_TAG = "FRAGMENT_FILTRO_ERRO_TAG";
+    public static final String FRAGMENT_LISTAR_CHATS_TAG = "FRAGMENT_LISTAR_CHATS_TAG";
 
 
     public DrawerLayout drawer;
@@ -154,6 +158,9 @@ public class MainActivity extends AppCompatActivity {
                     case "Favoritos":
                         showListarAnimaisFragment("Favoritos");
                         break;
+                    case "Chat":
+                        showListChatFragment();
+                        break;
                     case "Cadastrar um pet":
                         showCadastrarAnimalFragment();
                         break;
@@ -186,23 +193,19 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
-        MenuItem search;
-        MenuItem share;
-
         switch (menuItemName) {
             case "search":
-                search = menu.findItem(R.id.action_search);
-                search.setVisible(true);
+                menu.findItem(R.id.action_search).setVisible(true);
                 break;
             case "share":
-                share = menu.findItem(R.id.action_share);
-                share.setVisible(true);
+                menu.findItem(R.id.action_share).setVisible(true);
+                break;
+            case "more":
+                menu.findItem(R.id.action_more).setVisible(true);
                 break;
             default:
-                search = menu.findItem(R.id.action_search);
-                share = menu.findItem(R.id.action_share);
-                search.setVisible(false);
-                share.setVisible(false);
+                menu.findItem(R.id.action_search).setVisible(false);
+                menu.findItem(R.id.action_share).setVisible(false);
                 break;
         }
 
@@ -228,6 +231,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_share:
                 Log.d(TAG, "onOptionsItemSelected: share");
+                return true;
+            case R.id.action_more:
+                Log.d(TAG, "onOptionsItemSelected: more");
                 return true;
         }
 
@@ -260,6 +266,17 @@ public class MainActivity extends AppCompatActivity {
                 actionBarToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary3));
                 break;
         }
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     public void showNotLoggedFragment() {
@@ -338,6 +355,13 @@ public class MainActivity extends AppCompatActivity {
     public void showSentTermFragment() {
         fragment = new SentTermFragment();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_SENT_TERM_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void showListChatFragment() {
+        fragment = new ListChatFragment();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_LISTAR_CHATS_TAG)
                 .addToBackStack(null)
                 .commit();
     }
