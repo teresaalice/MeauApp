@@ -1,10 +1,10 @@
 package com.unb.meau.fragments;
 
-import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -215,9 +215,16 @@ public class SignInFragment extends Fragment {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            Toast.makeText(getActivity(), "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
-                            ((MainActivity) getActivity()).setDrawerInfo();
-                            getActivity().onBackPressed();
+
+                            if (task.getResult().getAdditionalUserInfo().isNewUser()) {
+                                Log.d(TAG, "onComplete: isNewUser");
+                                ((MainActivity) getActivity()).showCompleteSignUpFragment();
+                            } else {
+                                Toast.makeText(getActivity(), "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
+                                ((MainActivity) getActivity()).setDrawerInfo();
+                                getActivity().onBackPressed();
+                            }
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -240,10 +247,14 @@ public class SignInFragment extends Fragment {
 
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
-                            Toast.makeText(getActivity(), "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
-                            ((MainActivity) getActivity()).setDrawerInfo();
-                            getActivity().onBackPressed();
+                            if (task.getResult().getAdditionalUserInfo().isNewUser()) {
+                                Log.d(TAG, "onComplete: isNewUser");
+                                ((MainActivity) getActivity()).showCompleteSignUpFragment();
+                            } else {
+                                Toast.makeText(getActivity(), "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
+                                ((MainActivity) getActivity()).setDrawerInfo();
+                                getActivity().onBackPressed();
+                            }
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());

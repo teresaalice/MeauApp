@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -43,14 +44,27 @@ public class SignUpFragment extends Fragment {
     EditText mPasswordEdit;
     EditText mPasswordConfirmationEdit;
     EditText mUsername;
+
     Button buttonAdicionarFoto;
-    ProgressBar mProgressBar;
-    FirebaseUser user;
-    Uri downloadUrl;
-    View v;
-    FirebaseFirestore db;
     Button button_signup;
+
+    ProgressBar mProgressBar;
+
+    Boolean providerComplete = false;
+    Boolean completed = false;
+
+    FirebaseUser currentUser;
+    FirebaseFirestore db;
+
+    Uri downloadUrl;
+
+    String email;
+    String password;
+
     Map<String, Object> userObj;
+
+    View v;
+
     private int PICK_IMAGE_REQUEST = 1;
     private FirebaseAuth mAuth;
 
@@ -58,8 +72,6 @@ public class SignUpFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_signup, container, false);
-
-        mAuth = FirebaseAuth.getInstance();
 
         mProgressBar = v.findViewById(R.id.progress_bar);
 
@@ -70,6 +82,18 @@ public class SignUpFragment extends Fragment {
         mPasswordConfirmationEdit = v.findViewById(R.id.senha2);
         mUsername = v.findViewById(R.id.username);
         buttonAdicionarFoto = v.findViewById(R.id.add_photo);
+
+        db = FirebaseFirestore.getInstance();
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
+        Bundle bundle = this.getArguments();
+
+        if (bundle != null && bundle.getBoolean("providerComplete")) {
+            providerComplete = true;
+            adaptLayout();
+        }
 
         buttonAdicionarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,22 +112,28 @@ public class SignUpFragment extends Fragment {
 
                 Log.d(TAG, "onClick: button_signup");
 
-                String email = mEmailEdit.getText().toString();
-                String password = mPasswordEdit.getText().toString();
+                email = mEmailEdit.getText().toString();
+                password = mPasswordEdit.getText().toString();
                 String username = mUsername.getText().toString();
 
-                if (email.isEmpty() || password.isEmpty() || username.isEmpty()) {
-                    Log.d(TAG, "onClick: Enter an email, username and password");
-                    Toast.makeText(getActivity(), "Insira um email, nome de usuário e senha", Toast.LENGTH_SHORT).show();
+                if (email.isEmpty() || username.isEmpty()) {
+                    Log.d(TAG, "onClick: Enter an email and username");
+                    Toast.makeText(getActivity(), "Insira um email e um nome de usuário", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                Log.d(TAG, "onClick: " + email + " : " + password);
-
-                if (!password.equals(mPasswordConfirmationEdit.getText().toString())) {
-                    Log.d(TAG, "onClick: Senhas diferentes");
-                    Toast.makeText(getActivity(), "As senhas não são iguais", Toast.LENGTH_SHORT).show();
-                    return;
+                if (!providerComplete) {
+                    if (password.isEmpty()) {
+                        Log.d(TAG, "onClick: Enter a password");
+                        Toast.makeText(getActivity(), "Escolha uma senha", Toast.LENGTH_SHORT).show();
+                        return;
+                    } else {
+                        if (!password.equals(mPasswordConfirmationEdit.getText().toString())) {
+                            Log.d(TAG, "onClick: Senhas diferentes");
+                            Toast.makeText(getActivity(), "As senhas não são iguais", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
                 }
 
                 if (username.contains("@")) {
@@ -113,29 +143,73 @@ public class SignUpFragment extends Fragment {
 
                 showProgressDialog();
 
-                mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Log.d(TAG, "createUserWithEmail:success");
-                                    user = mAuth.getCurrentUser();
-                                    storeUserData();
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                    hideProgressDialog();
+                if (providerComplete) {
 
-                                    if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                                        Log.d(TAG, "onComplete: User with this email already exist");
-                                        Toast.makeText(getActivity(), "Email já cadastrado", Toast.LENGTH_SHORT).show();
-                                    } else if (task.getException() instanceof FirebaseAuthWeakPasswordException) {
-                                        Log.d(TAG, "onComplete: Senha inválida! Ela deve conter ao menos 6 caracteres");
-                                        Toast.makeText(getActivity(), "Senha inválida! Ela deve conter ao menos 6 caracteres", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
+                    db.collection("users")
+                            .whereEqualTo("username", username)
+                            .limit(1)
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        if (task.getResult().getDocuments().size() > 0) {
+                                            Log.d(TAG, "onComplete: Username exists");
+                                            Toast.makeText(getActivity(), "Nome de usuário em uso", Toast.LENGTH_SHORT).show();
+                                            hideProgressDialog();
+                                        } else {
+                                            Log.d(TAG, "onComplete: valid username");
+                                            storeUserData();
+                                        }
                                     }
+                                }
+                            });
+                    return;
+                }
+
+                db.collection("users")
+                        .whereEqualTo("username", username)
+                        .limit(1)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    if (task.getResult().getDocuments().size() > 0) {
+                                        Log.d(TAG, "onComplete: Username exists");
+                                        Toast.makeText(getActivity(), "Nome de usuário em uso", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Log.d(TAG, "onComplete: valid username");
+                                        mAuth.createUserWithEmailAndPassword(email, password)
+                                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                                        if (task.isSuccessful()) {
+                                                            // Sign in success, update UI with the signed-in user's information
+                                                            Log.d(TAG, "createUserWithEmail:success");
+                                                            currentUser = mAuth.getCurrentUser();
+                                                            storeUserData();
+                                                        } else {
+                                                            // If sign in fails, display a message to the user.
+                                                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                                            hideProgressDialog();
+
+                                                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                                                Log.d(TAG, "onComplete: User with this email already exist");
+                                                                Toast.makeText(getActivity(), "Email já cadastrado", Toast.LENGTH_SHORT).show();
+                                                            } else if (task.getException() instanceof FirebaseAuthWeakPasswordException) {
+                                                                Log.d(TAG, "onComplete: Senha inválida! Ela deve conter ao menos 6 caracteres");
+                                                                Toast.makeText(getActivity(), "Senha inválida! Ela deve conter ao menos 6 caracteres", Toast.LENGTH_SHORT).show();
+                                                            } else {
+                                                                Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                    }
+                                } else {
+                                    Log.w(TAG, "onComplete: Error checking username", task.getException());
+                                    Toast.makeText(getActivity(), "Erro ao verificar username", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -143,6 +217,19 @@ public class SignUpFragment extends Fragment {
         });
 
         return v;
+    }
+
+    private void adaptLayout() {
+        EditText nome = v.findViewById(R.id.nome);
+        EditText phone = v.findViewById(R.id.telefone);
+
+        mEmailEdit.setEnabled(false);
+        mPasswordEdit.setVisibility(View.GONE);
+        mPasswordConfirmationEdit.setVisibility(View.GONE);
+
+        nome.setText(currentUser.getDisplayName());
+        phone.setText(currentUser.getPhoneNumber());
+        mEmailEdit.setText(currentUser.getEmail());
     }
 
     @Override
@@ -154,7 +241,6 @@ public class SignUpFragment extends Fragment {
 
     private void storeUserData() {
 
-        db = FirebaseFirestore.getInstance();
         userObj = new HashMap<>();
 
         EditText nomeView = v.findViewById(R.id.nome);
@@ -165,36 +251,71 @@ public class SignUpFragment extends Fragment {
         EditText enderecoView = v.findViewById(R.id.endereco);
         EditText telefoneView = v.findViewById(R.id.telefone);
 
+        userObj.put("email", emailView.getText().toString());
+        userObj.put("nome", nomeView.getText().toString());
+        userObj.put("username", mUsername.getText().toString());
+        if (!idadeView.getText().toString().isEmpty()) {
+            userObj.put("idade", Integer.parseInt(idadeView.getText().toString()));
+        }
+        if (!estadoView.getText().toString().isEmpty()) {
+            userObj.put("estado", estadoView.getText().toString());
+        }
+        if (!cidadeView.getText().toString().isEmpty()) {
+            userObj.put("cidade", cidadeView.getText().toString());
+        }
+        if (!enderecoView.getText().toString().isEmpty()) {
+            userObj.put("endereco", enderecoView.getText().toString());
+        }
+        if (!telefoneView.getText().toString().isEmpty()) {
+            userObj.put("telefone", telefoneView.getText().toString());
+        }
+
+        userObj.put("uid", currentUser.getUid());
+
+        if (providerComplete) {
+            if (downloadUrl == null || downloadUrl.toString().isEmpty())
+                userObj.put("foto", currentUser.getPhotoUrl().toString());
+        } else {
+            userObj.put("foto", downloadUrl.toString());
+        }
+
+        if (providerComplete) {
+
+            db.collection("users").document(currentUser.getUid())
+                    .set(userObj)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            hideProgressDialog();
+
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "Document added successfully");
+                                Toast.makeText(getActivity(), "Cadastro realizado com sucesso", Toast.LENGTH_SHORT).show();
+                                completed = true;
+                                ((MainActivity) getActivity()).setDrawerInfo();
+                                getActivity().onBackPressed();
+                            } else {
+                                Log.w(TAG, "Error adding document", task.getException());
+                                Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+            return;
+        }
+
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(nomeView.getText().toString())
                 .setPhotoUri(downloadUrl)
                 .build();
 
-        userObj.put("foto", downloadUrl.toString());
-        userObj.put("email", emailView.getText().toString());
-        userObj.put("nome", nomeView.getText().toString());
-        userObj.put("username", mUsername.getText().toString());
-        if (!idadeView.getText().toString().isEmpty())
-            userObj.put("idade", Integer.parseInt(idadeView.getText().toString()));
-        if (!estadoView.getText().toString().isEmpty())
-            userObj.put("estado", estadoView.getText().toString());
-        if (!cidadeView.getText().toString().isEmpty())
-            userObj.put("cidade", cidadeView.getText().toString());
-        if (!enderecoView.getText().toString().isEmpty())
-            userObj.put("endereco", enderecoView.getText().toString());
-        if (!telefoneView.getText().toString().isEmpty())
-            userObj.put("telefone", telefoneView.getText().toString());
-
-        userObj.put("uid", user.getUid());
-
-        user.updateProfile(profileUpdates)
+        currentUser.updateProfile(profileUpdates)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "User profile updated.");
 
-                            db.collection("users").document(user.getUid())
+                            db.collection("users").document(currentUser.getUid())
                                     .set(userObj)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
@@ -215,6 +336,7 @@ public class SignUpFragment extends Fragment {
                         }
                     }
                 });
+
     }
 
     private void uploadFile(Uri filePath) {
@@ -263,5 +385,24 @@ public class SignUpFragment extends Fragment {
 
     private void hideProgressDialog() {
         mProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (providerComplete && !completed) {
+            Log.d(TAG, "onStop: deleting user");
+            currentUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "onComplete: user deleted");
+                    } else {
+                        Log.w(TAG, "onComplete: error deleting user", task.getException());
+                    }
+                }
+            });
+        }
     }
 }

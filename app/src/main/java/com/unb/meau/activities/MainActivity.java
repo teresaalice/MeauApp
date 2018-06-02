@@ -295,6 +295,19 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    public void showCompleteSignUpFragment() {
+        fragment = new SignUpFragment();
+
+        Bundle args = new Bundle();
+        args.putBoolean("providerComplete", true);
+        fragment.setArguments(args);
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment, FRAGMENT_SIGN_UP_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
     public void showSignInFragment() {
         fragment = new SignInFragment();
         fragmentManager.beginTransaction()
