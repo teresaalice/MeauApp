@@ -44,6 +44,7 @@ public class ListPeopleFragment extends Fragment implements CustomPeopleFirestor
     private FirestoreRecyclerAdapter adapter;
 
     Button button_chat;
+    private String chatId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -135,13 +136,15 @@ public class ListPeopleFragment extends Fragment implements CustomPeopleFirestor
 
         Chat chat = new Chat(users, usersNames, photos, visualized, "", new Date());
 
-        db.collection("chats")
-                .add(chat)
-                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+        chatId = currentUser.getDisplayName() + "_" + user.getNome();
+
+        db.collection("chats").document(chatId)
+                .set(chat)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                    public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Log.d(TAG, "DocumentSnapshot written with ID: " + task.getResult().getId());
+                            Log.d(TAG, "DocumentSnapshot written with ID: " + chatId);
                         } else {
                             Log.w(TAG, "Error adding document", task.getException());
                             Toast.makeText(getActivity(), "Erro ao criar o chat", Toast.LENGTH_SHORT).show();

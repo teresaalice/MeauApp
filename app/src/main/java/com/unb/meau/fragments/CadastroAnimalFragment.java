@@ -70,6 +70,7 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
     Map<String, Object> animalObj;
     View view;
     private int PICK_IMAGE_REQUEST = 1;
+    private String animalId;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -399,6 +400,8 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
         animalObj.put("novos_interessados", 0);
         animalObj.put("favoritos", Collections.emptyMap());
 
+        animalId = Long.toString(System.currentTimeMillis()) + "_" +  nome_do_animal.getText().toString();
+
         db.collection("users").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -407,13 +410,13 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
 
                     animalObj.put("localizacao", task.getResult().get("cidade") + " - " + task.getResult().get("estado"));
 
-                    db.collection("animals")
-                            .add(animalObj)
-                            .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    db.collection("animals").document(animalId)
+                            .set(animalObj)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
-                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Log.d(TAG, "DocumentSnapshot written with ID: " + task.getResult().getId());
+                                        Log.d(TAG, "DocumentSnapshot written with ID: " + animalId);
 
                                         CadastroAnimalSucessoFragment cadastroAnimalSucessoFragment = new CadastroAnimalSucessoFragment();
                                         FragmentManager fragmentManager = getFragmentManager();

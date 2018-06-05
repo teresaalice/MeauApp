@@ -67,6 +67,7 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
     FirebaseUser currentUser;
 
     FirebaseFirestore db;
+    private String processId;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -492,6 +493,8 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
                 break;
         }
 
+        processId = Integer.toString((int) (System.currentTimeMillis() / 1000)) + "_" + nomeAnimal + "_" + currentUser.getDisplayName();
+
         showProgressDialog();
 
         db.collection("processes")
@@ -506,13 +509,14 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
                             if (task.getResult().getDocuments().isEmpty()) {
                                 Log.d(TAG, "onComplete: novo interesse");
 
-                                db.collection("processes")
-                                        .add(interesseObj)
-                                        .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+
+                                db.collection("processes").document(processId)
+                                        .set(interesseObj)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
-                                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                            public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
-                                                    Log.d(TAG, "DocumentSnapshot written with ID: " + task.getResult().getId());
+                                                    Log.d(TAG, "DocumentSnapshot written with ID: " + processId);
                                                     Toast.makeText(getActivity(), "Sucesso", Toast.LENGTH_SHORT).show();
                                                 } else {
                                                     Log.w(TAG, "Error adding processes document", task.getException());
