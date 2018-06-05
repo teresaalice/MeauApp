@@ -31,6 +31,7 @@ import com.unb.meau.fragments.FiltroFragment;
 import com.unb.meau.fragments.IntroducaoFragment;
 import com.unb.meau.fragments.LegislacaoFragment;
 import com.unb.meau.fragments.ListChatFragment;
+import com.unb.meau.fragments.ListEventFragment;
 import com.unb.meau.fragments.ListFragment;
 import com.unb.meau.fragments.NotLoggedFragment;
 import com.unb.meau.fragments.PrivacidadeFragment;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String FRAGMENT_FILTRO_ERRO_TAG = "FRAGMENT_FILTRO_ERRO_TAG";
     public static final String FRAGMENT_LISTAR_CHATS_TAG = "FRAGMENT_LISTAR_CHATS_TAG";
     public static final String FRAGMENT_FINALIZAR_PROCESSO_SUCESSO_TAG = "FRAGMENT_FINALIZAR_PROCESSO_SUCESSO_TAG";
+    public static final String FRAGMENT_EVENTOS_TAG = "FRAGMENT_EVENTOS_TAG";
 
 
     public DrawerLayout drawer;
@@ -173,6 +175,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case "Apadrinhar um pet":
                         showListarAnimaisFragment("Apadrinhar");
+                        break;
+                    case "Eventos":
+                        showEventsFragment();
                         break;
                     case "Legislação":
                         showLegislacaoFragment();
@@ -341,6 +346,13 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment, FRAGMENT_LISTAR_ANIMAIS_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void showEventsFragment() {
+        fragment = new ListEventFragment();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_EVENTOS_TAG)
                 .addToBackStack(null)
                 .commit();
     }
