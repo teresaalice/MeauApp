@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String FRAGMENT_FILTRO_TAG = "FRAGMENT_FILTRO_TAG";
     public static final String FRAGMENT_FILTRO_ERRO_TAG = "FRAGMENT_FILTRO_ERRO_TAG";
     public static final String FRAGMENT_LISTAR_CHATS_TAG = "FRAGMENT_LISTAR_CHATS_TAG";
+    public static final String FRAGMENT_FINALIZAR_PROCESSO_SUCESSO_TAG = "FRAGMENT_FINALIZAR_PROCESSO_SUCESSO_TAG";
 
 
     public DrawerLayout drawer;

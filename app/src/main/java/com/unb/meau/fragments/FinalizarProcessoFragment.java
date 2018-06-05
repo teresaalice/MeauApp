@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -138,6 +139,15 @@ public class FinalizarProcessoFragment extends Fragment implements RadioButton.O
                         finalizarProcesso();
                         deletarPet();
                         removerPetReferences();
+
+                        dialog.dismiss();
+
+                        FinalizarProcessoSucessoFragment finalizarProcessoSucessoFragment = new FinalizarProcessoSucessoFragment();
+                        FragmentManager fragmentManager = getFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.content_frame, finalizarProcessoSucessoFragment, MainActivity.FRAGMENT_FINALIZAR_PROCESSO_SUCESSO_TAG)
+                                .addToBackStack("CADASTRO_TAG")
+                                .commit();
                     }
                 });
             }
