@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp"
+                android:text="Nesta história, você é um:" />
+
+            <LinearLayout
+                android:id="@+id/selecao_acao_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3.0">
+
+                <ToggleButton
+                    android:id="@+id/button_adotante"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/toggle_button_verde"
+                    android:textColor="@color/toggle_text_color"
+                    android:textOff="ADOTANTE"
+                    android:textOn="ADOTANTE"
+                    android:textSize="12sp" />
+
+                <ToggleButton
+                    android:id="@+id/button_doador"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/toggle_button_verde"
+                    android:textColor="@color/toggle_text_color"
+                    android:textOff="DOADOR"
+                    android:textOn="DOADOR"
+                    android:textSize="12sp" />
+
+                <ToggleButton
+                    android:id="@+id/button_padrinho"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/toggle_button_verde"
+                    android:textColor="@color/toggle_text_color"
+                    android:textOff="PADRINHO"
+                    android:textOn="PADRINHO"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cadastro_animal_second_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="NOME DO ANIMAL"
+                    android:textColor="@color/verde3" />
+
+                <EditText
+                    android:id="@+id/nome_do_animal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="Nome do animal" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="FOTOS DO ANIMAL"
+                    android:textColor="@color/verde3" />
+
+                <Button
+                    android:id="@+id/button_adicionar_fotos"
+                    android:layout_width="match_parent"
+                    android:layout_height="128dp"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="#F1F2F2"
+                    android:fontFamily="@font/roboto"
+                    android:text="adicionar fotos"
+                    android:textAllCaps="false"
+                    android:textColor="#757575" />
+
+                <TextView
+                    android:id="@+id/data_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="DATA"
+                    android:textAllCaps="true"
+                    android:textColor="@color/verde3" />
+
+
+                <EditText
+                    android:id="@+id/data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="Data" />
+
+                <TextView
+                    android:id="@+id/sobre_o_animal_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/roboto"
+                    android:text="HISTÓRIA DO ANIMAL"
+                    android:textColor="@color/verde3" />
+
+                <EditText
+                    android:id="@+id/historia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="Compartilhe a história do animal" />
+
+                <Button
+                    android:id="@+id/button_contar_historia"
+                    android:layout_width="232dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="24dp"
+                    android:backgroundTint="@color/verde2"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Contar história" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

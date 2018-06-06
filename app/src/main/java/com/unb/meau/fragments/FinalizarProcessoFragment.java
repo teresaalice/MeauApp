@@ -146,7 +146,7 @@ public class FinalizarProcessoFragment extends Fragment implements RadioButton.O
                         FragmentManager fragmentManager = getFragmentManager();
                         fragmentManager.beginTransaction()
                                 .replace(R.id.content_frame, finalizarProcessoSucessoFragment, MainActivity.FRAGMENT_FINALIZAR_PROCESSO_SUCESSO_TAG)
-                                .addToBackStack("CADASTRO_TAG")
+                                .addToBackStack(null)
                                 .commit();
                     }
                 });

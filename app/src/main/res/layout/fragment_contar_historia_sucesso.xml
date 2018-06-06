@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_cadastro_animal_sucesso"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="24dp"
+
+    android:layout_marginTop="52dp"
+    tools:context="com.unb.meau.activities.MainActivity">
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:fontFamily="@font/courgette"
+        android:gravity="center"
+        android:text="Eba!"
+        android:textColor="@color/verde2"
+        android:textSize="53sp" />
+
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text1"
+        android:layout_marginEnd="52dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="52dp"
+        android:gravity="center"
+        android:text="@string/contar_historia_sucesso"
+        android:textColor="#757575"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/button_minha_historia"
+        android:layout_width="175dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="24dp"
+        android:layout_marginStart="16dp"
+        android:backgroundTint="@color/verde2"
+        android:text="VER MINHA HISTÓRIA"
+        android:textColor="@color/preto_texto"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/button_ver_historias"
+        android:layout_width="175dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/verde2"
+        android:text="VER OUTRAS HISTÓRIAS"
+        android:textColor="@color/preto"
+        android:textSize="12sp" />
+
+</RelativeLayout>

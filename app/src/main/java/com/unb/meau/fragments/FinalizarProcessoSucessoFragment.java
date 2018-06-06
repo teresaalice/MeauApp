@@ -26,7 +26,7 @@ public class FinalizarProcessoSucessoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: compartilhar história");
-//                ((MainActivity) getActivity()).showCompartilharHistoriaFragment();
+                ((MainActivity) getActivity()).showContarHistoriaFragment();
             }
         });
 

@@ -68,4 +68,6 @@
 
     <string name="processo_finalizado">Ficamos felizes com o sucesso do seu processo! Esperamos que o bichinho esteja curtindo muito essa nova experiência!\n\nAgora, que tal compartilhar a história do (nome do animal) com todos os outros membros do Meau?</string>
 
+    <string name="contar_historia_sucesso">Muito obrigada por compartilhar sua história conosco! Ela já foi contada com sucessso!\n\nVocê pode dar uma conferida nela ou, se preferir, ler algumas histórias de outros usuários.</string>
+
 </resources>

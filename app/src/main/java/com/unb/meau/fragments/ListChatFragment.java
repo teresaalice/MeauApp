@@ -69,12 +69,10 @@ public class ListChatFragment extends Fragment implements CustomChatListFirestor
                 Log.d(TAG, "onClick: finalizar um processo");
 
                 FinalizarProcessoFragment finalizarProcessoFragment= new FinalizarProcessoFragment();
-
                 getFragmentManager().beginTransaction()
                         .replace(R.id.content_frame, finalizarProcessoFragment)
-                        .addToBackStack(null)
+                        .addToBackStack("FINALIZAR_PROCESSO_TAG")
                         .commit();
-
             }
         });
 

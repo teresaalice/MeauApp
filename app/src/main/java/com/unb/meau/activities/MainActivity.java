@@ -27,18 +27,23 @@ import com.unb.meau.R;
 import com.unb.meau.adapters.CustomExpandableListAdapter;
 import com.unb.meau.fragments.CadastroAnimalFragment;
 import com.unb.meau.fragments.CadastroAnimalSucessoFragment;
+import com.unb.meau.fragments.ContarHistoriaFragment;
+import com.unb.meau.fragments.ContarHistoriaSucessoFragment;
 import com.unb.meau.fragments.FiltroFragment;
+import com.unb.meau.fragments.FinalizarProcessoSucessoFragment;
 import com.unb.meau.fragments.IntroducaoFragment;
 import com.unb.meau.fragments.LegislacaoFragment;
 import com.unb.meau.fragments.ListChatFragment;
 import com.unb.meau.fragments.ListEventFragment;
 import com.unb.meau.fragments.ListFragment;
+import com.unb.meau.fragments.ListStoryFragment;
 import com.unb.meau.fragments.NotLoggedFragment;
 import com.unb.meau.fragments.PrivacidadeFragment;
 import com.unb.meau.fragments.RemocaoAnimalSucessoFragment;
 import com.unb.meau.fragments.SentTermFragment;
 import com.unb.meau.fragments.SignInFragment;
 import com.unb.meau.fragments.SignUpFragment;
+import com.unb.meau.fragments.StoryFragment;
 import com.unb.meau.fragments.TermoAdocaoFragment;
 
 import java.util.Arrays;
@@ -67,7 +72,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String FRAGMENT_LISTAR_CHATS_TAG = "FRAGMENT_LISTAR_CHATS_TAG";
     public static final String FRAGMENT_FINALIZAR_PROCESSO_SUCESSO_TAG = "FRAGMENT_FINALIZAR_PROCESSO_SUCESSO_TAG";
     public static final String FRAGMENT_EVENTOS_TAG = "FRAGMENT_EVENTOS_TAG";
-
+    public static final String FRAGMENT_HISTORIA_TAG = "FRAGMENT_HISTORIA_TAG";
+    public static final String FRAGMENT_LISTAR_HISTORIAS_TAG = "FRAGMENT_LISTAR_HISTORIAS_TAG";
+    public static final String FRAGMENT_CONTAR_HISTORIA_TAG = "FRAGMENT_CONTAR_HISTORIA_TAG";
+    public static final String FRAGMENT_CONTAR_HISTORIA_SUCESSO_TAG = "FRAGMENT_CONTAR_HISTORIA_SUCESSO_TAG";
 
     public DrawerLayout drawer;
     Fragment fragment;
@@ -188,6 +196,9 @@ public class MainActivity extends AppCompatActivity {
                     case "Termo de Adoção":
                         showTermoAdocaoFragment();
                         break;
+                    case "Histórias de adoção":
+                        showListarHistoriasFragment();
+                        break;
                 }
                 return false;
             }
@@ -220,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected (MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
 
@@ -247,18 +258,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void onClick (View view){
+    public void onClick(View view) {
         // fechar aplicacao
         moveTaskToBack(true);
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(1);
     }
 
-    public void setActionBarTitle (String title){
+    public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
     }
 
-    public void setActionBarTheme (String theme){
+    public void setActionBarTheme(String theme) {
         Toolbar actionBarToolbar = findViewById(R.id.toolbar);
 
         switch (theme) {
@@ -322,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void showCadastrarAnimalFragment () {
+    public void showCadastrarAnimalFragment() {
         fragment = new CadastroAnimalFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment, FRAGMENT_CADASTRO_ANIMAL_TAG)
@@ -330,7 +341,7 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void showListarAnimaisFragment (String acao){
+    public void showListarAnimaisFragment(String acao) {
         fragment = new ListFragment();
 
         Bundle args = new Bundle();
@@ -357,14 +368,14 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void showLegislacaoFragment () {
+    public void showLegislacaoFragment() {
         fragment = new LegislacaoFragment();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_LEGISLACAO_TAG)
                 .addToBackStack(null)
                 .commit();
     }
 
-    public void showPrivacidadeFragment () {
+    public void showPrivacidadeFragment() {
         fragment = new PrivacidadeFragment();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_PRIVACIDADE_TAG)
                 .addToBackStack(null)
@@ -385,6 +396,34 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    public void showContarHistoriaFragment() {
+        fragment = new ContarHistoriaFragment();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_CONTAR_HISTORIA_TAG)
+                .addToBackStack("CONTAR_HISTORIA_TAG")
+                .commit();
+    }
+
+    public void showListarHistoriasFragment() {
+        fragment = new ListStoryFragment();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_LISTAR_HISTORIAS_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void showHistoriaFragment(String storyId, String animalNome) {
+
+        fragment = new StoryFragment();
+
+        Bundle args = new Bundle();
+        args.putString("story_id", storyId);
+        args.putString("animal_name", animalNome);
+        fragment.setArguments(args);
+
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_HISTORIA_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
     public void showListChatFragment() {
         fragment = new ListChatFragment();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_LISTAR_CHATS_TAG)
@@ -393,7 +432,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed () {
+    public void onBackPressed() {
 //        Log.d(TAG, "onBackPressed");
 
         Fragment currentFragment = fragmentManager.findFragmentById(R.id.content_frame);
@@ -410,9 +449,21 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        if (currentFragment instanceof ContarHistoriaSucessoFragment) {
+            Log.d(TAG, "onBackPressed: ContarHistoriaSucessoFragment");
+            fragmentManager.popBackStack("CONTAR_HISTORIA_TAG", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            return;
+        }
+
         if (currentFragment instanceof RemocaoAnimalSucessoFragment) {
             Log.d(TAG, "onBackPressed: RemocaoAnimalSucessoFragment");
             fragmentManager.popBackStack("LIST_PERFIL_ANIMAL_TAG", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            return;
+        }
+
+        if (currentFragment instanceof FinalizarProcessoSucessoFragment) {
+            Log.d(TAG, "onBackPressed: FinalizarProcessoSucessoFragment");
+            fragmentManager.popBackStack("FINALIZAR_PROCESSO_TAG", FragmentManager.POP_BACK_STACK_INCLUSIVE);
             return;
         }
 
