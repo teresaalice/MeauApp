@@ -29,7 +29,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -37,6 +36,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
+import com.unb.meau.objects.Animal;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,7 +70,9 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
     Map<String, Object> animalObj;
     View view;
     private int PICK_IMAGE_REQUEST = 1;
+    private Animal animal;
     private String animalId;
+    private Boolean editarPerfil = false;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -103,6 +105,19 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
         sub_checkbox_objetos = view.findViewById(R.id.auxilio_objetos);
         mProgressBar = view.findViewById(R.id.progress_bar);
 
+        db = FirebaseFirestore.getInstance();
+
+        Bundle bundle = this.getArguments();
+
+        if (bundle != null && bundle.getString("animalId") != null) {
+            editarPerfil = true;
+            animalId = bundle.getString("animalId");
+            Log.d(TAG, "onCreateView: Editar animal " + animalId);
+            finalizar.setText("Salvar alterações");
+            getAnimalPerfil();
+        }
+
+
         buttonAdocao.setOnCheckedChangeListener(this);
         buttonApadrinhar.setOnCheckedChangeListener(this);
         buttonAjuda.setOnCheckedChangeListener(this);
@@ -131,6 +146,7 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
 
         return view;
     }
+
 
     @Override
     public void onStart() {
@@ -163,7 +179,7 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
             case R.id.button_adocao:
                 if (isChecked) {
                     title.setText("Adotar");
-                    finalizar.setText("COLOCAR PARA ADOÇÃO");
+                    if (!editarPerfil) finalizar.setText("COLOCAR PARA ADOÇÃO");
                     adocaoLayout.setVisibility(View.VISIBLE);
                     buttonApadrinhar.setEnabled(false);
                 } else {
@@ -175,7 +191,7 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
             case R.id.button_apadrinhar:
                 if (isChecked) {
                     title.setText("Apadrinhar");
-                    finalizar.setText("PROCURAR PADRINHO");
+                    if (!editarPerfil) finalizar.setText("PROCURAR PADRINHO");
                     apadrinharLayout.setVisibility(View.VISIBLE);
                     buttonAdocao.setEnabled(false);
                 } else {
@@ -188,7 +204,7 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
                 if (isChecked) {
                     if (!buttonAdocao.isChecked() && !buttonApadrinhar.isChecked()) {
                         title.setText("Ajudar");
-                        finalizar.setText("BUSCAR AJUDA");
+                        if (!editarPerfil) finalizar.setText("BUSCAR AJUDA");
                     }
                     ajudarLayout.setVisibility(View.VISIBLE);
                 } else {
@@ -210,9 +226,213 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
         }
     }
 
+
+    private void getAnimalPerfil() {
+
+        showProgressDialog();
+
+        db.collection("animals").document(animalId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (task.getResult() != null) {
+                                animal = task.getResult().toObject(Animal.class);
+                                fillData();
+                            } else
+                                Log.d(TAG, "onComplete: No animal found with ID" + animalId);
+                        } else {
+                            Log.w(TAG, "onComplete: Error getting animal", task.getException());
+                        }
+                        hideProgressDialog();
+                    }
+                });
+    }
+
+    private void fillData() {
+
+        ToggleButton button_adocao = view.findViewById(R.id.button_adocao);
+        button_adocao.setChecked(animal.getCadastro_adocao());
+
+        ToggleButton button_apadrinhar = view.findViewById(R.id.button_apadrinhar);
+        button_apadrinhar.setChecked(animal.getCadastro_apadrinhar());
+
+        ToggleButton button_ajuda = view.findViewById(R.id.button_ajuda);
+        button_ajuda.setChecked(animal.getCadastro_ajuda());
+
+        EditText nome_do_animal = view.findViewById(R.id.nome_do_animal);
+        nome_do_animal.setText(animal.getNome());
+
+        RadioGroup especie = view.findViewById(R.id.especie);
+        switch (animal.getEspecie()) {
+            case "Cachorro":
+                especie.check(R.id.cachorro);
+                break;
+            case "Gato":
+                especie.check(R.id.gato);
+                break;
+        }
+
+        RadioGroup sexo = view.findViewById(R.id.sexo);
+        switch (animal.getSexo()) {
+            case "Macho":
+                sexo.check(R.id.macho);
+                break;
+            case "Fêmea":
+                sexo.check(R.id.femea);
+                break;
+        }
+
+        RadioGroup porte = view.findViewById(R.id.porte);
+        switch (animal.getPorte()) {
+            case "Pequeno":
+                porte.check(R.id.pequeno);
+                break;
+            case "Médio":
+                porte.check(R.id.medio);
+                break;
+            case "Grande":
+                porte.check(R.id.grande);
+                break;
+        }
+
+        RadioGroup idade = view.findViewById(R.id.idade);
+        switch (animal.getIdade()) {
+            case "Filhote":
+                idade.check(R.id.filhote);
+                break;
+            case "Adulto":
+                idade.check(R.id.adulto);
+                break;
+            case "Idoso":
+                idade.check(R.id.idoso);
+                break;
+        }
+
+        // Temperamento
+        CheckBox brincalhao = view.findViewById(R.id.brincalhao);
+        brincalhao.setChecked(animal.getBrincalhao());
+
+        CheckBox timido = view.findViewById(R.id.timido);
+        timido.setChecked(animal.getTimido());
+
+        CheckBox calmo = view.findViewById(R.id.calmo);
+        calmo.setChecked(animal.getCalmo());
+
+        CheckBox guarda = view.findViewById(R.id.guarda);
+        guarda.setChecked(animal.getGuarda());
+
+        CheckBox amoroso = view.findViewById(R.id.amoroso);
+        amoroso.setChecked(animal.getAmoroso());
+
+        CheckBox preguicoso = view.findViewById(R.id.preguicoso);
+        preguicoso.setChecked(animal.getPreguicoso());
+
+        // Saúde
+        CheckBox vacinado = view.findViewById(R.id.vacinado);
+        vacinado.setChecked(animal.getVacinado());
+
+        CheckBox vermifugado = view.findViewById(R.id.vermifugado);
+        vermifugado.setChecked(animal.getVermifugado());
+
+        CheckBox castrado = view.findViewById(R.id.castrado);
+        castrado.setChecked(animal.getCastrado());
+
+        CheckBox doente = view.findViewById(R.id.doente);
+        if (animal.getDoencas() != null && !animal.getDoencas().isEmpty()) {
+            doente.setChecked(true);
+            EditText doencas = view.findViewById(R.id.doencas);
+            doencas.setText(animal.getDoencas());
+        }
+
+        // Adoção
+        if (animal.getCadastro_adocao()) {
+
+            CheckBox termo_de_adocao = view.findViewById(R.id.termo_de_adocao);
+            termo_de_adocao.setChecked(animal.getTermo_de_adocao());
+
+            CheckBox fotos_da_casa = view.findViewById(R.id.fotos_da_casa);
+            fotos_da_casa.setChecked(animal.getFotos_da_casa());
+
+            CheckBox visita_previa_ao_animal = view.findViewById(R.id.visita_previa_ao_animal);
+            visita_previa_ao_animal.setChecked(animal.getVisita_previa_ao_animal());
+
+            CheckBox acompanhamento = view.findViewById(R.id.acompanhamento);
+            acompanhamento.setChecked(!animal.getAcompanhamento_pos_adocao().isEmpty());
+            if (!animal.getAcompanhamento_pos_adocao().isEmpty()) {
+                RadioGroup acompanhamento_radio_group = view.findViewById(R.id.acompanhamento_radio_group);
+                switch (animal.getAcompanhamento_pos_adocao()) {
+                    case "1 mês":
+                        acompanhamento_radio_group.check(R.id.um_mes);
+                        break;
+                    case "3 meses":
+                        acompanhamento_radio_group.check(R.id.tres_meses);
+                        break;
+                    case "6 meses":
+                        acompanhamento_radio_group.check(R.id.seis_meses);
+                        break;
+                }
+            }
+        }
+
+        // Apadrinhamento
+        if (animal.getCadastro_apadrinhar()) {
+
+            CheckBox termo_apadrinhamento = view.findViewById(R.id.termo_apadrinhamento);
+            termo_apadrinhamento.setChecked(animal.getTermo_de_apadrinhamento());
+
+            CheckBox auxilio_financeiro = view.findViewById(R.id.auxilio_financeiro);
+            animalObj.put("auxilio_financeiro", auxilio_financeiro.isChecked());
+            if (animal.getAuxilio_financeiro()) {
+
+                CheckBox auxilio_alimentacao = view.findViewById(R.id.auxilio_alimentacao);
+                auxilio_alimentacao.setChecked(animal.getAuxilio_alimentacao());
+
+                CheckBox auxilio_saude = view.findViewById(R.id.auxilio_saude);
+                auxilio_saude.setChecked(animal.getAuxilio_saude());
+
+                CheckBox auxilio_objetos = view.findViewById(R.id.auxilio_objetos);
+                auxilio_objetos.setChecked(animal.getAuxilio_objetos());
+            }
+
+            CheckBox visitas_ao_animal = view.findViewById(R.id.visitas_ao_animal);
+            visitas_ao_animal.setChecked(animal.getVisitas_ao_animal());
+        }
+
+        // Ajuda
+        if (animal.getCadastro_ajuda()) {
+
+            CheckBox alimento = view.findViewById(R.id.alimento);
+            alimento.setChecked(animal.getAlimento());
+
+            CheckBox ajuda_financeira = view.findViewById(R.id.ajuda_financeira);
+            ajuda_financeira.setChecked(animal.getAjuda_financeira());
+
+            CheckBox medicamento = view.findViewById(R.id.medicamento);
+            medicamento.setChecked(animal.getAjuda_medicamento());
+            if (animal.getAjuda_medicamento()) {
+                EditText medicamento_text = view.findViewById(R.id.medicamento_text);
+                if (!animal.getAjuda_medicamento_nome().isEmpty())
+                    medicamento_text.setText(animal.getAjuda_medicamento_nome());
+            }
+
+            CheckBox ajuda_objetos = view.findViewById(R.id.ajuda_objetos);
+            ajuda_objetos.setChecked(animal.getAjuda_objeto());
+            if (animal.getAjuda_objeto()) {
+                EditText objetos_text = view.findViewById(R.id.objetos_text);
+                if (!animal.getAjuda_objetos_nome().isEmpty())
+                    objetos_text.setText(animal.getAjuda_objetos_nome());
+            }
+        }
+
+        EditText sobre_o_animal = view.findViewById(R.id.sobre_o_animal);
+        if (!animal.getHistoria().isEmpty())
+            sobre_o_animal.setText(animal.getHistoria());
+    }
+
     private void addToDatabase() {
 
-        db = FirebaseFirestore.getInstance();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -394,13 +614,18 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
             String fotos = TextUtils.join(",", downloadUrl);
             animalObj.put("fotos", fotos);
         } else {
-            animalObj.put("fotos", "");
+            if (editarPerfil && !animal.getFotos().isEmpty())
+                animalObj.put("fotos", animal.getFotos());
+            else
+                animalObj.put("fotos", "");
         }
 
         animalObj.put("novos_interessados", 0);
         animalObj.put("favoritos", Collections.emptyMap());
 
-        animalId = Long.toString(System.currentTimeMillis()) + "_" +  nome_do_animal.getText().toString();
+        if (!editarPerfil) {
+            animalId = Long.toString(System.currentTimeMillis()) + "_" + nome_do_animal.getText().toString();
+        }
 
         db.collection("users").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

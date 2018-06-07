@@ -22,7 +22,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -143,7 +142,9 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
             @Override
             public void onClick(View v) {
 
-                if (!acao.equals("Meus Pets")) {
+                if (acao.equals("Meus Pets")) {
+                    ((MainActivity) getActivity()).showCadastrarAnimalFragment(animalId);
+                } else {
                     fab.setSelected(!fab.isSelected());
 
                     if (fab.isSelected()) {

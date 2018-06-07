@@ -341,6 +341,19 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    public void showCadastrarAnimalFragment(String animalId) {
+        fragment = new CadastroAnimalFragment();
+
+        Bundle args = new Bundle();
+        args.putString("animalId", animalId);
+        fragment.setArguments(args);
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment, FRAGMENT_CADASTRO_ANIMAL_TAG)
+                .addToBackStack("CADASTRAR_TAG")
+                .commit();
+    }
+
     public void showListarAnimaisFragment(String acao) {
         fragment = new ListFragment();
 
