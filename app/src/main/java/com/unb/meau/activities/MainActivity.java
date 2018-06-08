@@ -28,6 +28,7 @@ import com.unb.meau.R;
 import com.unb.meau.adapters.CustomExpandableListAdapter;
 import com.unb.meau.fragments.CadastroAnimalFragment;
 import com.unb.meau.fragments.CadastroAnimalSucessoFragment;
+import com.unb.meau.fragments.DicasFragment;
 import com.unb.meau.fragments.ContarHistoriaFragment;
 import com.unb.meau.fragments.ContarHistoriaSucessoFragment;
 import com.unb.meau.fragments.FiltroFragment;
@@ -71,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
     public static final String FRAGMENT_FILTRO_TAG = "FRAGMENT_FILTRO_TAG";
     public static final String FRAGMENT_FILTRO_ERRO_TAG = "FRAGMENT_FILTRO_ERRO_TAG";
     public static final String FRAGMENT_LISTAR_CHATS_TAG = "FRAGMENT_LISTAR_CHATS_TAG";
+    public static final String FRAGMENT_DICAS_TAG = "FRAGMENTE_DICAS_TAG";
+    public static final String FRAGMENT_DICAS_SAUDE1_TAG = "FRAGMENT_DICAS_SAUDE1_TAG";
+
     public static final String FRAGMENT_FINALIZAR_PROCESSO_SUCESSO_TAG = "FRAGMENT_FINALIZAR_PROCESSO_SUCESSO_TAG";
     public static final String FRAGMENT_EVENTOS_TAG = "FRAGMENT_EVENTOS_TAG";
     public static final String FRAGMENT_HISTORIA_TAG = "FRAGMENT_HISTORIA_TAG";
@@ -196,6 +200,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case "Termo de Adoção":
                         showTermoAdocaoFragment();
+                        break;
+                    case "Dicas" :
+                        showDicasFragment();
                         break;
                     case "Histórias de adoção":
                         showListarHistoriasFragment();
@@ -441,6 +448,13 @@ public class MainActivity extends AppCompatActivity {
     public void showListChatFragment() {
         fragment = new ListChatFragment();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_LISTAR_CHATS_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void showDicasFragment() {
+        fragment = new DicasFragment();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_DICAS_TAG)
                 .addToBackStack(null)
                 .commit();
     }

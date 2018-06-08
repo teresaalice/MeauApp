@@ -60,6 +60,65 @@
     verifique se o seu email está cadastrado corretamente na área “meu perfil”, no menu principal.\n\n Para entender um pouco mais sobre as
     leis que envolvem esse processo, acesse nossa área de legislação!</string>
 
+    //Dicas
+    <string name="comportamento_1">Cão vs gato: qual deve ser o seu bichinho?</string>
+    <string name="comportamento_2">Como lidar com pets muito agitados</string>
+    <string name="comportamento_3">Porque alguns animais não gostam de crianças?</string>
+    <string name="alimentacao_1">A importância de alimentar o pet com ração</string>
+    <string name="alimentacao_2">Quais frutas você pode e não pode dar ao seu pet</string>
+    <string name="alimentacao_3">Como escolho a melhor ração para o meu pet?</string>
+    <string name="alimentacao_4">Socorro! Meu pet não quer mais comer ração!</string>
+    <string name="saude_1">Como cortar as unhas do seu cachorro</string>
+    <string name="saude_2">Mantendo a pele e pelagem de seu pet saudável</string>
+    <string name="saude_3">Como identificar dor em cães?</string>
+    <string name="saude_4">Nariz seco é sinal de doença?</string>
+    <string name="saude_5">Colocando microchip em seu cachorro</string>
+    <string name="saude_6">Vermes em cães e gatos</string>
+    <string name="saude_7">Como limpar as orelhas de seu cachorro</string>
+    <string name="saude_8">Livrando-se das pulgas e carrapatos!</string>
+    <string name="saude_9">Câncer em cachorros</string>
+
+    //Dicas_saude_1
+    <string name="text_saude_1">Se engana quem pensa que a manutenção em dia das unhas do cachorro é apenas por aparência. Na verdade,
+        é um cuidado básico de saúde, já que, quando as unhas estão muito grandes, além de causar desconforto no animal quando ele se
+        locomove, elas podem quebrar, deixando o pet aberto a uma infecção; ou envergar, influenciando em sua postura ou até mesmo
+        perfurando a carne.\n\nGeralmente, pets que não passeiam muito, pets idosos, ou que têm mais contato com superfícies lisas
+        (como os que moram em apartamento), precisam que suas unhas sejam cortadas mais vezes. No caso de animais mais ativos, as unhas
+        são naturalmente reduzidas com o exercício.\n\nSeparamos informações e o passo a passo para tutores que desejam aprender a cortar
+        a unha de seus cães em casa, sem depender sempre exclusivamente de groomers e médicos veterinários. Além disso, há dicas para
+        tornar o momento menos estressante, para humanos e cachorros.</string>
+    <string name="text_saude_2">Por que é preciso ter um cuidado especial na hora de cortar as unhas do cão?</string>
+    <string name="text_saude_3">A unha do cachorro possui vasos sanguíneos e nervos em seu eixo central, conhecido
+        como  sabugo. Quando cortado, o cachorro sente muita dor e perde sangue.</string>
+    <string name="text_saude_4">Quantas vezes você deve aparar a unha do seu cachorro?</string>
+    <string name="text_saude_5">Idealmente, corte a unha do seu cão a cada 1 ou 2 semanas e desde filhote. É importante não deixá-las
+        muito grandes e sempre mantê-las no tamanho certo. Como a veia cresce à medida que a unha aumenta, se deixá-las sem cortar por
+        muito tempo, a veia fica mais próxima da extremidade, assim ficando com uma chance maior de cortá-la.</string>
+    <string name="text_saude_6">Como saber que está na hora de cortar a unha?</string>
+    <string name="text_saude_7">Geralmente, quando você escutar o barulhinho das unhas batendo no chão, está na hora de apará-las.
+        Uma vez que você começar a ser responsável por cortar as unhas, irá se acostumar ao tamanho e passará a saber visualmente se
+        ela já está muito longa.</string>
+    <string name="text_saude_8">Como transformar o momento de cortar as unhas do seu cão mais tranquilo?</string>
+    <string name="text_saude_9">É preciso acostumar o seu cachorro a, primeiramente, ser tocado nas patas. É comum ver cães que não se
+        sentem confortáveis com esse momento, seja porque esse é uma área vulnerável, ou porque eles se machucaram cortando as unhas em
+        outro momento e acabaram associando a algo negativo.\n\nGradativamente, vá tocando na pata do seu cão, relacionando a algo gostoso
+        e uma troca entre tutor e pet. Uma massagem de leve na almofada, respeitando o tempo do seu cão.\n\nE quando falamos em respeitar
+        o tempo, tudo vai depender de cada animal. O importante é que você continue tentando, todos os dias e nos momentos que o seu cão
+        está bem tranquilo. Exemplos: Está vendo televisão, os dois juntinhos no sofá? Faça massagem! Após, vá evoluindo e toque não só na
+        pata, mas também nas unhas.</string>
+    <string name="text_saude_10">Cortando a unha do seu cachorroCortando a unha do seu cachorro</string>
+    <string name="text_saude_11.1">1 Separe o kit cortador de unhas e escolha um momento que o seu cão está tranquilo, por exemplo, pode
+        ser depois de um cochilo;</string>
+    <string name="text_saude_11.2">2 Pegue a pata do seu cachorro e segure-a com firmeza, mas com suavidade para não machucá-lo;</string>
+    <string name="text_saude_11.3">3 Comece pela extremidade da unha e corte em ângulo de 45 º, direcionando para a unha o bordo cortante do cortador;</string>
+    <string name="text_saude_11.4">4 Sempre tenha cuidado com o sabugo. Em unhas brancas, a área rosada é bem visível e torna mais fácil o corte. Em unhas escuras e pretas,
+        vá aparando aos poucos. Observe dentro da unha, quando começar a aparecer na região do corte um circulo cinzento (ou branco, no
+        caso das unhas brancas), está chegando perto do sabugo e está na hora de parar;</string>
+    <string name="text_saude_11.5">5 Se você cortar o sabugo, não fique nervoso e aplique com pressão um pedaço de algodão com pó hemostático. Se o sangue não estancar, consulte o seu veterinário;</string>
+    <string name="text_saude_11.6">6 Não esqueça de cortar a unha do esporão, localizada na parte interior da pata.</string>
+    <string name="text_saude_11.7">7 Para finalizar o corte da unha, dê o acabamento com uma lixa;</string>
+    <string name="text_saude_11_8">8 Não deixe de dar pequenos pedaços de bifinhos para recompensar o momento;</string>
+    <string name="text_saude_12">portaldodog.com.br</string>
     // Filtro
     <string name="filtro_msg"> Infelizmente, não encontramos nenhum animal com essas características em nosso aplicativo.\n\nMas não desista, pois temos lindos animais cadastrados! Experimente desabilitar e/ou alterar alguns filtros para encontrá-los.</string>
 
