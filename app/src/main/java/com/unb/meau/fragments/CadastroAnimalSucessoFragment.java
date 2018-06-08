@@ -37,5 +37,6 @@ public class CadastroAnimalSucessoFragment extends Fragment {
     public void onStart() {
         super.onStart();
         ((MainActivity) getActivity()).setActionBarTitle("Cadastro do Animal");
+        ((MainActivity) getActivity()).setActionBarTheme("Amarelo");
     }
 }

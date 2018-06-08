@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -277,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
                 actionBarToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                 break;
             case "Verde":
-                actionBarToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary2));
+                actionBarToolbar.setBackgroundColor(getResources().getColor(R.color.verde2));
                 break;
             case "Cinza":
                 actionBarToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary3));
@@ -477,6 +478,18 @@ public class MainActivity extends AppCompatActivity {
         if (currentFragment instanceof FinalizarProcessoSucessoFragment) {
             Log.d(TAG, "onBackPressed: FinalizarProcessoSucessoFragment");
             fragmentManager.popBackStack("FINALIZAR_PROCESSO_TAG", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            return;
+        }
+
+        if (currentFragment instanceof IntroducaoFragment && !drawer.isDrawerOpen(GravityCompat.START)) {
+            Log.d(TAG, "onBackPressed: IntroducaoFragment");
+            Toast.makeText(this, "Pressione novamente para sair", Toast.LENGTH_SHORT).show();
+            drawer.openDrawer(GravityCompat.START);
+            return;
+        }
+
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
             return;
         }
 

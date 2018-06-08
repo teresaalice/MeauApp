@@ -284,7 +284,6 @@ public class SignInFragment extends Fragment {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            Toast.makeText((getActivity()), "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
                             ((MainActivity) getActivity()).setDrawerInfo();
                             getActivity().onBackPressed();
                         } else {

@@ -107,10 +107,12 @@ public class CustomAnimalsFirestoreRecyclerAdapter extends FirestoreRecyclerAdap
             mHolder.textLocalizacao.setText(mModel.getLocalizacao());
         }
 
-        for (Map.Entry<String, Boolean> entry : mModel.getFavoritos().entrySet()) {
-            if (entry.getKey().equals(currentUserUid) && entry.getValue()) {
-                mHolder.buttonFav.setSelected(true);
-                break;
+        if (mModel.getFavoritos() != null) {
+            for (Map.Entry<String, Boolean> entry : mModel.getFavoritos().entrySet()) {
+                if (entry.getKey().equals(currentUserUid) && entry.getValue()) {
+                    mHolder.buttonFav.setSelected(true);
+                    break;
+                }
             }
         }
 
