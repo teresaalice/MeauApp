@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    android:layout_height="wrap_content"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:id="@+id/scroll_saude"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
-
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -16,24 +13,23 @@
             android:id="@+id/imagem"
             android:layout_width="wrap_content"
             android:layout_height="184dp"
-            android:scaleType="centerCrop"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
-            />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/titulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"
+            android:layout_marginTop="24dp"
             android:fontFamily="@font/roboto_medium"
-            android:textColor="#434343"
-            android:textSize="18sp"
-            android:text="@string/saude_1"
-            />
+            android:text="Título"
+            android:textColor="@color/preto_texto"
+            android:textSize="18sp" />
+
         <TextView
             android:id="@+id/intro"
             android:layout_width="wrap_content"
@@ -42,44 +38,46 @@
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"
             android:fontFamily="@font/roboto"
-            android:textSize="16sp"
-            android:textColor="#757575"
-            android:text="@string/text_saude_1"/>
+            android:text="Introdução"
+            android:textColor="@color/cinza_medio"
+            android:textSize="16sp" />
+
         <TextView
-            android:id = "@+id/texto_main"
+            android:id="@+id/texto_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"
             android:fontFamily="@font/roboto"
-            android:textSize="16sp"
-            android:textColor="#757575"
-            />
+            android:text="Texto"
+            android:textColor="@color/cinza_medio"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/conteudo_por"
-            android:layout_marginTop="36dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:layout_marginTop="18dp"
             android:fontFamily="@font/roboto"
-            android:textColor="#757575"
-            />
+            android:text="Conteúdo por"
+            android:textColor="@color/cinza_medio"
+            android:textSize="14sp" />
+
         <Button
             android:id="@+id/button_ver_mais"
             android:layout_width="232dp"
             android:layout_height="40dp"
+            android:layout_gravity="center"
             android:layout_marginBottom="24dp"
             android:layout_marginTop="2dp"
-            android:textColor="#434343"
             android:backgroundTint="#88C9BF"
-            android:layout_gravity="center"
             android:text="VER MAIS DICAS"
-            android:textSize="14dp"/>
+            android:textColor="@color/preto_texto"
+            android:textSize="14sp" />
 
     </LinearLayout>
 </ScrollView>

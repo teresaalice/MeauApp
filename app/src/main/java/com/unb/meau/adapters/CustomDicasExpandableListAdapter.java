@@ -44,6 +44,7 @@ public class CustomDicasExpandableListAdapter extends BaseExpandableListAdapter 
     public Object getChild(int groupPosition, int childPosition) {
         return listItem.get(listTitle.get(groupPosition)).get(childPosition);
     }
+
     @Override
     public long getGroupId(int groupPosition) {
         return groupPosition;
@@ -72,8 +73,6 @@ public class CustomDicasExpandableListAdapter extends BaseExpandableListAdapter 
 
         ImageView group_indicator = convertView.findViewById(R.id.expandable_list_group_indicator);
         group_indicator.setSelected(isExpanded);
-
-
 
         return convertView;
     }

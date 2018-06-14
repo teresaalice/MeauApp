@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Meau</string>
 
     <string name="navigation_drawer_open">Abrir menu</string>
@@ -17,7 +17,7 @@
 
     <string name="remocao_animal_sucesso_message">Porém, as conversas relacionadas à ele serão mantidas para o caso de você desejar manter contato. Caso deseje apagá-las, você pode realizar esta ação nas configurações no chat dos usuários relacionados à este pet.</string>
 
-    //Legislação
+    // Legislação
     <string name="legislacao">Legislação</string>
     <string name="artigo_4.1">É permitida a realização de eventos de doação de cães e gatos em estabelecimentos devidamente legalizados.</string>
     <string name="artigo_4.2">§ 1º A feira só poderá ser realizada sob a responsabilidade de pessoa física ou jurídica, de direito público ou privado, sem fins lucrativos mantenedoras ou responsáveis por cães e gatos.</string>
@@ -29,38 +29,24 @@
     <string name="artigo_6">No ato da doação deve ser providenciado o RGA do animal, em nome do novo proprietário.</string>
     <string name="artigo_7">Aqueles elencados no § 1º do art. 4º podem cobrar taxa de adoção do animal, devendo para tanto fornecer ao adotante recibo especificando o valor da taxa e demais gastos.</string>
 
-    //Privacidade
+    // Privacidade
     <string name="privacidade_not">Notificações</string>
     <string name="chk_chat">Ativar notificações de chat</string>
     <string name="chk_recordacao">Ativar notificações de recordação</string>
     <string name="chk_eventos">Ativar notificações de eventos</string>
-    <string name="privacy_message">Com as notificações de chat ativadas, você sempre receberá um aviso
-        em seu celular quando alguém entrar em contato através do aplicativo.\n\nCom as configurações de
-        recordação ativadas, você sempre será lembrado de entrar em contato com o doador (caso você adote
-        um animal) a fim de cumprir o requisito de acompanhamento pós adoção.\n\nCom as notificações de
-        evento ativadas, você sempre receberá uma notificação para lembrá-lo dos eventos da semana.\n</string>
+    <string name="privacy_message">Com as notificações de chat ativadas, você sempre receberá um aviso em seu celular quando alguém entrar em contato através do aplicativo.\n\nCom as configurações de recordação ativadas, você sempre será lembrado de entrar em contato com o doador (caso você adote um animal) a fim de cumprir o requisito de acompanhamento pós adoção.\n\nCom as notificações de evento ativadas, você sempre receberá uma notificação para lembrá-lo dos eventos da semana.</string>
     <string name="save_alt">Salvar Alterações</string>
 
-    //Termo adoção
-    <string name="terms_message">O termo de adoção é um termo que oficializa o processo de adoção de um animal.
-        Similarmente funciona o termo de apadrinhamento.\n\nÉ importante que o doador/dono exija a assinatura
-        deste termo por parte do adotante/padrinho, de forma a ter prova legal de que a pessoa adquiriu o animal.
-        Assim, podem ser tomadas providências legais em caso de maus tratos ou negligência ao animal.\n\n
-        Para facilitar o processo, o Meau disponibiliza o termo aos seus doadores e donos de animais que utilizam
-        o aplicativo para encontrar um destino e/ou ajuda para seu bichinho. Este termo é enviado por e-mail para
-        que possa ser feita a impressão e, no momento de entrega do animal (ou quando o padrinho vai conhecê-lo),
-        seja feita a assinatura por parte do adotante/padrinho.\n\nPressionando os botões abaixo, você receberá
-        em seu email o termo em questão, nos formatos .doc (word) e .pdf.</string>
+    // Termo adoção
+    <string name="terms_message">O termo de adoção é um termo que oficializa o processo de adoção de um animal. Similarmente funciona o termo de apadrinhamento.\n\nÉ importante que o doador/dono exija a assinatura deste termo por parte do adotante/padrinho, de forma a ter prova legal de que a pessoa adquiriu o animal. Assim, podem ser tomadas providências legais em caso de maus tratos ou negligência ao animal.\n\nPara facilitar o processo, o Meau disponibiliza o termo aos seus doadores e donos de animais que utilizam o aplicativo para encontrar um destino e/ou ajuda para seu bichinho. Este termo é enviado por e-mail para que possa ser feita a impressão e, no momento de entrega do animal (ou quando o padrinho vai conhecê-lo), seja feita a assinatura por parte do adotante/padrinho.\n\nPressionando os botões abaixo, você receberá em seu email o termo em questão, nos formatos .doc (word) e .pdf.</string>
     <string name="termo_adocao">Termo de Adoção</string>
     <string name="termo_apadrinhamento">Termo de Apadrinhamento</string>
 
-    //Termos enviados
+    // Termos enviados
     <string name="termo_pronto">Pronto!</string>
-    <string name="termo_enviado">O termo já foi enviado para o seu email. Caso não tenha recebido,
-    verifique se o seu email está cadastrado corretamente na área “meu perfil”, no menu principal.\n\n Para entender um pouco mais sobre as
-    leis que envolvem esse processo, acesse nossa área de legislação!</string>
+    <string name="termo_enviado">O termo já foi enviado para o seu email. Caso não tenha recebido, verifique se o seu email está cadastrado corretamente na área “meu perfil”, no menu principal.\n\n Para entender um pouco mais sobre as leis que envolvem esse processo, acesse nossa área de legislação!</string>
 
-    //Dicas
+    // Dicas
     <string name="comportamento_1">Cão vs gato: qual deve ser o seu bichinho?</string>
     <string name="comportamento_2">Como lidar com pets muito agitados</string>
     <string name="comportamento_3">Porque alguns animais não gostam de crianças?</string>
@@ -78,55 +64,34 @@
     <string name="saude_8">Livrando-se das pulgas e carrapatos!</string>
     <string name="saude_9">Câncer em cachorros</string>
 
-    //Dicas_saude_1
-    <string name="text_saude_1">Se engana quem pensa que a manutenção em dia das unhas do cachorro é apenas por aparência. Na verdade,
-        é um cuidado básico de saúde, já que, quando as unhas estão muito grandes, além de causar desconforto no animal quando ele se
-        locomove, elas podem quebrar, deixando o pet aberto a uma infecção; ou envergar, influenciando em sua postura ou até mesmo
-        perfurando a carne.\n\nGeralmente, pets que não passeiam muito, pets idosos, ou que têm mais contato com superfícies lisas
-        (como os que moram em apartamento), precisam que suas unhas sejam cortadas mais vezes. No caso de animais mais ativos, as unhas
-        são naturalmente reduzidas com o exercício.\n\nSeparamos informações e o passo a passo para tutores que desejam aprender a cortar
-        a unha de seus cães em casa, sem depender sempre exclusivamente de groomers e médicos veterinários. Além disso, há dicas para
-        tornar o momento menos estressante, para humanos e cachorros.</string>
-    <string name="text_saude_2">Por que é preciso ter um cuidado especial na hora de cortar as unhas do cão?</string>
-    <string name="text_saude_3">A unha do cachorro possui vasos sanguíneos e nervos em seu eixo central, conhecido
-        como  sabugo. Quando cortado, o cachorro sente muita dor e perde sangue.</string>
-    <string name="text_saude_4">Quantas vezes você deve aparar a unha do seu cachorro?</string>
-    <string name="text_saude_5">Idealmente, corte a unha do seu cão a cada 1 ou 2 semanas e desde filhote. É importante não deixá-las
-        muito grandes e sempre mantê-las no tamanho certo. Como a veia cresce à medida que a unha aumenta, se deixá-las sem cortar por
-        muito tempo, a veia fica mais próxima da extremidade, assim ficando com uma chance maior de cortá-la.</string>
-    <string name="text_saude_6">Como saber que está na hora de cortar a unha?</string>
-    <string name="text_saude_7">Geralmente, quando você escutar o barulhinho das unhas batendo no chão, está na hora de apará-las.
-        Uma vez que você começar a ser responsável por cortar as unhas, irá se acostumar ao tamanho e passará a saber visualmente se
-        ela já está muito longa.</string>
-    <string name="text_saude_8">Como transformar o momento de cortar as unhas do seu cão mais tranquilo?</string>
-    <string name="text_saude_9">É preciso acostumar o seu cachorro a, primeiramente, ser tocado nas patas. É comum ver cães que não se
-        sentem confortáveis com esse momento, seja porque esse é uma área vulnerável, ou porque eles se machucaram cortando as unhas em
-        outro momento e acabaram associando a algo negativo.\n\nGradativamente, vá tocando na pata do seu cão, relacionando a algo gostoso
-        e uma troca entre tutor e pet. Uma massagem de leve na almofada, respeitando o tempo do seu cão.\n\nE quando falamos em respeitar
-        o tempo, tudo vai depender de cada animal. O importante é que você continue tentando, todos os dias e nos momentos que o seu cão
-        está bem tranquilo. Exemplos: Está vendo televisão, os dois juntinhos no sofá? Faça massagem! Após, vá evoluindo e toque não só na
-        pata, mas também nas unhas.</string>
-    <string name="text_saude_10">Cortando a unha do seu cachorroCortando a unha do seu cachorro</string>
-    <string name="text_saude_11.1">1 Separe o kit cortador de unhas e escolha um momento que o seu cão está tranquilo, por exemplo, pode
-        ser depois de um cochilo;</string>
+    // Dica - cortar as unhas do seu cachorro
+    <string name="unhas_url" tools:ignore="TypographyDashes">https://firebasestorage.googleapis.com/v0/b/meau-unb.appspot.com/o/extras%2Funhas.jpg?alt=media&amp;token=a7752090-6c3e-4309-86db-53582df3dde3</string>
+    <string name="text_saude_1">Se engana quem pensa que a manutenção em dia das unhas do cachorro é apenas por aparência. Na verdade, é um cuidado básico de saúde, já que, quando as unhas estão muito grandes, além de causar desconforto no animal quando ele se locomove, elas podem quebrar, deixando o pet aberto a uma infecção; ou envergar, influenciando em sua postura ou até mesmo perfurando a carne.\n\nGeralmente, pets que não passeiam muito, pets idosos, ou que têm mais contato com superfícies lisas (como os que moram em apartamento), precisam que suas unhas sejam cortadas mais vezes. No caso de animais mais ativos, as unhas são naturalmente reduzidas com o exercício.\n\nSeparamos informações e o passo a passo para tutores que desejam aprender a cortar a unha de seus cães em casa, sem depender sempre exclusivamente de groomers e médicos veterinários. Além disso, há dicas para tornar o momento menos estressante, para humanos e cachorros.</string>
+    <string name="text_saude_2">POR QUE É PRECISO TER UM CUIDADO ESPECIAL NA HORA DE CORTAR AS UNHAS DO CÃO?</string>
+    <string name="text_saude_3">A unha do cachorro possui vasos sanguíneos e nervos em seu eixo central, conhecido como  sabugo. Quando cortado, o cachorro sente muita dor e perde sangue.</string>
+    <string name="text_saude_4">QUANTAS VEZES VOCÊ DEVE APARAR A UNHA DO SEU CACHORRO?</string>
+    <string name="text_saude_5">Idealmente, corte a unha do seu cão a cada 1 ou 2 semanas e desde filhote. É importante não deixá-las muito grandes e sempre mantê-las no tamanho certo. Como a veia cresce à medida que a unha aumenta, se deixá-las sem cortar por muito tempo, a veia fica mais próxima da extremidade, assim ficando com uma chance maior de cortá-la.</string>
+    <string name="text_saude_6">COMO SABER QUE ESTÁ NA HORA DE CORTAR A UNHA?</string>
+    <string name="text_saude_7">Geralmente, quando você escutar o barulhinho das unhas batendo no chão, está na hora de apará-las. Uma vez que você começar a ser responsável por cortar as unhas, irá se acostumar ao tamanho e passará a saber visualmente se ela já está muito longa.</string>
+    <string name="text_saude_8">COMO TRANSFORMAR O MOMENTO DE CORTAR AS UNHAS DO SEU CÃO MAIS TRANQUILO?</string>
+    <string name="text_saude_9">É preciso acostumar o seu cachorro a, primeiramente, ser tocado nas patas. É comum ver cães que não se sentem confortáveis com esse momento, seja porque esse é uma área vulnerável, ou porque eles se machucaram cortando as unhas em outro momento e acabaram associando a algo negativo.\n\nGradativamente, vá tocando na pata do seu cão, relacionando a algo gostoso e uma troca entre tutor e pet. Uma massagem de leve na almofada, respeitando o tempo do seu cão.\n\nE quando falamos em respeitar o tempo, tudo vai depender de cada animal. O importante é que você continue tentando, todos os dias e nos momentos que o seu cão está bem tranquilo. Exemplos: Está vendo televisão, os dois juntinhos no sofá? Faça massagem! Após, vá evoluindo e toque não só na pata, mas também nas unhas.</string>
+    <string name="text_saude_10">CORTANDO A UNHA DO SEU CACHORRO</string>
+    <string name="text_saude_11.1">1 Separe o kit cortador de unhas e escolha um momento que o seu cão está tranquilo, por exemplo, pode ser depois de um cochilo;</string>
     <string name="text_saude_11.2">2 Pegue a pata do seu cachorro e segure-a com firmeza, mas com suavidade para não machucá-lo;</string>
     <string name="text_saude_11.3">3 Comece pela extremidade da unha e corte em ângulo de 45 º, direcionando para a unha o bordo cortante do cortador;</string>
-    <string name="text_saude_11.4">4 Sempre tenha cuidado com o sabugo. Em unhas brancas, a área rosada é bem visível e torna mais fácil o corte. Em unhas escuras e pretas,
-        vá aparando aos poucos. Observe dentro da unha, quando começar a aparecer na região do corte um circulo cinzento (ou branco, no
-        caso das unhas brancas), está chegando perto do sabugo e está na hora de parar;</string>
+    <string name="text_saude_11.4">4 Sempre tenha cuidado com o sabugo. Em unhas brancas, a área rosada é bem visível e torna mais fácil o corte. Em unhas escuras e pretas, vá aparando aos poucos. Observe dentro da unha, quando começar a aparecer na região do corte um circulo cinzento (ou branco, no caso das unhas brancas), está chegando perto do sabugo e está na hora de parar;</string>
     <string name="text_saude_11.5">5 Se você cortar o sabugo, não fique nervoso e aplique com pressão um pedaço de algodão com pó hemostático. Se o sangue não estancar, consulte o seu veterinário;</string>
     <string name="text_saude_11.6">6 Não esqueça de cortar a unha do esporão, localizada na parte interior da pata.</string>
     <string name="text_saude_11.7">7 Para finalizar o corte da unha, dê o acabamento com uma lixa;</string>
     <string name="text_saude_11_8">8 Não deixe de dar pequenos pedaços de bifinhos para recompensar o momento;</string>
     <string name="text_saude_12">portaldodog.com.br</string>
+
     // Filtro
     <string name="filtro_msg"> Infelizmente, não encontramos nenhum animal com essas características em nosso aplicativo.\n\nMas não desista, pois temos lindos animais cadastrados! Experimente desabilitar e/ou alterar alguns filtros para encontrá-los.</string>
 
     // Finalizar Processo Dialog
     <string name="finalizar_processo">Antes de realizar este passo, certifique-se de que o adotante ou padrinho tenha cumprido todos os requisitos prévios à adoção. Além disso, esteja certo de que ele já está em posse do animal em questão.\n\nApós finalizar este processo, o seu animal será automaticamente removido da lista de pets para adoção/apadrinhamento.\nnAlém disso, é importante ressaltar que as suas informações de cadastro serão disponibilizadas para o usuário que está adotando ou apadrinhando seu animal, assim como você também terá acesso à todas as informações fornecidas por ele(a).\n\nAo clicar em "li e concordo", você declara ter lido, compreendido e concordado com os termos acima expostos.</string>
-
     <string name="processo_finalizado">Ficamos felizes com o sucesso do seu processo! Esperamos que o bichinho esteja curtindo muito essa nova experiência!\n\nAgora, que tal compartilhar a história do (nome do animal) com todos os outros membros do Meau?</string>
-
     <string name="contar_historia_sucesso">Muito obrigada por compartilhar sua história conosco! Ela já foi contada com sucessso!\n\nVocê pode dar uma conferida nela ou, se preferir, ler algumas histórias de outros usuários.</string>
 
 </resources>

@@ -22,10 +22,10 @@
 
     //Privacidade
 
-    <color name="cinza_appbar">#e6e7e8</color>
-    <color name="branco_fundo">#fafafa</color>
+    <color name="cinza_appbar">#E6E7E8</color>
+    <color name="branco_fundo">#FAFAFA</color>
     <color name="cinza_medio">#757575</color>
     <color name="preto_texto">#434343</color>
-    <color name="cinza_button">#bdbdbd</color>
+    <color name="cinza_button">#BDBDBD</color>
 
 </resources>
