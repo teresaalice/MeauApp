@@ -31,6 +31,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
+import com.unb.meau.objects.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,7 +62,7 @@ public class SignUpFragment extends Fragment {
     String email;
     String password;
 
-    Map<String, Object> userObj;
+    User newUser;
 
     View v;
 
@@ -241,7 +242,7 @@ public class SignUpFragment extends Fragment {
 
     private void storeUserData() {
 
-        userObj = new HashMap<>();
+        newUser = new User();
 
         EditText nomeView = v.findViewById(R.id.nome);
         EditText idadeView = v.findViewById(R.id.idade);
@@ -251,38 +252,39 @@ public class SignUpFragment extends Fragment {
         EditText enderecoView = v.findViewById(R.id.endereco);
         EditText telefoneView = v.findViewById(R.id.telefone);
 
-        userObj.put("email", emailView.getText().toString());
-        userObj.put("nome", nomeView.getText().toString());
-        userObj.put("username", mUsername.getText().toString());
+        newUser.setEmail(emailView.getText().toString());
+        newUser.setNome(nomeView.getText().toString());
+        newUser.setUsername(mUsername.getText().toString());
         if (!idadeView.getText().toString().isEmpty()) {
-            userObj.put("idade", Integer.parseInt(idadeView.getText().toString()));
+            newUser.setIdade(Integer.parseInt(idadeView.getText().toString()));
         }
         if (!estadoView.getText().toString().isEmpty()) {
-            userObj.put("estado", estadoView.getText().toString());
+            newUser.setEstado(estadoView.getText().toString());
         }
         if (!cidadeView.getText().toString().isEmpty()) {
-            userObj.put("cidade", cidadeView.getText().toString());
+            newUser.setCidade(cidadeView.getText().toString());
         }
         if (!enderecoView.getText().toString().isEmpty()) {
-            userObj.put("endereco", enderecoView.getText().toString());
+            newUser.setEndereco(enderecoView.getText().toString());
         }
         if (!telefoneView.getText().toString().isEmpty()) {
-            userObj.put("telefone", telefoneView.getText().toString());
+            newUser.setTelefone(telefoneView.getText().toString());
         }
 
-        userObj.put("uid", currentUser.getUid());
+        newUser.setUid(currentUser.getUid());
 
         if (providerComplete) {
             if (downloadUrl == null || downloadUrl.toString().isEmpty())
-                userObj.put("foto", currentUser.getPhotoUrl().toString());
+                newUser.setFoto(currentUser.getPhotoUrl().toString());
         } else {
-            userObj.put("foto", downloadUrl.toString());
+            if (downloadUrl.toString() != null)
+                newUser.setFoto(downloadUrl.toString());
         }
 
         if (providerComplete) {
 
             db.collection("users").document(currentUser.getUid())
-                    .set(userObj)
+                    .set(newUser)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -316,7 +318,7 @@ public class SignUpFragment extends Fragment {
                             Log.d(TAG, "User profile updated.");
 
                             db.collection("users").document(currentUser.getUid())
-                                    .set(userObj)
+                                    .set(newUser)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {

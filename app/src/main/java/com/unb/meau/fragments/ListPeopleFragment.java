@@ -117,28 +117,27 @@ public class ListPeopleFragment extends Fragment implements CustomPeopleFirestor
 //                .addToBackStack("LIST_PERFIL_USER_TAG")
 //                .commit();
 
+        Chat chat = new Chat();
 
         HashMap<String, Boolean> users = new HashMap<>();
         users.put(currentUser.getUid(), true);
         users.put(user.getUid(), true);
+        chat.setUsers(users);
 
         HashMap<String, String> usersNames = new HashMap<>();
         usersNames.put(currentUser.getUid(), currentUser.getDisplayName());
         usersNames.put(user.getUid(), user.getNome());
+        chat.setUsersNames(usersNames);
 
         HashMap<String, String> photos = new HashMap<>();
         photos.put(currentUser.getUid(), currentUser.getPhotoUrl().toString());
         photos.put(user.getUid(), user.getFoto());
+        chat.setPhotos(photos);
 
         HashMap<String, Boolean> visualized = new HashMap<>();
         visualized.put(currentUser.getUid(), false);
         visualized.put(user.getUid(), false);
-
-        HashMap<String, String> tokens = new HashMap<>();
-        tokens.put(currentUser.getUid(), FirebaseInstanceId.getInstance().getToken());
-        tokens.put(user.getUid(), user.getToken());
-
-        Chat chat = new Chat(users, usersNames, photos, visualized, "", new Date());
+        chat.setVisualized(visualized);
 
         chatId = currentUser.getDisplayName() + "_" + user.getNome();
 

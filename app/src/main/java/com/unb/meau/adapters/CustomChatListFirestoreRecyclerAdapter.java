@@ -74,8 +74,12 @@ public class CustomChatListFirestoreRecyclerAdapter extends FirestoreRecyclerAda
 
         mHolder.textPreview.setText(mModel.getLastMessage());
 
-        Format formatter = new SimpleDateFormat("HH:mm");
-        mHolder.textTime.setText(formatter.format(mModel.getLastMessageDate()));
+        if (mModel.getLastMessageDate() != null) {
+            Format formatter = new SimpleDateFormat("HH:mm");
+            mHolder.textTime.setText(formatter.format(mModel.getLastMessageDate()));
+        } else {
+            mHolder.textTime.setText("");
+        }
 
         Log.d(TAG, "currentUser: " + currentUser);
 
