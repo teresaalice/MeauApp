@@ -1,7 +1,7 @@
 package com.unb.meau.fragments;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
@@ -138,6 +138,7 @@ public class IntroducaoFragment extends Fragment {
         } else {
             Log.d(TAG, "updateLoginButton: User " + currentUser.getEmail() + " logged");
             text_login.setText(R.string.logout);
+            ((MainActivity) getActivity()).updateToken();
         }
     }
 

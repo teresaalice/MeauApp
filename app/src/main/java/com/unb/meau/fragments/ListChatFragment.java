@@ -68,7 +68,7 @@ public class ListChatFragment extends Fragment implements CustomChatListFirestor
             public void onClick(View v) {
                 Log.d(TAG, "onClick: finalizar um processo");
 
-                FinalizarProcessoFragment finalizarProcessoFragment= new FinalizarProcessoFragment();
+                FinalizarProcessoFragment finalizarProcessoFragment = new FinalizarProcessoFragment();
                 getFragmentManager().beginTransaction()
                         .replace(R.id.content_frame, finalizarProcessoFragment)
                         .addToBackStack("FINALIZAR_PROCESSO_TAG")
@@ -116,6 +116,7 @@ public class ListChatFragment extends Fragment implements CustomChatListFirestor
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "onComplete: Success");
+
                             String chatId = task.getResult().getDocuments().get(0).getId();
                             Log.d(TAG, "onComplete: Chat ID: " + chatId);
 

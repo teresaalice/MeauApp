@@ -5,14 +5,16 @@ import java.util.Date;
 public class Message {
 
     private String sender;
+    private String receiverId;
     private String text;
     private Date date;
 
     public Message() {
     } // Needed for Firebase
 
-    public Message(String sender, String text, Date date) {
+    public Message(String sender, String receiverId, String text, Date date) {
         this.sender = sender;
+        this.receiverId = receiverId;
         this.text = text;
         this.date = date;
     }
@@ -23,6 +25,14 @@ public class Message {
 
     public void setSender(String sender) {
         this.sender = sender;
+    }
+
+    public String getReceiverId() {
+        return receiverId;
+    }
+
+    public void setReceiverId(String receiverId) {
+        this.receiverId = receiverId;
     }
 
     public String getText() {

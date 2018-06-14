@@ -114,7 +114,7 @@ public class ChatFragment extends Fragment {
 
         text_message.setText("");
 
-        Message message = new Message(currentUser.getUid(), messageText, date);
+        Message message = new Message(currentUser.getDisplayName(), userId, messageText, date);
 
         db.collection("chats")
                 .document(chatId)

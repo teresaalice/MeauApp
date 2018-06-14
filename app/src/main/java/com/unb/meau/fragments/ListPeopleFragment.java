@@ -18,9 +18,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
 import com.unb.meau.adapters.CustomPeopleFirestoreRecyclerAdapter;
@@ -133,6 +133,10 @@ public class ListPeopleFragment extends Fragment implements CustomPeopleFirestor
         HashMap<String, Boolean> visualized = new HashMap<>();
         visualized.put(currentUser.getUid(), false);
         visualized.put(user.getUid(), false);
+
+        HashMap<String, String> tokens = new HashMap<>();
+        tokens.put(currentUser.getUid(), FirebaseInstanceId.getInstance().getToken());
+        tokens.put(user.getUid(), user.getToken());
 
         Chat chat = new Chat(users, usersNames, photos, visualized, "", new Date());
 

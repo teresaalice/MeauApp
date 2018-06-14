@@ -51,14 +51,13 @@ public class CustomChatFirestoreRecyclerAdapter extends FirestoreRecyclerAdapter
 
         Message mModel = (Message) model;
 
-        if (mModel.getSender().equals(currentUser)) {
-            MessageOwnHolder mHolder = (MessageOwnHolder) holder;
-            mHolder.message_balloon.setText(mModel.getText());
-        } else {
+        if (mModel.getReceiverId().equals(currentUser)) {
             MessageOtherHolder mHolder = (MessageOtherHolder) holder;
             mHolder.message_balloon.setText(mModel.getText());
+        } else {
+            MessageOwnHolder mHolder = (MessageOwnHolder) holder;
+            mHolder.message_balloon.setText(mModel.getText());
         }
-
     }
 
     @Override
@@ -66,10 +65,10 @@ public class CustomChatFirestoreRecyclerAdapter extends FirestoreRecyclerAdapter
 
         Message message = (Message) getItem(position);
 
-        if (message.getSender().equals(currentUser)) {
-            return VIEW_TYPE_OWN;
-        } else {
+        if (message.getReceiverId().equals(currentUser)) {
             return VIEW_TYPE_OTHER;
+        } else {
+            return VIEW_TYPE_OWN;
         }
     }
 

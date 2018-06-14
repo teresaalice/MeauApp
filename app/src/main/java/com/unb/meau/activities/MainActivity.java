@@ -18,19 +18,21 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.unb.meau.R;
 import com.unb.meau.adapters.CustomExpandableListAdapter;
 import com.unb.meau.fragments.CadastroAnimalFragment;
 import com.unb.meau.fragments.CadastroAnimalSucessoFragment;
-import com.unb.meau.fragments.DicasFragment;
 import com.unb.meau.fragments.ContarHistoriaFragment;
 import com.unb.meau.fragments.ContarHistoriaSucessoFragment;
+import com.unb.meau.fragments.DicasFragment;
 import com.unb.meau.fragments.FiltroFragment;
 import com.unb.meau.fragments.FinalizarProcessoSucessoFragment;
 import com.unb.meau.fragments.IntroducaoFragment;
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
     public String menuItemName = "";
 
+    private FirebaseFirestore db;
     private FirebaseAuth mAuth;
 
     @Override
@@ -106,7 +109,10 @@ public class MainActivity extends AppCompatActivity {
                 .add(R.id.content_frame, fragment, FRAGMENT_INTRO_TAG)
                 .commit();
 
+        db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
+
+        FirebaseMessaging.getInstance().subscribeToTopic("pushNotifications");
 
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -201,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
                     case "Termo de Adoção":
                         showTermoAdocaoFragment();
                         break;
-                    case "Dicas" :
+                    case "Dicas":
                         showDicasFragment();
                         break;
                     case "Histórias de adoção":
@@ -497,7 +503,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (currentFragment instanceof IntroducaoFragment && !drawer.isDrawerOpen(GravityCompat.START)) {
             Log.d(TAG, "onBackPressed: IntroducaoFragment");
-            Toast.makeText(this, "Pressione novamente para sair", Toast.LENGTH_SHORT).show();
             drawer.openDrawer(GravityCompat.START);
             return;
         }
@@ -510,5 +515,11 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onBackPressed: super.onBackPressed()");
         super.onBackPressed();
 
+    }
+
+    public void updateToken() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        String token = FirebaseInstanceId.getInstance().getToken();
+        db.collection("users").document(user.getUid()).update("token", token);
     }
 }
