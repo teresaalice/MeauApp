@@ -38,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:layout_marginTop="16dp"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="sans-serif-medium"
                     android:text="Nome"
                     android:textColor="@color/preto_texto"
                     android:textSize="16sp" />
@@ -48,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="sans-serif"
                     android:text="Historia"
                     android:textColor="@color/cinza_medio"
                     android:textSize="14sp" />

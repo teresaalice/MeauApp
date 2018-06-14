@@ -56,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="sans-serif-medium"
                 android:text="Nome"
                 android:textColor="#434343"
                 android:textSize="16sp" />
@@ -74,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight=".30"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="sans-serif"
                     android:text="SEXO"
                     android:textColor="#F7A800" />
 
@@ -83,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight=".30"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="sans-serif"
                     android:text="PORTE"
                     android:textColor="#F7A800" />
 
@@ -92,7 +92,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight=".30"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="sans-serif"
                     android:text="IDADE"
                     android:textColor="#F7A800" />
 
@@ -112,7 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight=".30"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="sans-serif"
                     android:text="Sexo"
                     android:textColor="#757575" />
 
@@ -121,7 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight=".30"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="sans-serif"
                     android:text="Porte"
                     android:textColor="#757575" />
 
@@ -130,7 +130,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight=".30"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="sans-serif"
                     android:text="Idade"
                     android:textColor="#757575" />
 
@@ -142,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_weight=".30"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="sans-serif"
                 android:text="LOCALIZAÇÃO"
                 android:textColor="#F7A800"
                 app:layout_constraintTop_toBottomOf="@id/caracteristicas" />
@@ -154,7 +154,7 @@
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight=".30"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="sans-serif"
                 android:text="Localização"
                 android:textColor="#757575"
                 app:layout_constraintTop_toBottomOf="@id/localizacao_info" />
@@ -172,7 +172,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight=".50"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="sans-serif"
                     android:text="CASTRADO"
                     android:textColor="#F7A800" />
 
@@ -181,7 +181,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight=".50"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="sans-serif"
                     android:text="VERMIFUGADO"
                     android:textColor="#F7A800" />
 
@@ -201,7 +201,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight=".50"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="sans-serif"
                     android:text="Castrado"
                     android:textColor="#757575" />
 
@@ -210,7 +210,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight=".50"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="sans-serif"
                     android:text="Vermifugado"
                     android:textColor="#757575" />
 
@@ -229,7 +229,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight=".50"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="sans-serif"
                     android:text="VACINADO"
                     android:textColor="#F7A800" />
 
@@ -238,7 +238,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight=".50"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="sans-serif"
                     android:text="DOENÇAS"
                     android:textColor="#F7A800" />
 
@@ -258,7 +258,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight=".50"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="sans-serif"
                     android:text="Vacinado"
                     android:textColor="#757575" />
 
@@ -267,7 +267,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight=".50"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="sans-serif"
                     android:text="Doeças"
                     android:textColor="#757575" />
 
@@ -278,7 +278,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="sans-serif"
                 android:text="TEMPERAMENTO"
                 android:textColor="#F7A800"
                 app:layout_constraintTop_toBottomOf="@id/saude_2" />
@@ -289,7 +289,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="8dp"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="sans-serif"
                 android:text="Temperamento"
                 android:textColor="#757575"
                 app:layout_constraintTop_toBottomOf="@id/temperamento_info" />
@@ -313,7 +313,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:fontFamily="@font/roboto"
+                        android:fontFamily="sans-serif"
                         android:text="EXIGÊNCIAS DO DOADOR"
                         android:textColor="#F7A800" />
 
@@ -323,7 +323,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
                         android:layout_marginTop="8dp"
-                        android:fontFamily="@font/roboto"
+                        android:fontFamily="sans-serif"
                         android:text="Exigencias do doador"
                         android:textColor="#757575" />
 
@@ -341,7 +341,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:fontFamily="@font/roboto"
+                        android:fontFamily="sans-serif"
                         android:text="EXIGÊNCIAS DO DONO"
                         android:textColor="#F7A800" />
 
@@ -351,7 +351,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
                         android:layout_marginTop="8dp"
-                        android:fontFamily="@font/roboto"
+                        android:fontFamily="sans-serif"
                         android:text="Exigencias do dono"
                         android:textColor="#757575" />
 
@@ -369,7 +369,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:fontFamily="@font/roboto"
+                        android:fontFamily="sans-serif"
                         android:text="O ANIMAL PRECISA DE"
                         android:textColor="#F7A800" />
 
@@ -379,7 +379,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
                         android:layout_marginTop="8dp"
-                        android:fontFamily="@font/roboto"
+                        android:fontFamily="sans-serif"
                         android:text="O animal precisa de"
                         android:textColor="#757575" />
 
@@ -392,7 +392,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="sans-serif"
                 android:text="MAIS SOBRE O ANIMAL"
                 android:textColor="#F7A800"
                 app:layout_constraintTop_toBottomOf="@id/blocos" />
@@ -402,7 +402,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="sans-serif"
                 android:text="Sobre"
                 android:textColor="#757575"
                 app:layout_constraintTop_toBottomOf="@id/sobre_info" />
@@ -429,7 +429,7 @@
                     android:layout_marginTop="28dp"
                     android:layout_weight="0.5"
                     android:backgroundTint="#FFD358"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="sans-serif"
                     android:text="Pretendo Adotar"
                     android:textAllCaps="true"
                     android:textSize="12sp"
@@ -443,7 +443,7 @@
                     android:layout_marginTop="28dp"
                     android:layout_weight="0.5"
                     android:backgroundTint="#FFD358"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="sans-serif"
                     android:text="Pretendo Apadrinhar"
                     android:textAllCaps="true"
                     android:textSize="12sp"
@@ -457,7 +457,7 @@
                     android:layout_marginTop="28dp"
                     android:layout_weight="0.5"
                     android:backgroundTint="#FFD358"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="sans-serif"
                     android:text="Pretendo Ajudar"
                     android:textAllCaps="true"
                     android:textSize="12sp"
@@ -486,7 +486,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_weight="0.5"
                     android:backgroundTint="@color/verde2"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="sans-serif"
                     android:text="Ver interessados"
                     android:textAllCaps="true"
                     android:textSize="12sp" />
@@ -497,7 +497,7 @@
                     android:layout_height="40dp"
                     android:layout_weight="0.5"
                     android:backgroundTint="@color/verde2"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="sans-serif"
                     android:text="Remover pet"
                     android:textAllCaps="true"
                     android:textSize="12sp" />

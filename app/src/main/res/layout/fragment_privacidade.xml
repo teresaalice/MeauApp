@@ -15,7 +15,7 @@
         android:id="@+id/notificacoes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto"
+        android:fontFamily="sans-serif"
         android:text="@string/privacidade_not"
         android:textColor="@color/preto_texto"
         android:textAllCaps="true"/>
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/cinza_medio"
         android:buttonTint="@color/cinza_button"
-        android:fontFamily="@font/roboto"
+        android:fontFamily="sans-serif"
         android:text="@string/chk_chat"
         android:layout_below="@+id/notificacoes" />
 
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/cinza_medio"
         android:buttonTint="@color/cinza_button"
-        android:fontFamily="@font/roboto"
+        android:fontFamily="sans-serif"
         android:text="@string/chk_recordacao"
         android:layout_below="@+id/notificacoes_chat"/>
 
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/cinza_medio"
         android:buttonTint="@color/cinza_button"
-        android:fontFamily="@font/roboto"
+        android:fontFamily="sans-serif"
         android:text="@string/chk_eventos"
         android:layout_below="@+id/notificacoes_recordacao"/>
 
@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="24dp"
         android:textColor="@color/cinza_medio"
-        android:fontFamily="@font/roboto"
+        android:fontFamily="sans-serif"
         android:text="@string/privacy_message"
         android:layout_below="@+id/notificacoes_eventos"/>
 
@@ -69,7 +69,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="24dp"
-        android:fontFamily="@font/roboto"
+        android:fontFamily="sans-serif"
         android:backgroundTint="@color/cinza_button"
         android:text="@string/save_alt"
         android:textAllCaps="true" />

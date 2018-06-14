@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="12dp"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="sans-serif-medium"
                 android:text="SELECIONE O(S) ANIMAL(IS)"
                 android:textColor="@color/verde3"
                 android:textSize="12sp" />
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="24dp"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="sans-serif-medium"
                 android:text="QUAL PROCESSO FOI FORMALIZADO?"
                 android:textColor="@color/verde3"
                 android:textSize="12sp" />
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:layout_marginTop="24dp"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="sans-serif-medium"
                 android:text="SELECIONE O USUÁRIO"
                 android:textColor="@color/verde3"
                 android:textSize="12sp" />

@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:background="@color/verde1"
-                android:fontFamily="@font/roboto_medium"
+                android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical"
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
