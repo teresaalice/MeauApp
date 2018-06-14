@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="24dp" android:layout_height="24dp">
 
-    <item android:drawable="@drawable/ic_expand_less_black_24dp" android:state_selected="true" />
+    <item android:drawable="@drawable/ic_expand_less_grey_24dp" android:state_selected="true" />
 
-    <item android:drawable="@drawable/ic_expand_more_black_24dp" android:state_selected="false" />
+    <item android:drawable="@drawable/ic_expand_more_grey_24dp" android:state_selected="false" />
 
-    <item android:drawable="@drawable/ic_expand_more_black_24dp" />
+    <item android:drawable="@drawable/ic_expand_more_grey_24dp" />
 
 </selector>

@@ -85,17 +85,17 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 break;
             case 1:
                 icon.setVisibility(View.VISIBLE);
-                icon.setImageResource(R.drawable.ic_pets_black_24dp);
+                icon.setImageResource(R.drawable.ic_pets_gray_24dp);
                 goup.setBackgroundColor(context.getResources().getColor(R.color.nav_atalhos));
                 break;
             case 2:
                 icon.setVisibility(View.VISIBLE);
-                icon.setImageResource(R.drawable.ic_info_black_24dp);
+                icon.setImageResource(R.drawable.ic_info_grey_24dp);
                 goup.setBackgroundColor(context.getResources().getColor(R.color.nav_informacoes));
                 break;
             case 3:
                 icon.setVisibility(View.VISIBLE);
-                icon.setImageResource(R.drawable.ic_settings_black_24dp);
+                icon.setImageResource(R.drawable.ic_settings_gray_24dp);
                 goup.setBackgroundColor(context.getResources().getColor(R.color.nav_configuracoes));
                 break;
         }
