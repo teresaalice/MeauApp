@@ -60,7 +60,7 @@ public class CustomChatListFirestoreRecyclerAdapter extends FirestoreRecyclerAda
         Chat mModel = (Chat) model;
         PeoplesHolder mHolder = (PeoplesHolder) holder;
 
-        String userName = "User Name";
+        String userName = "";
         HashMap<String, String> names = mModel.getUsersNames();
 
         for (Map.Entry<String, String> name : names.entrySet()) {
@@ -70,7 +70,7 @@ public class CustomChatListFirestoreRecyclerAdapter extends FirestoreRecyclerAda
             }
         }
 
-        mHolder.textNome.setText(userName);
+        mHolder.textNome.setText(userName + " | " + mModel.getAnimal());
 
         mHolder.textPreview.setText(mModel.getLastMessage());
 

@@ -36,6 +36,7 @@ public class ListPeopleFragment extends Fragment implements CustomPeopleFirestor
 
     RecyclerView mRecyclerView;
     GridLayoutManager gridLayoutManager;
+    String animal;
     String animalId;
     FirebaseUser currentUser;
     private FirebaseFirestore db;
@@ -67,8 +68,9 @@ public class ListPeopleFragment extends Fragment implements CustomPeopleFirestor
 
         Bundle bundle = this.getArguments();
 
-        if (bundle != null && bundle.getString("animalId") != null) {
+        if (bundle != null) {
             animalId = bundle.getString("animalId");
+            animal = bundle.getString("animal");
         } else {
             Log.d(TAG, "onCreateView: bundle null");
             return rootView;
@@ -136,6 +138,8 @@ public class ListPeopleFragment extends Fragment implements CustomPeopleFirestor
         visualized.put(currentUser.getUid(), false);
         visualized.put(user.getUid(), false);
         chat.setVisualized(visualized);
+
+        chat.setAnimal(animal);
 
         chatId = currentUser.getDisplayName() + "_" + user.getNome();
 

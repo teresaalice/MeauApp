@@ -9,17 +9,19 @@ public class Chat {
     private HashMap<String, String> usersNames;
     private HashMap<String, String> photos;
     private HashMap<String, Boolean> visualized;
+    private String animal;
     private String lastMessage;
     private Date lastMessageDate;
 
     public Chat() {
     } // Needed for Firebase
 
-    public Chat(HashMap<String, Boolean> users, HashMap<String, String> usersNames, HashMap<String, String> photos, HashMap<String, Boolean> visualized, String lastMessage, Date lastMessageDate) {
+    public Chat(HashMap<String, Boolean> users, HashMap<String, String> usersNames, HashMap<String, String> photos, HashMap<String, Boolean> visualized, String animal, String lastMessage, Date lastMessageDate) {
         this.users = users;
         this.usersNames = usersNames;
         this.photos = photos;
         this.visualized = visualized;
+        this.animal = animal;
         this.lastMessage = lastMessage;
         this.lastMessageDate = lastMessageDate;
     }
@@ -54,6 +56,14 @@ public class Chat {
 
     public void setVisualized(HashMap<String, Boolean> visualized) {
         this.visualized = visualized;
+    }
+
+    public String getAnimal() {
+        return animal;
+    }
+
+    public void setAnimal(String animal) {
+        this.animal = animal;
     }
 
     public String getLastMessage() {

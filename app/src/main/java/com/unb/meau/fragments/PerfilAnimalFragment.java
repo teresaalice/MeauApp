@@ -174,6 +174,7 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
                 Bundle args = new Bundle();
 
                 args.putString("animalId", animalId);
+                args.putString("animal", animal.getNome());
                 listPeopleFragment.setArguments(args);
 
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, listPeopleFragment, MainActivity.FRAGMENT_LISTAR_PESSOAS_TAG)
