@@ -131,7 +131,10 @@ public class CustomAnimalsFirestoreRecyclerAdapter extends FirestoreRecyclerAdap
         else
             mHolder.textInteressados.setText(mModel.getNovos_interessados().toString() + " novos interessados");
 
-        List<String> categoriaArray = new ArrayList<String>();
+        if (mModel.getNovos_interessados() == 0)
+            mHolder.iconError.setVisibility(View.GONE);
+
+        List<String> categoriaArray = new ArrayList<>();
         if (mModel.getCadastro_adocao()) categoriaArray.add("Adoção");
         if (mModel.getCadastro_apadrinhar()) categoriaArray.add("Apadrinhamento");
         if (mModel.getCadastro_ajuda()) categoriaArray.add("Ajuda");

@@ -167,6 +167,8 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
             public void onClick(View v) {
                 Log.d(TAG, "onClick: Clicked Interessados");
 
+                db.collection("animals").document(animalId).update("novos_interessados", 0);
+
                 ListPeopleFragment listPeopleFragment = new ListPeopleFragment();
 
                 Bundle args = new Bundle();
