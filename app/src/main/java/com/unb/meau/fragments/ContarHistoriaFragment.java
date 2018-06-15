@@ -20,8 +20,6 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -92,12 +90,45 @@ public class ContarHistoriaFragment extends Fragment implements CompoundButton.O
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: finalizar");
+                if (!isDataCorrect()) return;
                 showProgressDialog();
                 addToDatabase();
             }
         });
 
         return view;
+    }
+
+    private boolean isDataCorrect() {
+
+        if (!buttonAdotante.isChecked() & !buttonDoador.isChecked() & !buttonPadrinho.isChecked()) {
+            Log.d(TAG, "isDataCorrect: User role missing");
+            Toast.makeText(getActivity(), "Escolha seu papel na história", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        EditText nome_do_animal = view.findViewById(R.id.nome_do_animal);
+        if (nome_do_animal.getText().toString().isEmpty()) {
+            Log.d(TAG, "isDataCorrect: Animal name missing");
+            Toast.makeText(getActivity(), "Escreva o nome do animal", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        EditText historia = view.findViewById(R.id.historia);
+        if (historia.getText().toString().isEmpty()) {
+            Log.d(TAG, "isDataCorrect: Story missing");
+            Toast.makeText(getActivity(), "Escreva uma história", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        EditText data = view.findViewById(R.id.data);
+        if (data.getText().toString().isEmpty()) {
+            Log.d(TAG, "isDataCorrect: Date missing");
+            Toast.makeText(getActivity(), "Insira uma data", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     @Override
@@ -159,10 +190,6 @@ public class ContarHistoriaFragment extends Fragment implements CompoundButton.O
             story.setTipo("ajuda");
         else if (buttonPadrinho.isChecked())
             story.setTipo("apadrinhamento");
-        else {
-            Toast.makeText(getActivity(), "Escolha o tipo da história", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
         final EditText nome_do_animal = view.findViewById(R.id.nome_do_animal);
         animalName = nome_do_animal.getText().toString();
@@ -179,12 +206,7 @@ public class ContarHistoriaFragment extends Fragment implements CompoundButton.O
         }
 
         EditText historia = view.findViewById(R.id.historia);
-        if (historia.getText() != null)
-            story.setHistoria(historia.getText().toString());
-        else {
-            Toast.makeText(getActivity(), "Escreva uma história", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        story.setHistoria(historia.getText().toString());
 
         EditText data = view.findViewById(R.id.data);
         story.setData(data.getText().toString());
@@ -225,6 +247,8 @@ public class ContarHistoriaFragment extends Fragment implements CompoundButton.O
     }
 
     private void uploadFile(Uri filePath) {
+        finalizar.setEnabled(false);
+
         StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
 
         StorageReference imageRef = mStorageRef.child("animals/" + System.currentTimeMillis() + ".jpg");
@@ -232,20 +256,18 @@ public class ContarHistoriaFragment extends Fragment implements CompoundButton.O
         Toast.makeText(getActivity(), "Fazendo upload da imagem", Toast.LENGTH_SHORT).show();
 
         imageRef.putFile(filePath)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Get a URL to the uploaded content
-                        downloadUrl.add(taskSnapshot.getDownloadUrl().toString());
-                        Log.d(TAG, "onSuccess: Photo uploaded: " + downloadUrl.get(downloadUrl.size() - 1));
-                        Toast.makeText(getActivity(), "Imagem enviada com sucesso", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Log.d(TAG, "onFailure: Error uploading photo");
-                        Toast.makeText(getActivity(), "Erro ao enviar imagem", Toast.LENGTH_SHORT).show();
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            downloadUrl.add(task.getResult().getDownloadUrl().toString());
+                            Log.d(TAG, "onComplete: Photo uploaded: " + downloadUrl.get(downloadUrl.size() - 1));
+                            Toast.makeText(getActivity(), "Imagem enviada com sucesso", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.w(TAG, "onComplete: Error uploading photo", task.getException());
+                            Toast.makeText(getActivity(), "Erro ao enviar imagem", Toast.LENGTH_SHORT).show();
+                        }
+                        finalizar.setEnabled(true);
                     }
                 });
     }
