@@ -149,7 +149,7 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
         EditText nome_do_animal = view.findViewById(R.id.nome_do_animal);
         if (nome_do_animal.getText().toString().isEmpty()) {
             Log.d(TAG, "isDataCorrect: Animal name missing");
-            Toast.makeText(getActivity(), "Defina o nome do animal", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Escreva o nome do animal", Toast.LENGTH_SHORT).show();
             return false;
         }
 

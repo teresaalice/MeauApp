@@ -16,10 +16,10 @@ import com.unb.meau.objects.Message;
 
 public class CustomChatFirestoreRecyclerAdapter extends FirestoreRecyclerAdapter {
 
+    private static final String TAG = "CustomChatRecycler";
+
     private static final int VIEW_TYPE_OWN = 1;
     private static final int VIEW_TYPE_OTHER = 2;
-
-    private static final String TAG = "CustomChatRecycler";
 
     private String currentUser;
 

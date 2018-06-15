@@ -20,14 +20,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
 import com.unb.meau.adapters.CustomPeopleFirestoreRecyclerAdapter;
 import com.unb.meau.objects.Chat;
 import com.unb.meau.objects.User;
 
-import java.util.Date;
 import java.util.HashMap;
 
 import static com.facebook.FacebookSdk.getApplicationContext;

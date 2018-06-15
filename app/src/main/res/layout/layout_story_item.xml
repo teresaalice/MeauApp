@@ -21,18 +21,18 @@
             android:id="@+id/nome"
             android:layout_width="match_parent"
             android:layout_height="32dp"
+            android:layout_marginStart="10dp"
             android:fontFamily="sans-serif-medium"
             android:gravity="center_vertical"
-            android:paddingEnd="10dp"
-            android:paddingStart="10dp"
             android:text="Name"
             android:textColor="@color/preto_texto"
             android:textSize="16sp" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
+            android:orientation="vertical"
             android:paddingBottom="4dp">
 
             <ImageView
@@ -45,8 +45,6 @@
                 android:id="@+id/data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/image_animal"
-                android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:text="Data"
                 android:textAllCaps="true" />
@@ -55,13 +53,11 @@
                 android:id="@+id/contador"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/data"
-                android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:text="Contador"
                 android:textAllCaps="true" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
