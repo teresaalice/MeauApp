@@ -47,6 +47,7 @@ import com.unb.meau.fragments.ListEventFragment;
 import com.unb.meau.fragments.ListFragment;
 import com.unb.meau.fragments.ListStoryFragment;
 import com.unb.meau.fragments.NotLoggedFragment;
+import com.unb.meau.fragments.PerfilUsuarioFragment;
 import com.unb.meau.fragments.PrivacidadeFragment;
 import com.unb.meau.fragments.RemocaoAnimalSucessoFragment;
 import com.unb.meau.fragments.SentTermFragment;
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String FRAGMENT_INTRO_TAG = "FRAGMENT_INTRO_TAG";
     public static final String FRAGMENT_CADASTRO_ANIMAL_TAG = "FRAGMENT_CADASTRO_ANIMAL_TAG";
     public static final String FRAGMENT_NOT_LOGGED_TAG = "FRAGMENT_NOT_LOGGED_TAG";
+    public static final String FRAGMENT_PROFILE_TAG = "FRAGMENT_PROFILE_TAG";
     public static final String FRAGMENT_LISTAR_ANIMAIS_TAG = "FRAGMENT_LISTAR_ANIMAIS_TAG";
     public static final String FRAGMENT_SIGN_IN_TAG = "FRAGMENT_SIGN_IN_TAG";
     public static final String FRAGMENT_SIGN_UP_TAG = "FRAGMENT_SIGN_UP_TAG";
@@ -98,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_NoActionBar);
@@ -129,9 +132,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void setDrawerInfo() {
         String userName = "Usuário";
-        FirebaseUser user = mAuth.getCurrentUser();
+        final FirebaseUser user = mAuth.getCurrentUser();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        final NavigationView navigationView = findViewById(R.id.nav_view);
         ImageView fotoPerfil = navigationView.getHeaderView(0).findViewById(R.id.fotoPerfil);
 
         if (user != null) {
@@ -166,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
                 drawer.closeDrawer(GravityCompat.START);
 
                 switch (selectedItem) {
+                    case "Meu perfil":
                     case "Meus pets":
                     case "Cadastrar um pet":
                     case "Adotar um pet":
@@ -179,6 +183,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 switch (selectedItem) {
+                    case "Meu perfil":
+                        showPerfilUsuarioFragment("Meu perfil");
+                        break;
                     case "Meus pets":
                         showListarAnimaisFragment("Meus Pets");
                         break;
@@ -406,6 +413,27 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    public void showPerfilUsuarioFragment(String acao) {
+        fragment = new PerfilUsuarioFragment();
+
+        Bundle args = new Bundle();
+
+        args.putString("acao", acao);
+
+        if (acao.equals("Meu perfil")) {
+            FirebaseUser user = mAuth.getCurrentUser();
+            args.putString("nome", user.getDisplayName());
+            args.putString("userID", user.getUid());
+        }
+
+        fragment.setArguments(args);
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment, FRAGMENT_PROFILE_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
     public void showCadastrarAnimalFragment(String animalId) {
         fragment = new CadastroAnimalFragment();
 
@@ -428,7 +456,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (acao.equals("Meus Pets") || acao.equals("Favoritos") || acao.equals("Filtro")) {
             FirebaseUser user = mAuth.getCurrentUser();
-            args.putString("uid", user.getUid());
+            args.putString("userID", user.getUid());
         }
 
         fragment.setArguments(args);

@@ -34,17 +34,47 @@
     <string name="chk_chat">Ativar notificações de chat</string>
     <string name="chk_recordacao">Ativar notificações de recordação</string>
     <string name="chk_eventos">Ativar notificações de eventos</string>
-    <string name="privacy_message">Com as notificações de chat ativadas, você sempre receberá um aviso em seu celular quando alguém entrar em contato através do aplicativo.\n\nCom as configurações de recordação ativadas, você sempre será lembrado de entrar em contato com o doador (caso você adote um animal) a fim de cumprir o requisito de acompanhamento pós adoção.\n\nCom as notificações de evento ativadas, você sempre receberá uma notificação para lembrá-lo dos eventos da semana.</string>
+    <string name="privacy_message">Com as notificações de chat ativadas, você sempre receberá um aviso
+        em seu celular quando alguém entrar em contato através do aplicativo.\n\nCom as configurações de
+        recordação ativadas, você sempre será lembrado de entrar em contato com o doador (caso você adote
+        um animal) a fim de cumprir o requisito de acompanhamento pós adoção.\n\nCom as notificações de
+        evento ativadas, você sempre receberá uma notificação para lembrá-lo dos eventos da semana.\n</string>
     <string name="save_alt">Salvar Alterações</string>
 
-    // Termo adoção
-    <string name="terms_message">O termo de adoção é um termo que oficializa o processo de adoção de um animal. Similarmente funciona o termo de apadrinhamento.\n\nÉ importante que o doador/dono exija a assinatura deste termo por parte do adotante/padrinho, de forma a ter prova legal de que a pessoa adquiriu o animal. Assim, podem ser tomadas providências legais em caso de maus tratos ou negligência ao animal.\n\nPara facilitar o processo, o Meau disponibiliza o termo aos seus doadores e donos de animais que utilizam o aplicativo para encontrar um destino e/ou ajuda para seu bichinho. Este termo é enviado por e-mail para que possa ser feita a impressão e, no momento de entrega do animal (ou quando o padrinho vai conhecê-lo), seja feita a assinatura por parte do adotante/padrinho.\n\nPressionando os botões abaixo, você receberá em seu email o termo em questão, nos formatos .doc (word) e .pdf.</string>
+    //Termo adoção
+    <string name="terms_message">O termo de adoção é um termo que oficializa o processo de adoção de um animal.
+        Similarmente funciona o termo de apadrinhamento.\n\nÉ importante que o doador/dono exija a assinatura
+        deste termo por parte do adotante/padrinho, de forma a ter prova legal de que a pessoa adquiriu o animal.
+        Assim, podem ser tomadas providências legais em caso de maus tratos ou negligência ao animal.\n\n
+        Para facilitar o processo, o Meau disponibiliza o termo aos seus doadores e donos de animais que utilizam
+        o aplicativo para encontrar um destino e/ou ajuda para seu bichinho. Este termo é enviado por e-mail para
+        que possa ser feita a impressão e, no momento de entrega do animal (ou quando o padrinho vai conhecê-lo),
+        seja feita a assinatura por parte do adotante/padrinho.\n\nPressionando os botões abaixo, você receberá
+        em seu email o termo em questão, nos formatos .doc (word) e .pdf.</string>
     <string name="termo_adocao">Termo de Adoção</string>
     <string name="termo_apadrinhamento">Termo de Apadrinhamento</string>
 
     // Termos enviados
     <string name="termo_pronto">Pronto!</string>
-    <string name="termo_enviado">O termo já foi enviado para o seu email. Caso não tenha recebido, verifique se o seu email está cadastrado corretamente na área “meu perfil”, no menu principal.\n\n Para entender um pouco mais sobre as leis que envolvem esse processo, acesse nossa área de legislação!</string>
+    <string name="termo_enviado">O termo já foi enviado para o seu email. Caso não tenha recebido,
+    verifique se o seu email está cadastrado corretamente na área “meu perfil”, no menu principal.\n\n Para entender um pouco mais sobre as
+    leis que envolvem esse processo, acesse nossa área de legislação!</string>
+
+    //Profile
+
+    <string name="profile_picture">Foto de Perfil</string>
+    <string name="profile_completename">Nome Completo</string>
+    <string name="profile_age">Idade</string>
+    <string name="profile_email">E-mail</string>
+    <string name="profile_location">Localização</string>
+    <string name="profile_adress">Endereço</string>
+    <string name="profile_phone">Telefone</string>
+    <string name="profile_username">Nome de Usuário</string>
+    <string name="profile_history">Histórico</string>
+    <string name="button_chat">Chat</string>
+    <string name="button_history">Histórias</string>
+    <string name="button_edit">Editar Perfil</string>
+
 
     // Dicas
     <string name="comportamento_1">Cão vs gato: qual deve ser o seu bichinho?</string>

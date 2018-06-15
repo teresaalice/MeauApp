@@ -14,11 +14,13 @@ public class User {
     private Integer idade;
     private String telefone;
     private String token;
-    private String uid;
+    private String userID;
     private Boolean notificacoes_chat;
     private Boolean notificacoes_recordacao;
     private Boolean notificacoes_eventos;
     private HashMap<String, Boolean> interesses;
+    private Integer history_count;
+
 
     public User() {
     } // Needed for Firebase
@@ -34,11 +36,12 @@ public class User {
         this.idade = idade;
         this.telefone = telefone;
         this.token = token;
-        this.uid = uid;
+        this.userID = userID;
         this.notificacoes_chat = notificacoes_chat;
         this.notificacoes_recordacao = notificacoes_recordacao;
         this.notificacoes_eventos = notificacoes_eventos;
         this.interesses = interesses;
+        this.history_count = history_count;
     }
 
     public String getNome() {
@@ -121,12 +124,12 @@ public class User {
         this.token = token;
     }
 
-    public String getUid() {
-        return uid;
+    public String getUserID() {
+        return userID;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public Boolean getNotificacoes_chat() {
@@ -159,5 +162,13 @@ public class User {
 
     public void setInteresses(HashMap<String, Boolean> interesses) {
         this.interesses = interesses;
+    }
+
+    public Integer getHistory_count() {
+        return history_count;
+    }
+
+    public void setHistory_count(Integer history_count) {
+        this.history_count = history_count;
     }
 }
