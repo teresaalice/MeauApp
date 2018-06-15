@@ -1,5 +1,6 @@
 package com.unb.meau.fragments;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +47,8 @@ public class ChatFragment extends Fragment {
     String chatId;
     String userId;
 
+    Boolean blocked;
+
     EditText text_message;
 
     FloatingActionButton button_send;
@@ -75,7 +79,11 @@ public class ChatFragment extends Fragment {
         if (bundle != null) {
             chatId = bundle.getString("chat");
             userId = bundle.getString("user");
+            blocked = bundle.getBoolean("blocked");
         }
+
+        if (blocked)
+            disableChat();
 
         getMessages();
 
@@ -147,6 +155,54 @@ public class ChatFragment extends Fragment {
         db.collection("chats")
                 .document(chatId)
                 .update("visualized", visualized);
+    }
+
+    public void removeChat() {
+        Log.d(TAG, "removeChat: Removendo chat");
+        db.collection("chats").document(chatId).delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "onComplete: Chat removed");
+                            Toast.makeText(getActivity(), "Chat removido com sucesso", Toast.LENGTH_SHORT).show();
+                            getActivity().onBackPressed();
+                        } else {
+                            Log.w(TAG, "onComplete: Error removing chat", task.getException());
+                            Toast.makeText(getActivity(), "Erro ao remover chat", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    public void blockUser() {
+        Log.d(TAG, "removeChat: Bloqueando user");
+        db.collection("chats").document(chatId).update("blocked", true)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "onComplete: User blocked");
+                            Toast.makeText(getActivity(), "Usuário bloqueado com sucesso", Toast.LENGTH_SHORT).show();
+                            disableChat();
+                        } else {
+                            Log.w(TAG, "onComplete: Error blocking user", task.getException());
+                            Toast.makeText(getActivity(), "Erro ao bloquear usuário", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    public void openUserProfile() {
+        Log.d(TAG, "removeChat: Opening user profile");
+    }
+
+    private void disableChat() {
+        button_send.setEnabled(false);
+        text_message.setEnabled(false);
+        text_message.setText("Chat bloqueado");
+        text_message.setTypeface(null, Typeface.ITALIC);
+        text_message.setGravity(Gravity.CENTER);
     }
 
     @Override

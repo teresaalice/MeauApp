@@ -35,6 +35,7 @@ import com.unb.meau.R;
 import com.unb.meau.adapters.CustomExpandableListAdapter;
 import com.unb.meau.fragments.CadastroAnimalFragment;
 import com.unb.meau.fragments.CadastroAnimalSucessoFragment;
+import com.unb.meau.fragments.ChatFragment;
 import com.unb.meau.fragments.ContarHistoriaFragment;
 import com.unb.meau.fragments.ContarHistoriaSucessoFragment;
 import com.unb.meau.fragments.DicasFragment;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String FRAGMENT_FILTRO_TAG = "FRAGMENT_FILTRO_TAG";
     public static final String FRAGMENT_FILTRO_ERRO_TAG = "FRAGMENT_FILTRO_ERRO_TAG";
     public static final String FRAGMENT_LISTAR_CHATS_TAG = "FRAGMENT_LISTAR_CHATS_TAG";
+    public static final String FRAGMENT_CHAT_TAG = "FRAGMENT_CHAT_TAG";
     public static final String FRAGMENT_DICAS_TAG = "FRAGMENTE_DICAS_TAG";
     public static final String FRAGMENT_DICA_TAG = "FRAGMENT_DICA_TAG";
     public static final String FRAGMENT_FINALIZAR_PROCESSO_SUCESSO_TAG = "FRAGMENT_FINALIZAR_PROCESSO_SUCESSO_TAG";
@@ -278,6 +280,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_more:
                 Log.d(TAG, "onOptionsItemSelected: more");
 
+                final ChatFragment chatFragment = (ChatFragment) getSupportFragmentManager().findFragmentByTag(FRAGMENT_CHAT_TAG);
+
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
                 View mView = getLayoutInflater().inflate(R.layout.fragment_chat_dialog, null);
                 TextView remover = mView.findViewById(R.id.remover_contato);
@@ -297,6 +301,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         dialog.dismiss();
                         Log.d(TAG, "onClick: remover");
+                        chatFragment.removeChat();
                     }
                 });
 
@@ -305,6 +310,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         dialog.dismiss();
                         Log.d(TAG, "onClick: bloquear");
+                        chatFragment.blockUser();
                     }
                 });
 
@@ -313,6 +319,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         dialog.dismiss();
                         Log.d(TAG, "onClick: perfil");
+                        chatFragment.openUserProfile();
                     }
                 });
 

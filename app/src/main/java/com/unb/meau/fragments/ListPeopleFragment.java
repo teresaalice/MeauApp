@@ -139,6 +139,8 @@ public class ListPeopleFragment extends Fragment implements CustomPeopleFirestor
         visualized.put(user.getUserID(), false);
         chat.setVisualized(visualized);
 
+        chat.setBlocked(false);
+
         chat.setAnimal(animal);
 
         chatId = currentUser.getDisplayName() + "_" + user.getNome();

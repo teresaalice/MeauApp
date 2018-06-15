@@ -120,15 +120,18 @@ public class ListChatFragment extends Fragment implements CustomChatListFirestor
                             String chatId = task.getResult().getDocuments().get(0).getId();
                             Log.d(TAG, "onComplete: Chat ID: " + chatId);
 
+                            Chat chat = task.getResult().getDocuments().get(0).toObject(Chat.class);
+
                             ChatFragment chatFragment = new ChatFragment();
 
                             Bundle args = new Bundle();
                             args.putString("chat", chatId);
                             args.putString("user", finalUserUid);
+                            args.putBoolean("blocked", chat.getBlocked());
                             chatFragment.setArguments(args);
 
                             getFragmentManager().beginTransaction()
-                                    .replace(R.id.content_frame, chatFragment)
+                                    .replace(R.id.content_frame, chatFragment, MainActivity.FRAGMENT_CHAT_TAG)
                                     .addToBackStack(null)
                                     .commit();
 
