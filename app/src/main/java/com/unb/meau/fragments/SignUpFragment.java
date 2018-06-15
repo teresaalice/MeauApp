@@ -271,6 +271,10 @@ public class SignUpFragment extends Fragment {
             newUser.setTelefone(telefoneView.getText().toString());
         }
 
+        newUser.setNotificacoes_chat(true);
+        newUser.setNotificacoes_recordacao(true);
+        newUser.setNotificacoes_eventos(true);
+
         newUser.setUid(currentUser.getUid());
 
         if (providerComplete) {

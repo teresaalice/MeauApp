@@ -1,6 +1,9 @@
 package com.unb.meau.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,64 +11,57 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.WriteBatch;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
-
-import java.util.HashMap;
 
 public class PrivacidadeFragment extends Fragment {
 
     private static final String TAG = "PrivacidadeFragment";
 
+    CheckBox notificacoes_chat;
+    CheckBox notificacoes_recordacao;
+    CheckBox notificacoes_eventos;
+
     Button buttonSalvarPrivacidade;
 
-    TextView title;
-    TextView texto_notificacoes;
-    TextView texto_privacidade;
-
-    CheckBox not_chat;
-    CheckBox not_recordacoes;
-    CheckBox not_eventos;
+    SharedPreferences sharedPref;
 
     FirebaseUser currentUser;
     FirebaseFirestore db;
 
     View view;
 
-    HashMap<Object, Object> userObj = new HashMap<>();
-
-    private FirebaseAuth mAuth;
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_privacidade, container, false);
 
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-        title = view.findViewById(R.id.action_info);
-        texto_notificacoes = view.findViewById(R.id.notificacoes);
-
-        not_chat = view.findViewById(R.id.notificacoes_chat);
-        not_recordacoes = view.findViewById(R.id.notificacoes_recordacao);
-        not_eventos = view.findViewById(R.id.notificacoes_eventos);
-
-        texto_privacidade = view.findViewById(R.id.privacidade_texto);
+        notificacoes_chat = view.findViewById(R.id.notificacoes_chat);
+        notificacoes_recordacao = view.findViewById(R.id.notificacoes_recordacao);
+        notificacoes_eventos = view.findViewById(R.id.notificacoes_eventos);
         buttonSalvarPrivacidade = view.findViewById(R.id.button_salvarprivacidade);
+
+        sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+
+        notificacoes_chat.setChecked(sharedPref.getBoolean("notificacoes_chat", true));
+        notificacoes_recordacao.setChecked(sharedPref.getBoolean("notificacoes_recordacao", true));
+        notificacoes_eventos.setChecked(sharedPref.getBoolean("notificacoes_eventos", true));
 
         buttonSalvarPrivacidade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: User settings updated.");
-                Toast.makeText(getActivity(), "Alterações salvas com sucesso.", Toast.LENGTH_SHORT).show();
                 storeUserData();
             }
         });
@@ -82,12 +78,33 @@ public class PrivacidadeFragment extends Fragment {
 
     private void storeUserData() {
         db = FirebaseFirestore.getInstance();
-        userObj = new HashMap<>();
-        CheckBox not_chat = view.findViewById(R.id.notificacoes_chat);
-        userObj.put("notificacoes_chat", not_chat.isChecked());
-        CheckBox not_recordacoes = view.findViewById(R.id.notificacoes_recordacao);
-        userObj.put("notificacoes_recordacao", not_recordacoes.isChecked());
-        CheckBox not_eventos = view.findViewById(R.id.notificacoes_eventos);
-        userObj.put("notificacoes_eventos", not_eventos.isChecked());
+
+        CheckBox notificacoes_chat = view.findViewById(R.id.notificacoes_chat);
+        CheckBox notificacoes_recordacao = view.findViewById(R.id.notificacoes_recordacao);
+        CheckBox notificacoes_eventos = view.findViewById(R.id.notificacoes_eventos);
+
+        WriteBatch batch = db.batch();
+        batch.update(db.collection("users").document(currentUser.getUid()), "notificacoes_chat", notificacoes_chat.isChecked());
+        batch.update(db.collection("users").document(currentUser.getUid()), "notificacoes_recordacao", notificacoes_recordacao.isChecked());
+        batch.update(db.collection("users").document(currentUser.getUid()), "notificacoes_eventos", notificacoes_eventos.isChecked());
+
+        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "onComplete: user setting updated");
+                    Toast.makeText(getActivity(), "Alterações salvas com sucesso.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.w(TAG, "onComplete: Error updating user setting", task.getException());
+                    Toast.makeText(getActivity(), "Erro ao salvar alterações", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("notificacoes_chat", notificacoes_chat.isChecked());
+        editor.putBoolean("notificacoes_recordacao", notificacoes_recordacao.isChecked());
+        editor.putBoolean("notificacoes_eventos", notificacoes_eventos.isChecked());
+        editor.apply();
     }
 }

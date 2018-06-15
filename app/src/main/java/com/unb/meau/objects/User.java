@@ -15,12 +15,15 @@ public class User {
     private String telefone;
     private String token;
     private String uid;
+    private Boolean notificacoes_chat;
+    private Boolean notificacoes_recordacao;
+    private Boolean notificacoes_eventos;
     private HashMap<String, Boolean> interesses;
 
     public User() {
     } // Needed for Firebase
 
-    public User(String nome, String username, String email, String foto, String cidade, String estado, String endereco, Integer idade, String telefone, String token, String uid, HashMap<String, Boolean> interesses) {
+    public User(String nome, String username, String email, String foto, String cidade, String estado, String endereco, Integer idade, String telefone, String token, String uid, Boolean notificacoes_chat, Boolean notificacoes_recordacao, Boolean notificacoes_eventos, HashMap<String, Boolean> interesses) {
         this.nome = nome;
         this.username = username;
         this.email = email;
@@ -32,6 +35,9 @@ public class User {
         this.telefone = telefone;
         this.token = token;
         this.uid = uid;
+        this.notificacoes_chat = notificacoes_chat;
+        this.notificacoes_recordacao = notificacoes_recordacao;
+        this.notificacoes_eventos = notificacoes_eventos;
         this.interesses = interesses;
     }
 
@@ -121,6 +127,30 @@ public class User {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public Boolean getNotificacoes_chat() {
+        return notificacoes_chat;
+    }
+
+    public void setNotificacoes_chat(Boolean notificacoes_chat) {
+        this.notificacoes_chat = notificacoes_chat;
+    }
+
+    public Boolean getNotificacoes_recordacao() {
+        return notificacoes_recordacao;
+    }
+
+    public void setNotificacoes_recordacao(Boolean notificacoes_recordacao) {
+        this.notificacoes_recordacao = notificacoes_recordacao;
+    }
+
+    public Boolean getNotificacoes_eventos() {
+        return notificacoes_eventos;
+    }
+
+    public void setNotificacoes_eventos(Boolean notificacoes_eventos) {
+        this.notificacoes_eventos = notificacoes_eventos;
     }
 
     public HashMap<String, Boolean> getInteresses() {
