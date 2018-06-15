@@ -121,22 +121,22 @@ public class ListPeopleFragment extends Fragment implements CustomPeopleFirestor
 
         HashMap<String, Boolean> users = new HashMap<>();
         users.put(currentUser.getUid(), true);
-        users.put(user.getUid(), true);
+        users.put(user.getUserID(), true);
         chat.setUsers(users);
 
         HashMap<String, String> usersNames = new HashMap<>();
         usersNames.put(currentUser.getUid(), currentUser.getDisplayName());
-        usersNames.put(user.getUid(), user.getNome());
+        usersNames.put(user.getUserID(), user.getNome());
         chat.setUsersNames(usersNames);
 
         HashMap<String, String> photos = new HashMap<>();
         photos.put(currentUser.getUid(), currentUser.getPhotoUrl().toString());
-        photos.put(user.getUid(), user.getFoto());
+        photos.put(user.getUserID(), user.getFoto());
         chat.setPhotos(photos);
 
         HashMap<String, Boolean> visualized = new HashMap<>();
         visualized.put(currentUser.getUid(), false);
-        visualized.put(user.getUid(), false);
+        visualized.put(user.getUserID(), false);
         chat.setVisualized(visualized);
 
         chat.setAnimal(animal);
