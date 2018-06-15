@@ -115,7 +115,6 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
             getAnimalPerfil();
         }
 
-
         buttonAdocao.setOnCheckedChangeListener(this);
         buttonApadrinhar.setOnCheckedChangeListener(this);
         buttonAjuda.setOnCheckedChangeListener(this);
@@ -137,6 +136,7 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: finalizar");
+                if (!isDataCorrect()) return;
                 showProgressDialog();
                 addToDatabase();
             }
@@ -145,6 +145,44 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
         return view;
     }
 
+    private boolean isDataCorrect() {
+        EditText nome_do_animal = view.findViewById(R.id.nome_do_animal);
+        if (nome_do_animal.getText().toString().isEmpty()) {
+            Log.d(TAG, "isDataCorrect: Animal name missing");
+            Toast.makeText(getActivity(), "Defina o nome do animal", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        RadioGroup especie = view.findViewById(R.id.especie);
+        if (especie.getCheckedRadioButtonId() == -1) {
+            Log.d(TAG, "isDataCorrect: Animal species missing");
+            Toast.makeText(getActivity(), "Defina a espécie do animal", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        RadioGroup sexo = view.findViewById(R.id.sexo);
+        if (sexo.getCheckedRadioButtonId() == -1) {
+            Log.d(TAG, "isDataCorrect: Animal sex missing");
+            Toast.makeText(getActivity(), "Defina o sexo do animal", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        RadioGroup porte = view.findViewById(R.id.porte);
+        if (porte.getCheckedRadioButtonId() == -1) {
+            Log.d(TAG, "isDataCorrect: Animal size missing");
+            Toast.makeText(getActivity(), "Defina o porte do animal", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        RadioGroup idade = view.findViewById(R.id.idade);
+        if (idade.getCheckedRadioButtonId() == -1) {
+            Log.d(TAG, "isDataCorrect: Animal age missing");
+            Toast.makeText(getActivity(), "Defina a idade do animal", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
 
     @Override
     public void onStart() {
@@ -223,7 +261,6 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
                 break;
         }
     }
-
 
     private void getAnimalPerfil() {
 
@@ -357,8 +394,8 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
             visita_previa_ao_animal.setChecked(animal.getVisita_previa_ao_animal());
 
             CheckBox acompanhamento = view.findViewById(R.id.acompanhamento);
-            acompanhamento.setChecked(!animal.getAcompanhamento_pos_adocao().isEmpty());
-            if (!animal.getAcompanhamento_pos_adocao().isEmpty()) {
+            if (animal.getAcompanhamento_pos_adocao() != null) {
+                acompanhamento.setChecked(true);
                 RadioGroup acompanhamento_radio_group = view.findViewById(R.id.acompanhamento_radio_group);
                 switch (animal.getAcompanhamento_pos_adocao()) {
                     case "1 mês":
