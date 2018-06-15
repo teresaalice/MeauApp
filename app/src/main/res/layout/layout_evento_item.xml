@@ -1,128 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/tools"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="8dp">
+    android:layout_margin="8dp"
+    android:backgroundTint="@color/verde1"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="5dp">
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardCornerRadius="5dp"
-        card_view:cardElevation="6dp">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/titulo"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center_vertical"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:text="Name"
+            android:textColor="@color/preto_texto"
+            android:textSize="16sp" />
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:background="#FFFFFF"
+            android:padding="16dp">
 
             <TextView
-                android:id="@+id/titulo"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:background="@color/verde1"
-                android:fontFamily="sans-serif-medium"
-                android:gravity="center_vertical"
-                android:paddingEnd="10dp"
-                android:paddingStart="10dp"
-                android:text="Name"
-                android:textColor="@color/preto_texto"
-                android:textSize="16sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/data_label"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:orientation="vertical">
+                android:text="Data"
+                android:textAllCaps="true"
+                android:textColor="@color/verde3"
+                android:textSize="12sp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+            <TextView
+                android:id="@+id/hora_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="180dp"
+                android:text="Hora"
+                android:textAllCaps="true"
+                android:textColor="@color/verde3"
+                android:textSize="12sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".65"
-                        android:text="Data"
-                        android:textAllCaps="true"
-                        android:textColor="@color/verde3"
-                        android:textSize="12sp" />
+            <TextView
+                android:id="@+id/data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/data_label"
+                android:text="Data"
+                android:textSize="14sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".35"
-                        android:text="Hora"
-                        android:textAllCaps="true"
-                        android:textColor="@color/verde3"
-                        android:textSize="12sp" />
+            <TextView
+                android:id="@+id/hora"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/hora_label"
+                android:layout_below="@id/hora_label"
+                android:text="Hora"
+                android:textSize="14sp" />
 
-                </LinearLayout>
+            <TextView
+                android:id="@+id/local_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/data"
+                android:layout_marginTop="16dp"
+                android:text="Local"
+                android:textAllCaps="true"
+                android:textColor="@color/verde3"
+                android:textSize="12sp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+            <TextView
+                android:id="@+id/local"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/local_label"
+                android:text="Local"
+                android:textSize="14sp" />
 
-                    <TextView
-                        android:id="@+id/data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".65"
-                        android:text="Data"
-                        android:textSize="14sp" />
+            <TextView
+                android:id="@+id/informacoes_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/local"
+                android:layout_marginTop="16dp"
+                android:text="Informações"
+                android:textAllCaps="true"
+                android:textColor="@color/verde3"
+                android:textSize="12sp" />
 
-                    <TextView
-                        android:id="@+id/hora"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".35"
-                        android:text="Hora"
-                        android:textSize="14sp" />
+            <TextView
+                android:id="@+id/informacoes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/informacoes_label"
+                android:text="Informações"
+                android:textSize="14sp" />
 
-                </LinearLayout>
+        </RelativeLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Local"
-                    android:textAllCaps="true"
-                    android:textColor="@color/verde3"
-                    android:textSize="12sp" />
+    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/local"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".30"
-                    android:text="Local"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Informações"
-                    android:textAllCaps="true"
-                    android:textColor="@color/verde3"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/informacoes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Informações"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
-
-</LinearLayout>
+</android.support.v7.widget.CardView>
