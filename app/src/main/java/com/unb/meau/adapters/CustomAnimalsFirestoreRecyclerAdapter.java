@@ -204,8 +204,13 @@ public class CustomAnimalsFirestoreRecyclerAdapter extends FirestoreRecyclerAdap
         @Override
         public void onClick(View v) {
             int clickedPosition = getAdapterPosition();
-            buttonFav.setSelected(!buttonFav.isSelected());
-            mOnClickListener.onListAnimalFavClick((Animal) getItem(clickedPosition), buttonFav.isSelected());
+
+            if (v.getId() == buttonFav.getId()) {
+                buttonFav.setSelected(!buttonFav.isSelected());
+                mOnClickListener.onListAnimalFavClick((Animal) getItem(clickedPosition), buttonFav.isSelected());
+            } else {
+                mOnClickListener.onListAnimalClick((Animal) getItem(clickedPosition));
+            }
         }
     }
 
