@@ -31,10 +31,10 @@ import com.google.firebase.firestore.WriteBatch;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
 import com.unb.meau.objects.Animal;
+import com.unb.meau.objects.Process;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -482,24 +482,24 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
     @Override
     public void onClick(View v) {
 
-        final Map<String, Object> interesseObj;
-        interesseObj = new HashMap<>();
-        interesseObj.put("dono", animal.getDono());
-        interesseObj.put("interessado", currentUser.getUid());
-        interesseObj.put("animal", animalId);
-        interesseObj.put("animalNome", animal.getNome());
-        interesseObj.put("estagio", "interesse");
-        interesseObj.put("interessadoNome", currentUser.getDisplayName());
+        final Process process = new Process();
+
+        process.setDono(animal.getDono());
+        process.setInteressado(currentUser.getUid());
+        process.setAnimal(animalId);
+        process.setAnimalNome(animal.getNome());
+        process.setEstagio("interesse");
+        process.setInteressadoNome(currentUser.getDisplayName());
 
         switch (v.getId()) {
             case R.id.button_adotar:
-                interesseObj.put("acao", "adoção");
+                process.setAcao("adoção");
                 break;
             case R.id.button_apadrinhar:
-                interesseObj.put("acao", "apadrinhamento");
+                process.setAcao("apadrinhamento");
                 break;
             case R.id.button_ajudar:
-                interesseObj.put("acao", "ajuda");
+                process.setAcao("ajuda");
                 break;
         }
 
@@ -521,7 +521,7 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
 
 
                                 db.collection("processes").document(processId)
-                                        .set(interesseObj)
+                                        .set(process)
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
