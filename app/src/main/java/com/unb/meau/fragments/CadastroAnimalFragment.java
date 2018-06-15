@@ -24,8 +24,6 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,7 +37,6 @@ import com.unb.meau.activities.MainActivity;
 import com.unb.meau.objects.Animal;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
 import static android.app.Activity.RESULT_OK;
@@ -669,6 +666,9 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
     }
 
     private void uploadFile(Uri filePath) {
+
+        finalizar.setEnabled(false);
+
         StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
 
         StorageReference imageRef = mStorageRef.child("animals/" + System.currentTimeMillis() + ".jpg");
@@ -676,20 +676,18 @@ public class CadastroAnimalFragment extends Fragment implements CompoundButton.O
         Toast.makeText(getActivity(), "Fazendo upload da imagem", Toast.LENGTH_SHORT).show();
 
         imageRef.putFile(filePath)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Get a URL to the uploaded content
-                        downloadUrl.add(taskSnapshot.getDownloadUrl().toString());
-                        Log.d(TAG, "onSuccess: Photo uploaded: " + downloadUrl.get(downloadUrl.size() - 1));
-                        Toast.makeText(getActivity(), "Imagem enviada com sucesso", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Log.d(TAG, "onFailure: Error uploading photo");
-                        Toast.makeText(getActivity(), "Erro ao enviar imagem", Toast.LENGTH_SHORT).show();
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            downloadUrl.add(task.getResult().getDownloadUrl().toString());
+                            Log.d(TAG, "onComplete: Photo uploaded: " + downloadUrl.get(downloadUrl.size() - 1));
+                            Toast.makeText(getActivity(), "Imagem enviada com sucesso", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.w(TAG, "onComplete: Error uploading photo", task.getException());
+                            Toast.makeText(getActivity(), "Erro ao enviar imagem", Toast.LENGTH_SHORT).show();
+                        }
+                        finalizar.setEnabled(true);
                     }
                 });
     }
