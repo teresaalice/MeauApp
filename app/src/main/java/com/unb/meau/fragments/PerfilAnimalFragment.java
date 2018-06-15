@@ -259,6 +259,7 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
 
         if (acao.equals("Meus Pets")) {
             ((MainActivity) getActivity()).setActionBarTheme("Verde");
+            setLabelGreen();
         } else {
             ((MainActivity) getActivity()).setActionBarTheme("Amarelo");
         }
@@ -462,12 +463,20 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
         return ajudaString;
     }
 
-    private void showProgressDialog() {
-        mProgressBar.setVisibility(View.VISIBLE);
-    }
-
-    private void hideProgressDialog() {
-        mProgressBar.setVisibility(View.GONE);
+    private void setLabelGreen() {
+        ((TextView) getView().findViewById(R.id.sexo_info)).setTextColor(getResources().getColor(R.color.verde3));
+        ((TextView) getView().findViewById(R.id.porte_info)).setTextColor(getResources().getColor(R.color.verde3));
+        ((TextView) getView().findViewById(R.id.idade_info)).setTextColor(getResources().getColor(R.color.verde3));
+        ((TextView) getView().findViewById(R.id.localizacao_info)).setTextColor(getResources().getColor(R.color.verde3));
+        ((TextView) getView().findViewById(R.id.castrado_info)).setTextColor(getResources().getColor(R.color.verde3));
+        ((TextView) getView().findViewById(R.id.vermifugado_info)).setTextColor(getResources().getColor(R.color.verde3));
+        ((TextView) getView().findViewById(R.id.vacinado_info)).setTextColor(getResources().getColor(R.color.verde3));
+        ((TextView) getView().findViewById(R.id.doencas_info)).setTextColor(getResources().getColor(R.color.verde3));
+        ((TextView) getView().findViewById(R.id.temperamento_info)).setTextColor(getResources().getColor(R.color.verde3));
+        ((TextView) getView().findViewById(R.id.exigencias_doacao_info)).setTextColor(getResources().getColor(R.color.verde3));
+        ((TextView) getView().findViewById(R.id.exigencias_apadrinhamento_info)).setTextColor(getResources().getColor(R.color.verde3));
+        ((TextView) getView().findViewById(R.id.exigencias_ajuda_info)).setTextColor(getResources().getColor(R.color.verde3));
+        ((TextView) getView().findViewById(R.id.sobre_info)).setTextColor(getResources().getColor(R.color.verde3));
     }
 
     @Override
@@ -597,4 +606,13 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
                     }
                 });
     }
+
+    private void showProgressDialog() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressDialog() {
+        mProgressBar.setVisibility(View.GONE);
+    }
+
 }
