@@ -11,10 +11,13 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
 
-public class TermoAdocaoFragment extends Fragment{
+import java.util.HashMap;
+
+public class TermoAdocaoFragment extends Fragment {
 
     private static final String TAG = "TermoAdocaoFragment";
 
@@ -49,6 +52,7 @@ public class TermoAdocaoFragment extends Fragment{
                 if (currentUser == null) {
                     ((MainActivity) getActivity()).showNotLoggedFragment();
                 } else {
+                    sendTerms();
                     ((MainActivity) getActivity()).showSentTermFragment();
                 }
             }
@@ -62,11 +66,21 @@ public class TermoAdocaoFragment extends Fragment{
                 if (currentUser == null) {
                     ((MainActivity) getActivity()).showNotLoggedFragment();
                 } else {
+                    sendTerms();
                     ((MainActivity) getActivity()).showSentTermFragment();
                 }
             }
         });
         return view;
+    }
+
+    private void sendTerms() {
+        FirebaseFirestore db;
+        db = FirebaseFirestore.getInstance();
+
+        HashMap<String, String> email = new HashMap<>();
+        email.put("email", currentUser.getEmail());
+        db.collection("mailRequests").add(email);
     }
 
     @Override
@@ -76,4 +90,3 @@ public class TermoAdocaoFragment extends Fragment{
         ((MainActivity) getActivity()).setActionBarTheme("Verde");
     }
 }
-
