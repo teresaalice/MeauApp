@@ -1,6 +1,7 @@
 package com.unb.meau.activities;
 
 import android.app.Activity;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -8,16 +9,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -265,6 +270,52 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_more:
                 Log.d(TAG, "onOptionsItemSelected: more");
+
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+                View mView = getLayoutInflater().inflate(R.layout.fragment_chat_dialog, null);
+                TextView remover = mView.findViewById(R.id.remover_contato);
+                TextView bloquear = mView.findViewById(R.id.bloquear_contato);
+                TextView perfil = mView.findViewById(R.id.ver_perfil);
+                Button cancelar = mView.findViewById(R.id.button_cancelar);
+                mBuilder.setView(mView);
+                final AlertDialog dialog = mBuilder.create();
+
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                dialog.getWindow().setGravity(Gravity.CENTER);
+
+                dialog.show();
+
+                remover.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        Log.d(TAG, "onClick: remover");
+                    }
+                });
+
+                bloquear.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        Log.d(TAG, "onClick: bloquear");
+                    }
+                });
+
+                perfil.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        Log.d(TAG, "onClick: perfil");
+                    }
+                });
+
+                cancelar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
                 return true;
         }
 
