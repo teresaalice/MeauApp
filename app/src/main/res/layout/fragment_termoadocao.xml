@@ -23,7 +23,7 @@
     <Button
         android:id="@+id/button_termoadocao"
         android:layout_width="232dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/termo_texto"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
@@ -35,7 +35,7 @@
     <Button
         android:id="@+id/button_termoapadrinhamento"
         android:layout_width="232dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/button_termoadocao"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"

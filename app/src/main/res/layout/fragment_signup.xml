@@ -169,7 +169,7 @@
         <Button
             android:id="@+id/button_signup"
             android:layout_width="232dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_below="@id/add_photo"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="32dp"

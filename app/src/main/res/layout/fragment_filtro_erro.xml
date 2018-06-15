@@ -46,7 +46,7 @@
         <Button
             android:id="@+id/button_editar"
             android:layout_width="232dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:textColor="@color/preto_texto"
             android:backgroundTint="@color/colorPrimary"
             android:layout_weight="0.5"
@@ -55,7 +55,7 @@
         <Button
             android:id="@+id/button_desabilitar"
             android:layout_width="232dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:textColor="@color/preto_texto"
             android:backgroundTint="@color/colorPrimary"
             android:layout_toEndOf="@id/button_editar"

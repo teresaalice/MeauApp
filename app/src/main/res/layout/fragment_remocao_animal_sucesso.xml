@@ -47,7 +47,7 @@
     <Button
         android:id="@+id/button_meus_pets"
         android:layout_width="232dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="24dp"
         android:textColor="@color/preto"

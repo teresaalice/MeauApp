@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="24dp"
     android:layout_marginEnd="16dp"
     android:layout_marginStart="16dp">
 
@@ -31,8 +32,7 @@
                 android:id="@+id/radio_group_animals"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-            </RadioGroup>
+                android:orientation="vertical"></RadioGroup>
 
             <TextView
                 android:id="@+id/label2"
@@ -49,8 +49,7 @@
                 android:id="@+id/radio_group_process"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-            </RadioGroup>
+                android:orientation="vertical"></RadioGroup>
 
             <TextView
                 android:id="@+id/label3"
@@ -67,8 +66,7 @@
                 android:id="@+id/radio_group_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-            </RadioGroup>
+                android:orientation="vertical"></RadioGroup>
 
 
         </LinearLayout>
@@ -79,16 +77,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/button_finalizar_processo"
         android:layout_width="232dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="24dp"
         android:background="@color/verde2"
         android:text="FINALIZAR PROCESSO" />
 
