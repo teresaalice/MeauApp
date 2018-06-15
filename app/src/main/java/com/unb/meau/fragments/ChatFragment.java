@@ -107,6 +107,15 @@ public class ChatFragment extends Fragment {
 
         adapter = new CustomChatFirestoreRecyclerAdapter(options, currentUser.getUid());
         adapter.notifyDataSetChanged();
+
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                mRecyclerView.smoothScrollToPosition(adapter.getItemCount());
+            }
+        });
+
         mRecyclerView.setAdapter(adapter);
     }
 
