@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -44,9 +45,9 @@ public class FinalizarProcessoFragment extends Fragment implements RadioButton.O
     FirebaseUser currentUser;
     private FirebaseFirestore db;
 
-    String animalId;
-    String userId;
-    String acao;
+    String animalId = "";
+    String userId = "";
+    String acao = "";
 
     List<String> animals;
     List<String> animalsId;
@@ -113,6 +114,11 @@ public class FinalizarProcessoFragment extends Fragment implements RadioButton.O
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: finalizar processo");
+
+                if (animalId.isEmpty() || userId.isEmpty() || acao.isEmpty()) {
+                    Toast.makeText(getActivity(), "Selectione todos os itens", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
                 View mView = getLayoutInflater().inflate(R.layout.fragment_finalizar_processo_dialog, null);
@@ -270,15 +276,18 @@ public class FinalizarProcessoFragment extends Fragment implements RadioButton.O
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-        if (!isChecked)
-            return;
-
         Log.d(TAG, "onCheckedChanged: " + buttonView.getId());
 
         if (buttonView.getId() >= 1000 && buttonView.getId() < 2000) {
-            int id = buttonView.getId() - 1000;
 
+            if (!isChecked) {
+                animalId = "";
+                return;
+            }
+
+            int id = buttonView.getId() - 1000;
             Log.d(TAG, "onCheckedChanged: Animal ID: " + id);
+            animalId = animalsId.get(id);
 
             for (RadioButton rb : rbcategorias) {
                 rb.setEnabled(false);
@@ -287,8 +296,6 @@ public class FinalizarProcessoFragment extends Fragment implements RadioButton.O
             for (RadioButton rb : rbusers) {
                 rb.setEnabled(false);
             }
-
-            animalId = animalsId.get(id);
 
             for (Process process : processes) {
                 if (process.getAnimal().equals(animalId)) {
@@ -307,13 +314,14 @@ public class FinalizarProcessoFragment extends Fragment implements RadioButton.O
             }
 
         } else if (buttonView.getId() >= 0 && buttonView.getId() < 3) {
-            int id = buttonView.getId();
 
-            Log.d(TAG, "onCheckedChanged: interesse ID: " + id);
-
-            for (RadioButton rb : rbusers) {
-                rb.setEnabled(false);
+            if (!isChecked) {
+                acao = "";
+                return;
             }
+
+            int id = buttonView.getId();
+            Log.d(TAG, "onCheckedChanged: interesse ID: " + id);
 
             switch (id) {
                 case 0:
@@ -327,6 +335,10 @@ public class FinalizarProcessoFragment extends Fragment implements RadioButton.O
                     break;
             }
 
+            for (RadioButton rb : rbusers) {
+                rb.setEnabled(false);
+            }
+
             for (Process process : processes) {
                 if (process.getAnimal().equals(animalId) && process.getAcao().equals(acao)) {
                     for (int i = 0; i < usersId.size(); i++) {
@@ -337,6 +349,12 @@ public class FinalizarProcessoFragment extends Fragment implements RadioButton.O
             }
 
         } else if (buttonView.getId() >= 2000 && buttonView.getId() < 3000) {
+
+            if (!isChecked) {
+                userId = "";
+                return;
+            }
+
             int id = buttonView.getId() - 2000;
             Log.d(TAG, "onCheckedChanged: user ID: " + id);
             userId = usersId.get(id);
