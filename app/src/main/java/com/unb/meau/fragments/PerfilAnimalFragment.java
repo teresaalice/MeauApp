@@ -1,23 +1,21 @@
 package com.unb.meau.fragments;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +28,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
+import com.unb.meau.adapters.ViewPagerAdapter;
 import com.unb.meau.objects.Animal;
 import com.unb.meau.objects.Process;
 
@@ -280,7 +279,7 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
     }
 
     private void bindData(Animal animal) {
-        ImageView foto = getView().findViewById(R.id.foto_animal);
+        ViewPager viewPager = getView().findViewById(R.id.fotos_animal);
         TextView nome = getView().findViewById(R.id.nome);
         TextView sexo = getView().findViewById(R.id.sexo);
         TextView porte = getView().findViewById(R.id.porte);
@@ -320,24 +319,32 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
             button_ajudar.setVisibility(View.VISIBLE);
         }
 
+//        String fotos = animal.getFotos();
+//
+//        if (fotos != null && !fotos.isEmpty()) {
+//            List<String> fotosList = Arrays.asList(fotos.split(","));
+//
+//            if (fotosList.size() > 0) {
+//                Uri fotoUri = Uri.parse(fotosList.get(0));
+//                Glide.with(this)
+//                        .load(fotoUri)
+//                        .into(foto);
+//            }
+//        } else {
+//            if (animal.getEspecie() != null && animal.getEspecie().equals("Cachorro")) {
+//                foto.setImageResource(R.drawable.dog_silhouette);
+//            } else {
+//                foto.setImageResource(R.drawable.cat_silhouette);
+//            }
+//            foto.setScaleType(ImageView.ScaleType.FIT_CENTER);
+//        }
+
         String fotos = animal.getFotos();
 
         if (fotos != null && !fotos.isEmpty()) {
             List<String> fotosList = Arrays.asList(fotos.split(","));
-
-            if (fotosList.size() > 0) {
-                Uri fotoUri = Uri.parse(fotosList.get(0));
-                Glide.with(this)
-                        .load(fotoUri)
-                        .into(foto);
-            }
-        } else {
-            if (animal.getEspecie() != null && animal.getEspecie().equals("Cachorro")) {
-                foto.setImageResource(R.drawable.dog_silhouette);
-            } else {
-                foto.setImageResource(R.drawable.cat_silhouette);
-            }
-            foto.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getActivity(), fotosList);
+            viewPager.setAdapter(viewPagerAdapter);
         }
 
         nome.setText(animal.getNome());

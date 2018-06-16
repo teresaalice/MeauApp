@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
+import com.unb.meau.adapters.ViewPagerAdapter;
 import com.unb.meau.objects.Story;
 
 import java.util.Arrays;
@@ -43,6 +45,8 @@ public class StoryFragment extends Fragment {
     String nomeAnimal;
     String storyId;
 
+    ViewPager viewPager;
+
     FirebaseUser currentUser;
     FirebaseFirestore db;
 
@@ -55,6 +59,7 @@ public class StoryFragment extends Fragment {
 
         button_ver_historias = v.findViewById(R.id.button_ver_historias);
         button_contar_historia = v.findViewById(R.id.button_contar_historia);
+        viewPager = v.findViewById(R.id.fotos_animal);
 
         showProgressDialog();
 
@@ -133,7 +138,6 @@ public class StoryFragment extends Fragment {
 
     private void bindData(Story story) {
 
-        ImageView foto = getView().findViewById(R.id.foto_animal);
         TextView nome = getView().findViewById(R.id.nome);
         TextView historia = getView().findViewById(R.id.historia);
 
@@ -141,16 +145,8 @@ public class StoryFragment extends Fragment {
 
         if (fotos != null && !fotos.isEmpty()) {
             List<String> fotosList = Arrays.asList(fotos.split(","));
-
-            if (fotosList.size() > 0) {
-                Uri fotoUri = Uri.parse(fotosList.get(0));
-                Glide.with(this)
-                        .load(fotoUri)
-                        .into(foto);
-            }
-        } else {
-            foto.setImageResource(R.drawable.dog_silhouette);
-            foto.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getActivity(), fotosList);
+            viewPager.setAdapter(viewPagerAdapter);
         }
 
         nome.setText(story.getNome());
