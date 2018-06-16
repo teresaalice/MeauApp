@@ -1,18 +1,25 @@
 package com.unb.meau.fragments;
 
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -166,7 +173,7 @@ public class ChatFragment extends Fragment {
                 .update("visualized", visualized);
     }
 
-    public void removeChat() {
+    private void removeChat() {
         Log.d(TAG, "removeChat: Removendo chat");
         db.collection("chats").document(chatId).delete()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -184,7 +191,7 @@ public class ChatFragment extends Fragment {
                 });
     }
 
-    public void blockUser() {
+    private void blockUser() {
         Log.d(TAG, "removeChat: Bloqueando user");
         db.collection("chats").document(chatId).update("blocked", true)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -202,7 +209,7 @@ public class ChatFragment extends Fragment {
                 });
     }
 
-    public void openUserProfile() {
+    private void openUserProfile() {
         Log.d(TAG, "removeChat: Opening user profile");
     }
 
@@ -223,8 +230,7 @@ public class ChatFragment extends Fragment {
 
         ((MainActivity) getActivity()).setActionBarTheme("Verde");
 
-        ((MainActivity) getActivity()).menuItemName = "more";
-        getActivity().invalidateOptionsMenu();
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -235,10 +241,77 @@ public class ChatFragment extends Fragment {
         db.collection("chats")
                 .document(chatId)
                 .update("visualized." + currentUser.getUid(), true);
-
-        ((MainActivity) getActivity()).menuItemName = "";
-        getActivity().invalidateOptionsMenu();
+    }
 
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        Log.d(TAG, "onCreateOptionsMenu");
+        inflater.inflate(R.menu.main, menu);
+        menu.findItem(R.id.action_more).setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        Log.d(TAG, "onOptionsItemSelected: more");
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_more) {
+
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+            View mView = getLayoutInflater().inflate(R.layout.fragment_chat_dialog, null);
+            TextView remover = mView.findViewById(R.id.remover_contato);
+            TextView bloquear = mView.findViewById(R.id.bloquear_contato);
+            TextView perfil = mView.findViewById(R.id.ver_perfil);
+            Button cancelar = mView.findViewById(R.id.button_cancelar);
+            mBuilder.setView(mView);
+            final AlertDialog dialog = mBuilder.create();
+
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            dialog.getWindow().setGravity(Gravity.CENTER);
+
+            dialog.show();
+
+            remover.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    Log.d(TAG, "onClick: remover");
+                    removeChat();
+                }
+            });
+
+            bloquear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    Log.d(TAG, "onClick: bloquear");
+                    blockUser();
+                }
+            });
+
+            perfil.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    Log.d(TAG, "onClick: perfil");
+                    openUserProfile();
+                }
+            });
+
+            cancelar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

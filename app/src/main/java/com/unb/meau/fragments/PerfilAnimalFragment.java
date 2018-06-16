@@ -8,6 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -266,16 +269,51 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
             ((MainActivity) getActivity()).setActionBarTheme("Amarelo");
         }
 
-        ((MainActivity) getActivity()).menuItemName = "share";
-        getActivity().invalidateOptionsMenu();
+        setHasOptionsMenu(true);
+    }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main, menu);
+        menu.findItem(R.id.action_share).setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        Log.d(TAG, "onOptionsItemSelected: share");
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_share)
+            ((MainActivity) getActivity()).shareText(getShareText());
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private String getShareText() {
+        Log.d(TAG, "getShareText");
+
+        String text = animal.getEspecie();
+
+        if (animal.getCadastro_adocao())
+            text = text + " disponível para adoção\n";
+        else if (animal.getCadastro_apadrinhar())
+            text = text + " necessita de ajuda\n";
+        else if (animal.getCadastro_ajuda())
+            text = text + " em busca de apadrinhamento\n";
+
+        text = text + "\nNome: " + animal.getNome();
+        text = text + "\nSexo: " + animal.getSexo();
+        text = text + "\nPorte: " + animal.getPorte();
+        text = text + "\nIdade: " + animal.getIdade();
+
+        return text;
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        ((MainActivity) getActivity()).menuItemName = "";
-        getActivity().invalidateOptionsMenu();
     }
 
     private void bindData(Animal animal) {
@@ -318,26 +356,6 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
         if (animal.getCadastro_ajuda()) {
             button_ajudar.setVisibility(View.VISIBLE);
         }
-
-//        String fotos = animal.getFotos();
-//
-//        if (fotos != null && !fotos.isEmpty()) {
-//            List<String> fotosList = Arrays.asList(fotos.split(","));
-//
-//            if (fotosList.size() > 0) {
-//                Uri fotoUri = Uri.parse(fotosList.get(0));
-//                Glide.with(this)
-//                        .load(fotoUri)
-//                        .into(foto);
-//            }
-//        } else {
-//            if (animal.getEspecie() != null && animal.getEspecie().equals("Cachorro")) {
-//                foto.setImageResource(R.drawable.dog_silhouette);
-//            } else {
-//                foto.setImageResource(R.drawable.cat_silhouette);
-//            }
-//            foto.setScaleType(ImageView.ScaleType.FIT_CENTER);
-//        }
 
         String fotos = animal.getFotos();
 

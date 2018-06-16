@@ -7,6 +7,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -184,16 +187,32 @@ public class ListFragment extends Fragment implements CustomAnimalsFirestoreRecy
             ((MainActivity) getActivity()).setActionBarTheme("Amarelo");
         }
 
-        ((MainActivity) getActivity()).menuItemName = "search";
-        getActivity().invalidateOptionsMenu();
+        setHasOptionsMenu(true);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         adapter.stopListening();
+    }
 
-        ((MainActivity) getActivity()).menuItemName = "";
-        getActivity().invalidateOptionsMenu();
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        Log.d(TAG, "onCreateOptionsMenu: ");
+        inflater.inflate(R.menu.main, menu);
+        menu.findItem(R.id.action_search).setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        Log.d(TAG, "onOptionsItemSelected: share");
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_search)
+            ((MainActivity) getActivity()).showFilterFragment();
+
+        return super.onOptionsItemSelected(item);
     }
 }

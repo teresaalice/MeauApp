@@ -1,7 +1,7 @@
 package com.unb.meau.activities;
 
 import android.app.Activity;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -9,20 +9,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -35,7 +30,6 @@ import com.unb.meau.R;
 import com.unb.meau.adapters.CustomExpandableListAdapter;
 import com.unb.meau.fragments.CadastroAnimalFragment;
 import com.unb.meau.fragments.CadastroAnimalSucessoFragment;
-import com.unb.meau.fragments.ChatFragment;
 import com.unb.meau.fragments.ContarHistoriaFragment;
 import com.unb.meau.fragments.ContarHistoriaSucessoFragment;
 import com.unb.meau.fragments.DicasFragment;
@@ -258,85 +252,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.action_search:
-                Log.d(TAG, "onOptionsItemSelected: search");
-
-                fragment = new FiltroFragment();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.content_frame, fragment, FRAGMENT_FILTRO_TAG)
-                        .addToBackStack(null)
-                        .commit();
-
-                return true;
-            case R.id.action_share:
-                Log.d(TAG, "onOptionsItemSelected: share");
-                return true;
-            case R.id.action_more:
-                Log.d(TAG, "onOptionsItemSelected: more");
-
-                final ChatFragment chatFragment = (ChatFragment) getSupportFragmentManager().findFragmentByTag(FRAGMENT_CHAT_TAG);
-
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
-                View mView = getLayoutInflater().inflate(R.layout.fragment_chat_dialog, null);
-                TextView remover = mView.findViewById(R.id.remover_contato);
-                TextView bloquear = mView.findViewById(R.id.bloquear_contato);
-                TextView perfil = mView.findViewById(R.id.ver_perfil);
-                Button cancelar = mView.findViewById(R.id.button_cancelar);
-                mBuilder.setView(mView);
-                final AlertDialog dialog = mBuilder.create();
-
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                dialog.getWindow().setGravity(Gravity.CENTER);
-
-                dialog.show();
-
-                remover.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                        Log.d(TAG, "onClick: remover");
-                        chatFragment.removeChat();
-                    }
-                });
-
-                bloquear.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                        Log.d(TAG, "onClick: bloquear");
-                        chatFragment.blockUser();
-                    }
-                });
-
-                perfil.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                        Log.d(TAG, "onClick: perfil");
-                        chatFragment.openUserProfile();
-                    }
-                });
-
-                cancelar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-
-    }
-
     public void onClick(View view) {
         // fechar aplicacao
         moveTaskToBack(true);
@@ -551,6 +466,14 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    public void showFilterFragment() {
+        fragment = new FiltroFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment, FRAGMENT_FILTRO_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
     @Override
     public void onBackPressed() {
 //        Log.d(TAG, "onBackPressed");
@@ -601,6 +524,14 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onBackPressed: super.onBackPressed()");
         super.onBackPressed();
 
+    }
+
+    public void shareText(String text) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, text);
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
     }
 
     public void updateToken() {

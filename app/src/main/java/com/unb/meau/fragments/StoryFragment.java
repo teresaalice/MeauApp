@@ -1,21 +1,21 @@
 package com.unb.meau.fragments;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -124,16 +124,54 @@ public class StoryFragment extends Fragment {
         ((MainActivity) getActivity()).setActionBarTitle(nomeAnimal);
         ((MainActivity) getActivity()).setActionBarTheme("Verde");
 
-        ((MainActivity) getActivity()).menuItemName = "share";
-        getActivity().invalidateOptionsMenu();
-
+        setHasOptionsMenu(true);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        ((MainActivity) getActivity()).menuItemName = "";
-        getActivity().invalidateOptionsMenu();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main, menu);
+        menu.findItem(R.id.action_share).setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d(TAG, "onOptionsItemSelected: share");
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_share)
+            ((MainActivity) getActivity()).shareText(getShareText());
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private String getShareText() {
+        Log.d(TAG, "getShareText");
+
+        String text = "";
+
+        switch (story.getTipo()) {
+            case "adocao":
+                text = "História da adoção de " + story.getNome();
+                break;
+            case "apadrinhamento":
+                text = "História do apadrinhamento de " + story.getNome();
+                break;
+            case "ajuda":
+                text = "História da ajuda de " + story.getNome();
+                break;
+        }
+
+        text = text + "\nContada por " + story.getUser();
+        text = text + "\n\n" + story.getData();
+        text = text + "\n\n" + story.getHistoria();
+
+        return text;
     }
 
     private void bindData(Story story) {
