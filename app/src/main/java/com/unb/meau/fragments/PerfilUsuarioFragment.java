@@ -25,6 +25,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.unb.meau.R;
 import com.unb.meau.activities.MainActivity;
+import com.unb.meau.objects.Chat;
 import com.unb.meau.objects.User;
 
 public class PerfilUsuarioFragment extends Fragment {
@@ -43,6 +44,7 @@ public class PerfilUsuarioFragment extends Fragment {
     Button button_editprofile;
 
     User user;
+    Chat chat;
 
     String nameUser;
     String userID;
@@ -74,31 +76,31 @@ public class PerfilUsuarioFragment extends Fragment {
         button_chat.setVisibility(View.GONE);
         button_history.setVisibility(View.GONE);
 
-
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
         Bundle bundle = this.getArguments();
 
-        if (bundle != null && bundle.getString("acao") != null) {
-            Log.d(TAG, "onCreateView: Perfil: " + bundle.getString("acao"));
+        if (bundle != null && bundle.getString("uid") != null) {
+            Log.d(TAG, "onCreateView: Perfil: " + bundle.getString("uid"));
             acao = bundle.getString("acao");
-            if (acao.equals("Meu perfil")) {
-                userID = bundle.getString("userID");
-                Log.d(TAG, "onCreateView: userID: " + userID);
+            userID = bundle.getString("uid");
+            nameUser = bundle.getString("nome");
+            if (acao != null && acao.equals("Meu perfil")) {
+                button_editprofile.setVisibility(View.VISIBLE);
+                Log.d(TAG, "Edit profile visible " );
+            } else {
+                button_chat.setVisibility(View.VISIBLE);
+                button_history.setVisibility(View.VISIBLE);
+                Log.d(TAG, "Chat/History visible" );
             }
         } else {
             Log.d(TAG, "onCreateView: bundle null");
-            acao = "profile";
         }
-
-        nameUser = bundle.getString("nome");
-        userID = bundle.getString("userID");
-        acao = bundle.getString("acao");
 
         db = FirebaseFirestore.getInstance();
 
-        Query query = db.collection("users").whereEqualTo("nome", nameUser).limit(1);
+        Query query = db.collection("users").whereEqualTo("uid", userID).limit(1);
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -115,12 +117,6 @@ public class PerfilUsuarioFragment extends Fragment {
             }
         });
 
-        if (acao.equals("Meu perfil")) {
-            button_editprofile.setVisibility(View.VISIBLE);
-        } else {
-            button_chat.setVisibility(View.VISIBLE);
-            button_history.setVisibility(View.VISIBLE);
-        }
 
         button_editprofile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,6 +129,7 @@ public class PerfilUsuarioFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: Clicked chat");
+                getChat();
             }
         });
 
@@ -140,6 +137,7 @@ public class PerfilUsuarioFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: Clicked history");
+                ((MainActivity) getActivity()).showListarHistoriasFragment();
             }
         });
         return view;
@@ -149,7 +147,7 @@ public class PerfilUsuarioFragment extends Fragment {
     public void onStart() {
         super.onStart();
         ((MainActivity) getActivity()).setActionBarTitle(nameUser);
-        ((MainActivity) getActivity()).setActionBarTheme("Verde");
+
     }
 
     @Override
@@ -172,58 +170,61 @@ public class PerfilUsuarioFragment extends Fragment {
         TextView userUsername = getView().findViewById(R.id.profileinfo_user_username);
         TextView userHistorycount = getView().findViewById(R.id.profileinfo_user_historycount);
 
-        if (user.getFoto() != null) {
+        String foto = user.getFoto();
+
+        if (foto != null && !foto.isEmpty()) {
             Glide.with(this)
-                    .load(user.getFoto())
+                    .load(foto)
                     .apply(RequestOptions.circleCropTransform())
                     .into(profile_picture);
         } else {
             profile_picture.setImageResource(R.mipmap.ic_launcher_round);
+            Log.d(TAG, "getPhoto = Null");
         }
 
-        userName.setText(user.getNome());
-        userFullname.setText(user.getNome());
-        userEmail.setText(user.getEmail());
-        userUsername.setText(user.getUsername());
+        userName.setText(user.getNome().toString());
+        userFullname.setText(user.getNome().toString());
+        userEmail.setText(user.getEmail().toString());
+        userUsername.setText(user.getUsername().toString());
 
         if (user.getIdade() != null) {
             userAge.setVisibility(View.VISIBLE);
-            userAge.setText(user.getIdade());
+            userAge.setText(user.getIdade().toString());
         } else {
             userAge.setVisibility(View.GONE);
         }
 
         if (user.getCidade() != null) {
             userCity.setVisibility(View.VISIBLE);
-            userCity.setText(user.getCidade());
+            userCity.setText(user.getCidade().toString());
         } else {
             userCity.setVisibility(View.GONE);
         }
 
         if (user.getEstado() != null) {
             userState.setVisibility(View.VISIBLE);
-            userState.setText(user.getEstado());
+            userState.setText(user.getEstado().toString());
         } else {
             userState.setVisibility(View.GONE);
         }
 
         if (user.getEndereco() != null) {
             userAdress.setVisibility(View.VISIBLE);
-            userAdress.setText(user.getEndereco());
+            userAdress.setText(user.getEndereco().toString());
         } else {
             userAdress.setVisibility(View.GONE);
         }
 
         if (user.getTelefone() != null) {
             userPhone.setVisibility(View.VISIBLE);
-            userPhone.setText(user.getTelefone());
+            userPhone.setText(user.getTelefone().toString());
         } else {
             userPhone.setVisibility(View.GONE);
         }
 
         if (user.getHistory_count() != null) {
             userHistorycount.setVisibility(View.VISIBLE);
-            userHistorycount.setText(user.getHistory_count());
+            userHistorycount.setText(user.getHistory_count().toString());
         } else {
             userHistorycount.setVisibility(View.GONE);
         }
@@ -231,6 +232,46 @@ public class PerfilUsuarioFragment extends Fragment {
         hideProgressDialog();
     }
 
+    public void getChat() {
+
+        //Log.d(TAG, "onListChatClick: " + chat.getUsersNames());
+
+        final String finalUserUid = userID;
+        db.collection("chats")
+                .whereEqualTo("users." + currentUser.getUid(), true)
+                .whereEqualTo("users." + userID, true)
+                .limit(1)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "onComplete: Success");
+
+                            String chatId = task.getResult().getDocuments().get(0).getId();
+                            Log.d(TAG, "onComplete: Chat ID: " + chatId);
+
+                            Chat chat = task.getResult().getDocuments().get(0).toObject(Chat.class);
+
+                            ChatFragment chatFragment = new ChatFragment();
+
+                            Bundle args = new Bundle();
+                            args.putString("chat", chatId);
+                            args.putString("user", finalUserUid);
+                            args.putBoolean("blocked", chat.getBlocked());
+                            chatFragment.setArguments(args);
+
+                            getFragmentManager().beginTransaction()
+                                    .replace(R.id.content_frame, chatFragment, MainActivity.FRAGMENT_CHAT_TAG)
+                                    .addToBackStack(null)
+                                    .commit();
+
+                        } else {
+                            Log.w(TAG, "onComplete: Error", task.getException());
+                        }
+                    }
+                });
+    }
 
     private void showProgressDialog() {
         mProgressBar.setVisibility(View.VISIBLE);

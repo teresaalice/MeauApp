@@ -60,6 +60,8 @@ public class ChatFragment extends Fragment {
 
     FloatingActionButton button_send;
 
+    Bundle bundle;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -81,7 +83,7 @@ public class ChatFragment extends Fragment {
         text_message = rootView.findViewById(R.id.text_message);
         button_send = rootView.findViewById(R.id.button_send);
 
-        Bundle bundle = this.getArguments();
+        bundle = this.getArguments();
 
         if (bundle != null) {
             chatId = bundle.getString("chat");
@@ -211,6 +213,19 @@ public class ChatFragment extends Fragment {
 
     private void openUserProfile() {
         Log.d(TAG, "removeChat: Opening user profile");
+
+        PerfilUsuarioFragment perfilUsuarioFragment;
+        perfilUsuarioFragment = new PerfilUsuarioFragment();
+
+        Bundle args = new Bundle();
+        args.putString("uid", userId);
+        perfilUsuarioFragment.setArguments(args);
+
+        getFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, perfilUsuarioFragment, MainActivity.FRAGMENT_PROFILE_TAG)
+                .addToBackStack(null)
+                .commit();
+
     }
 
     private void disableChat() {

@@ -41,6 +41,7 @@ public class ListPeopleFragment extends Fragment implements CustomPeopleFirestor
     FirebaseUser currentUser;
     private FirebaseFirestore db;
     private FirestoreRecyclerAdapter adapter;
+    FirebaseAuth mAuth;
 
     Button button_chat;
     private String chatId;
@@ -63,7 +64,7 @@ public class ListPeopleFragment extends Fragment implements CustomPeopleFirestor
 
         db = FirebaseFirestore.getInstance();
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
         Bundle bundle = this.getArguments();
@@ -106,37 +107,40 @@ public class ListPeopleFragment extends Fragment implements CustomPeopleFirestor
     public void onListUserClick(User user) {
         Log.d(TAG, "onClick: " + user.getNome());
 
-//        PerfilUserFragment perfilUserFragment = new PerfilUserFragment();
-//
-//        Bundle args = new Bundle();
-//        args.putString("email", user.getEmail());
-//        perfilUserFragment.setArguments(args);
-//
-//        getFragmentManager().beginTransaction()
-//                .replace(R.id.content_frame, perfilUserFragment)
-//                .addToBackStack("LIST_PERFIL_USER_TAG")
-//                .commit();
+        currentUser = mAuth.getCurrentUser();
+
+        PerfilUsuarioFragment perfilUsuarioFragment = new PerfilUsuarioFragment();
+
+        Bundle args = new Bundle();
+        args.putString("uid", user.getUid());
+        args.putString("nome", user.getNome());
+        perfilUsuarioFragment.setArguments(args);
+
+        getFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, perfilUsuarioFragment)
+                .addToBackStack("LIST_PERFIL_USER_TAG")
+                .commit();
 
         Chat chat = new Chat();
 
         HashMap<String, Boolean> users = new HashMap<>();
         users.put(currentUser.getUid(), true);
-        users.put(user.getUserID(), true);
+        users.put(user.getUid(), true);
         chat.setUsers(users);
 
         HashMap<String, String> usersNames = new HashMap<>();
         usersNames.put(currentUser.getUid(), currentUser.getDisplayName());
-        usersNames.put(user.getUserID(), user.getNome());
+        usersNames.put(user.getUid(), user.getNome());
         chat.setUsersNames(usersNames);
 
         HashMap<String, String> photos = new HashMap<>();
         photos.put(currentUser.getUid(), currentUser.getPhotoUrl().toString());
-        photos.put(user.getUserID(), user.getFoto());
+        photos.put(user.getUid(), user.getFoto());
         chat.setPhotos(photos);
 
         HashMap<String, Boolean> visualized = new HashMap<>();
         visualized.put(currentUser.getUid(), false);
-        visualized.put(user.getUserID(), false);
+        visualized.put(user.getUid(), false);
         chat.setVisualized(visualized);
 
         chat.setBlocked(false);

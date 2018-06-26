@@ -270,7 +270,7 @@ public class SignUpFragment extends Fragment {
         newUser.setNotificacoes_recordacao(true);
         newUser.setNotificacoes_eventos(true);
 
-        newUser.setUserID(currentUser.getUid());
+        newUser.setUid(currentUser.getUid());
 
         if (providerComplete) {
             if (downloadUrl == null || downloadUrl.toString().isEmpty())
