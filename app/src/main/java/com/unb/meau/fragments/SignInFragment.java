@@ -216,6 +216,9 @@ public class SignInFragment extends Fragment {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
 
+                            if (!getUserVisibleHint())
+                                return;
+
                             if (task.getResult().getAdditionalUserInfo().isNewUser()) {
                                 Log.d(TAG, "onComplete: isNewUser");
                                 ((MainActivity) getActivity()).showCompleteSignUpFragment();
@@ -245,6 +248,10 @@ public class SignInFragment extends Fragment {
                         hideProgressDialog();
 
                         if (task.isSuccessful()) {
+
+                            if (!getUserVisibleHint())
+                                return;
+
                             // Sign in success, update UI with the signed-in user's information
                             if (task.getResult().getAdditionalUserInfo().isNewUser()) {
                                 Log.d(TAG, "onComplete: isNewUser");
@@ -280,6 +287,10 @@ public class SignInFragment extends Fragment {
                         hideProgressDialog();
 
                         if (task.isSuccessful()) {
+
+                            if (!getUserVisibleHint())
+                                return;
+
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             getActivity().onBackPressed();
