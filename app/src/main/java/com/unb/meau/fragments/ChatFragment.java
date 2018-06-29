@@ -209,10 +209,6 @@ public class ChatFragment extends Fragment {
                 });
     }
 
-    private void openUserProfile() {
-        Log.d(TAG, "removeChat: Opening user profile");
-    }
-
     private void disableChat() {
         button_send.setEnabled(false);
         text_message.setEnabled(false);
@@ -297,7 +293,7 @@ public class ChatFragment extends Fragment {
                 public void onClick(View v) {
                     dialog.dismiss();
                     Log.d(TAG, "onClick: perfil");
-                    openUserProfile();
+                    ((MainActivity) getActivity()).showPerfilUsuarioFragment(userId);
                 }
             });
 

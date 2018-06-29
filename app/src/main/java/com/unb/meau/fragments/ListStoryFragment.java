@@ -29,6 +29,8 @@ public class ListStoryFragment extends Fragment implements CustomStoryFirestoreR
     private FirebaseFirestore db;
     private FirestoreRecyclerAdapter adapter;
 
+    private String uid;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,6 +46,12 @@ public class ListStoryFragment extends Fragment implements CustomStoryFirestoreR
         mRecyclerView.setLayoutManager(linearLayoutManager);
         db = FirebaseFirestore.getInstance();
 
+        Bundle bundle = this.getArguments();
+
+        if (bundle != null && bundle.getString("uid") != null) {
+            uid = bundle.getString("uid");
+        }
+
         getStoryList();
 
         return rootView;
@@ -52,7 +60,10 @@ public class ListStoryFragment extends Fragment implements CustomStoryFirestoreR
     private void getStoryList() {
         Query query;
 
-        query = db.collection("story");
+        if (uid == null || uid.isEmpty())
+            query = db.collection("story");
+        else
+            query = db.collection("story").whereEqualTo("userId", uid);
 
         FirestoreRecyclerOptions<Story> options = new FirestoreRecyclerOptions.Builder<Story>()
                 .setQuery(query, Story.class)

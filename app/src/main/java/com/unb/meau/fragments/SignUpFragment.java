@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -46,7 +48,8 @@ public class SignUpFragment extends Fragment {
 
     ProgressBar mProgressBar;
 
-    Boolean providerComplete = false;
+    Boolean providerCompleteMode = false;
+    Boolean editMode = false;
     Boolean completed = false;
 
     FirebaseUser currentUser;
@@ -58,6 +61,9 @@ public class SignUpFragment extends Fragment {
     String password;
 
     User newUser;
+    User user;
+
+    String uid;
 
     View v;
 
@@ -86,9 +92,14 @@ public class SignUpFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
 
-        if (bundle != null && bundle.getBoolean("providerComplete")) {
-            providerComplete = true;
-            adaptLayout();
+        if (bundle != null) {
+            if (bundle.getBoolean("providerComplete")) {
+                providerCompleteMode = true;
+                adaptLayout("complete");
+            } else if (bundle.getBoolean("edit")) {
+                editMode = true;
+                getUserAndAdaptLayout();
+            }
         }
 
         buttonAdicionarFoto.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +129,7 @@ public class SignUpFragment extends Fragment {
                     return;
                 }
 
-                if (!providerComplete) {
+                if (!providerCompleteMode && !editMode) {
                     if (password.isEmpty()) {
                         Log.d(TAG, "onClick: Enter a password");
                         Toast.makeText(getActivity(), "Escolha uma senha", Toast.LENGTH_SHORT).show();
@@ -139,8 +150,12 @@ public class SignUpFragment extends Fragment {
 
                 showProgressDialog();
 
-                if (providerComplete) {
+                if (editMode) {
+                    storeUserData();
+                    return;
+                }
 
+                if (providerCompleteMode) {
                     db.collection("users")
                             .whereEqualTo("username", username)
                             .limit(1)
@@ -215,17 +230,77 @@ public class SignUpFragment extends Fragment {
         return v;
     }
 
-    private void adaptLayout() {
-        EditText nome = v.findViewById(R.id.nome);
-        EditText phone = v.findViewById(R.id.telefone);
+    private void getUserAndAdaptLayout() {
 
-        mEmailEdit.setEnabled(false);
-        mPasswordEdit.setVisibility(View.GONE);
-        mPasswordConfirmationEdit.setVisibility(View.GONE);
+        db.collection("users").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    if (task.getResult() != null) {
+                        user = task.getResult().toObject(User.class);
+                        adaptLayout("edit");
+                    } else {
+                        Log.d(TAG, "onComplete: User not found");
+                        Toast.makeText(getActivity(), "Usuário não encontrado", Toast.LENGTH_SHORT).show();
+                        (getActivity()).onBackPressed();
+                    }
+                } else {
+                    Log.w(TAG, "onComplete: Error getting user", task.getException());
+                    Toast.makeText(getActivity(), "Erro ao buscar usuário", Toast.LENGTH_SHORT).show();
+                    (getActivity()).onBackPressed();
+                }
+            }
+        });
+    }
 
-        nome.setText(currentUser.getDisplayName());
-        phone.setText(currentUser.getPhoneNumber());
-        mEmailEdit.setText(currentUser.getEmail());
+    private void adaptLayout(String mode) {
+
+        EditText nome;
+        EditText telefone;
+
+        switch (mode) {
+            case "complete":
+                nome = v.findViewById(R.id.nome);
+                telefone = v.findViewById(R.id.telefone);
+
+                mEmailEdit.setEnabled(false);
+                mPasswordEdit.setVisibility(View.GONE);
+                mPasswordConfirmationEdit.setVisibility(View.GONE);
+
+                nome.setText(currentUser.getDisplayName());
+                telefone.setText(currentUser.getPhoneNumber());
+                mEmailEdit.setText(currentUser.getEmail());
+                break;
+            case "edit":
+                button_signup.setText("Salvar Edições");
+
+                nome = v.findViewById(R.id.nome);
+                EditText idade = v.findViewById(R.id.idade);
+                EditText email = v.findViewById(R.id.email);
+                EditText estado = v.findViewById(R.id.estado);
+                EditText cidade = v.findViewById(R.id.cidade);
+                EditText endereco = v.findViewById(R.id.endereco);
+                telefone = v.findViewById(R.id.telefone);
+                TextView info_perfil = v.findViewById(R.id.info_perfil);
+
+                mEmailEdit.setEnabled(false);
+                mPasswordEdit.setVisibility(View.GONE);
+                mPasswordConfirmationEdit.setVisibility(View.GONE);
+                info_perfil.setVisibility(View.GONE);
+                mUsername.setVisibility(View.GONE);
+
+                nome.setText(user.getNome());
+                idade.setText(user.getIdade().toString());
+                email.setText(user.getEmail());
+                estado.setText(user.getEstado());
+                cidade.setText(user.getCidade());
+                endereco.setText(user.getEndereco());
+                telefone.setText(user.getTelefone());
+                mUsername.setText(user.getUsername());
+
+                mEmailEdit.setText(currentUser.getEmail());
+                break;
+        }
     }
 
     @Override
@@ -270,17 +345,16 @@ public class SignUpFragment extends Fragment {
         newUser.setNotificacoes_recordacao(true);
         newUser.setNotificacoes_eventos(true);
 
+        newUser.setHistory_count(0);
+
         newUser.setUserID(currentUser.getUid());
 
-        if (providerComplete) {
-            if (downloadUrl == null || downloadUrl.toString().isEmpty())
-                newUser.setFoto(currentUser.getPhotoUrl().toString());
-        } else {
-            if (downloadUrl != null && !downloadUrl.toString().isEmpty())
-                newUser.setFoto(downloadUrl.toString());
-        }
+        if (downloadUrl != null && !downloadUrl.toString().isEmpty())
+            newUser.setFoto(downloadUrl.toString());
+        else if (providerCompleteMode || editMode)
+            newUser.setFoto(currentUser.getPhotoUrl().toString());
 
-        if (providerComplete) {
+        if (providerCompleteMode || editMode) {
 
             db.collection("users").document(currentUser.getUid())
                     .set(newUser)
@@ -289,14 +363,36 @@ public class SignUpFragment extends Fragment {
                         public void onComplete(@NonNull Task<Void> task) {
                             hideProgressDialog();
 
+                            if (!currentUser.getDisplayName().equals(newUser.getNome())) {
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(newUser.getNome())
+                                        .build();
+                                currentUser.updateProfile(profileUpdates);
+                            }
+
+                            if (!newUser.getFoto().isEmpty() && downloadUrl != null) {
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                        .setPhotoUri(downloadUrl)
+                                        .build();
+                                currentUser.updateProfile(profileUpdates);
+                            }
+
                             if (task.isSuccessful()) {
                                 Log.d(TAG, "Document added successfully");
-                                Toast.makeText(getActivity(), "Cadastro realizado com sucesso", Toast.LENGTH_SHORT).show();
+                                if (providerCompleteMode)
+                                    Toast.makeText(getActivity(), "Cadastro realizado com sucesso", Toast.LENGTH_SHORT).show();
+                                else if (editMode)
+                                    Toast.makeText(getActivity(), "Edição realizada com sucesso", Toast.LENGTH_SHORT).show();
+
+                                ((MainActivity) getActivity()).setDrawerInfo();
                                 completed = true;
                                 getActivity().onBackPressed();
                             } else {
                                 Log.w(TAG, "Error adding document", task.getException());
-                                Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
+                                if (providerCompleteMode)
+                                    Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
+                                else
+                                    Toast.makeText(getActivity(), "Erro ao editar", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -388,7 +484,7 @@ public class SignUpFragment extends Fragment {
     public void onStop() {
         super.onStop();
 
-        if (providerComplete && !completed) {
+        if (providerCompleteMode && !completed) {
             Log.d(TAG, "onStop: deleting user");
             currentUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
