@@ -14,7 +14,7 @@ public class User {
     private Integer idade;
     private String telefone;
     private String token;
-    private String userID;
+    private String uid;
     private Boolean notificacoes_chat;
     private Boolean notificacoes_recordacao;
     private Boolean notificacoes_eventos;
@@ -25,7 +25,7 @@ public class User {
     public User() {
     } // Needed for Firebase
 
-    public User(String nome, String username, String email, String foto, String cidade, String estado, String endereco, Integer idade, String telefone, String token, String uid, Boolean notificacoes_chat, Boolean notificacoes_recordacao, Boolean notificacoes_eventos, HashMap<String, Boolean> interesses) {
+    public User(String nome, String username, String email, String foto, String cidade, String estado, String endereco, Integer idade, String telefone, String token, String uid, Boolean notificacoes_chat, Boolean notificacoes_recordacao, Boolean notificacoes_eventos, HashMap<String, Boolean> interesses, Integer history_count) {
         this.nome = nome;
         this.username = username;
         this.email = email;
@@ -36,7 +36,7 @@ public class User {
         this.idade = idade;
         this.telefone = telefone;
         this.token = token;
-        this.userID = userID;
+        this.uid = uid;
         this.notificacoes_chat = notificacoes_chat;
         this.notificacoes_recordacao = notificacoes_recordacao;
         this.notificacoes_eventos = notificacoes_eventos;
@@ -124,12 +124,12 @@ public class User {
         this.token = token;
     }
 
-    public String getUserID() {
-        return userID;
+    public String getUid() {
+        return uid;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public Boolean getNotificacoes_chat() {

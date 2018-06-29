@@ -52,6 +52,7 @@ import com.unb.meau.fragments.SignInFragment;
 import com.unb.meau.fragments.SignUpFragment;
 import com.unb.meau.fragments.StoryFragment;
 import com.unb.meau.fragments.TermoAdocaoFragment;
+import com.unb.meau.fragments.SemHistoriaFragment;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String FRAGMENT_FINALIZAR_PROCESSO_SUCESSO_TAG = "FRAGMENT_FINALIZAR_PROCESSO_SUCESSO_TAG";
     public static final String FRAGMENT_EVENTOS_TAG = "FRAGMENT_EVENTOS_TAG";
     public static final String FRAGMENT_HISTORIA_TAG = "FRAGMENT_HISTORIA_TAG";
+    public static final String FRAGMENT_SEM_HISTORIA_TAG = "FRAGMENT_SEM_HISTORIA_TAG";
     public static final String FRAGMENT_LISTAR_HISTORIAS_TAG = "FRAGMENT_LISTAR_HISTORIAS_TAG";
     public static final String FRAGMENT_CONTAR_HISTORIA_TAG = "FRAGMENT_CONTAR_HISTORIA_TAG";
     public static final String FRAGMENT_CONTAR_HISTORIA_SUCESSO_TAG = "FRAGMENT_CONTAR_HISTORIA_SUCESSO_TAG";
@@ -371,11 +373,11 @@ public class MainActivity extends AppCompatActivity {
         args.putString("userId", uid);
         fragment.setArguments(args);
 
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment, FRAGMENT_PROFILE_TAG)
-                .addToBackStack(null)
-                .commit();
-    }
+        if (acao.equals("Meu perfil")) {
+            FirebaseUser user = mAuth.getCurrentUser();
+            args.putString("nome", user.getDisplayName());
+            args.putString("userID", user.getUid());
+        }
 
     public void showPerfilUsuarioFragment(String uid, String animal) {
         fragment = new PerfilUsuarioFragment();
@@ -413,7 +415,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (acao.equals("Meus Pets") || acao.equals("Favoritos") || acao.equals("Filtro")) {
             FirebaseUser user = mAuth.getCurrentUser();
-            args.putString("userId", user.getUid());
+            args.putString("userID", user.getUid());
         }
 
         fragment.setArguments(args);
@@ -476,6 +478,14 @@ public class MainActivity extends AppCompatActivity {
     public void showListarHistoriasFragment() {
         fragment = new ListStoryFragment();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_LISTAR_HISTORIAS_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void showSemHistoriaFragment() {
+        fragment = new SemHistoriaFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment, FRAGMENT_SEM_HISTORIA_TAG)
                 .addToBackStack(null)
                 .commit();
     }

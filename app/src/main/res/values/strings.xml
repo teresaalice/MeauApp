@@ -75,6 +75,13 @@
     <string name="button_history">Histórias</string>
     <string name="button_edit">Editar Perfil</string>
 
+    //Sem historia
+
+    <string name="no_histoty_text2"> ainda não contou nenhuma história pra gente!</string>
+    <string name="no_histoty_text3">Mas você pode olhar as histórias de outros usuários. Temos certeza que será
+    muito inspirador!</string>
+    <string name="button_listar">Lista de Histórias</string>
+
 
     // Dicas
     <string name="comportamento_1">Cão vs gato: qual deve ser o seu bichinho?</string>

@@ -20,6 +20,8 @@
     <color name="verde2">#88C9BF</color>
     <color name="verde3">#589B9B</color>
 
+    <color name="verde_button">#88C9BF</color>
+
     //Privacidade
 
     <color name="cinza_appbar">#E6E7E8</color>

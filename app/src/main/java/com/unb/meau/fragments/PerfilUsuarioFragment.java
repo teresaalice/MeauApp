@@ -86,20 +86,22 @@ public class PerfilUsuarioFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
 
-        if (bundle != null && bundle.getString("userId") != null) {
-            Log.d(TAG, "onCreateView: Perfil: " + bundle.getString("userId"));
-            userID = bundle.getString("userId");
-            if (bundle.getString("userId") != null)
-                animal = bundle.getString("animal");
-
+        if (bundle != null && bundle.getString("acao") != null) {
+            Log.d(TAG, "onCreateView: Perfil: " + bundle.getString("acao"));
+            acao = bundle.getString("acao");
+            if (acao.equals("Meu perfil")) {
+                userID = bundle.getString("userID");
+                Log.d(TAG, "onCreateView: userID: " + userID);
+            }
         } else {
             Log.d(TAG, "onCreateView: bundle null");
-            return view;
+            acao = "profile";
         }
 
         db = FirebaseFirestore.getInstance();
 
-        db.collection("users").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        Query query = db.collection("users").whereEqualTo("nome", nameUser).limit(1);
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -140,7 +142,7 @@ public class PerfilUsuarioFragment extends Fragment {
             }
         });
 
-        if (userID.equals(currentUser.getUid())) {
+        if (acao.equals("Meu perfil")) {
             button_editprofile.setVisibility(View.VISIBLE);
         } else {
             button_chat.setVisibility(View.VISIBLE);
@@ -159,7 +161,6 @@ public class PerfilUsuarioFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: Clicked chat");
-                showOrCreateChat();
             }
         });
 
@@ -167,7 +168,6 @@ public class PerfilUsuarioFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: Clicked history");
-                ((MainActivity) getActivity()).showListarHistoriasFragment(userID);
             }
         });
         return view;
@@ -269,77 +269,63 @@ public class PerfilUsuarioFragment extends Fragment {
         TextView userUsername = getView().findViewById(R.id.profileinfo_user_username);
         TextView userHistorycount = getView().findViewById(R.id.profileinfo_user_historycount);
 
-        if (!known) {
-
-            TextView profileinfo_fullname = getView().findViewById(R.id.profileinfo_fullname);
-            TextView profileinfo_email = getView().findViewById(R.id.profileinfo_email);
-            TextView profileinfo_adress = getView().findViewById(R.id.profileinfo_adress);
-            TextView profileinfo_phone = getView().findViewById(R.id.profileinfo_phone);
-            TextView profileinfo_username = getView().findViewById(R.id.profileinfo_username);
-
-            profileinfo_fullname.setVisibility(View.GONE);
-            profileinfo_email.setVisibility(View.GONE);
-            profileinfo_adress.setVisibility(View.GONE);
-            profileinfo_phone.setVisibility(View.GONE);
-            profileinfo_username.setVisibility(View.GONE);
-
-            userFullname.setVisibility(View.GONE);
-            userEmail.setVisibility(View.GONE);
-            userAddress.setVisibility(View.GONE);
-            userPhone.setVisibility(View.GONE);
-            userUsername.setVisibility(View.GONE);
-        }
-
-        if (user.getUserID().equals(currentUser.getUid()))
-            Glide.with(this)
-                    .load(currentUser.getPhotoUrl())
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(profile_picture);
-        else if (user.getFoto() != null)
+        if (user.getFoto() != null) {
             Glide.with(this)
                     .load(user.getFoto())
                     .apply(RequestOptions.circleCropTransform())
                     .into(profile_picture);
+        } else {
+            profile_picture.setImageResource(R.mipmap.ic_launcher_round);
+        }
 
         userName.setText(user.getNome());
         userFullname.setText(user.getNome());
         userEmail.setText(user.getEmail());
         userUsername.setText(user.getUsername());
 
-        if (user.getIdade() != null)
-            userAge.setText(user.getIdade().toString());
-        else
+        if (user.getIdade() != null) {
+            userAge.setVisibility(View.VISIBLE);
+            userAge.setText(user.getIdade());
+        } else {
             userAge.setVisibility(View.GONE);
 
-        if (user.getCidade() != null && user.getEstado() != null)
-            userLocation.setText(user.getCidade() + " - " + user.getEstado());
-        else if (user.getCidade() != null && user.getEstado() == null)
-            userLocation.setText(user.getCidade());
-        else if (user.getCidade() == null && user.getEstado() != null)
-            userLocation.setText(user.getEstado());
-        else
-            userLocation.setVisibility(View.GONE);
+        if (user.getCidade() != null) {
+            userCity.setVisibility(View.VISIBLE);
+            userCity.setText(user.getCidade());
+        } else {
+            userCity.setVisibility(View.GONE);
+        }
 
-        if (user.getEndereco() != null)
-            userAddress.setText(user.getEndereco());
-        else
-            userAddress.setVisibility(View.GONE);
+        if (user.getEstado() != null) {
+            userState.setVisibility(View.VISIBLE);
+            userState.setText(user.getEstado());
+        } else {
+            userState.setVisibility(View.GONE);
+        }
 
-        if (user.getTelefone() != null)
+        if (user.getEndereco() != null) {
+            userAdress.setVisibility(View.VISIBLE);
+            userAdress.setText(user.getEndereco());
+        } else {
+            userAdress.setVisibility(View.GONE);
+        }
+
+        if (user.getTelefone() != null) {
+            userPhone.setVisibility(View.VISIBLE);
             userPhone.setText(user.getTelefone());
-        else
+        } else {
             userPhone.setVisibility(View.GONE);
 
-        if (user.getHistory_count() != null)
-            userHistorycount.setText(user.getHistory_count().toString());
-        else
+        if (user.getHistory_count() != null) {
+            userHistorycount.setVisibility(View.VISIBLE);
+            userHistorycount.setText(user.getHistory_count());
+        } else {
             userHistorycount.setVisibility(View.GONE);
 
         profile_layout.setVisibility(View.VISIBLE);
         buttons.setVisibility(View.VISIBLE);
         hideProgressDialog();
 
-    }
 
     private void showProgressDialog() {
         mProgressBar.setVisibility(View.VISIBLE);

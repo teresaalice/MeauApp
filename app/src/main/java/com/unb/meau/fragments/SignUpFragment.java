@@ -345,8 +345,6 @@ public class SignUpFragment extends Fragment {
         newUser.setNotificacoes_recordacao(true);
         newUser.setNotificacoes_eventos(true);
 
-        newUser.setHistory_count(0);
-
         newUser.setUserID(currentUser.getUid());
 
         if (downloadUrl != null && !downloadUrl.toString().isEmpty())
