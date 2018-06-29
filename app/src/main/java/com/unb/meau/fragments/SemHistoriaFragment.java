@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.unb.meau.R;
@@ -15,8 +16,6 @@ import com.unb.meau.activities.MainActivity;
 public class SemHistoriaFragment extends Fragment {
 
     private static final String TAG = "SemHistoriaFragment";
-    FirebaseAuth mAuth;
-
     View view;
 
     String nameUser;
@@ -30,12 +29,18 @@ public class SemHistoriaFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
 
-        nameUser = bundle.getString("nome");
+        if (bundle != null && bundle.getString("nome") != null) {
+            nameUser = bundle.getString("nome");
+        } else {
+            nameUser = "O usuário";
+        }
+
+        TextView text2 = view.findViewById(R.id.text2);
+        text2.setText(nameUser + " " + getResources().getString(R.string.no_histoty_text2));
 
         button_listar_historias.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: button_signup");
                 ((MainActivity) getActivity()).showListarHistoriasFragment();
             }
         });
@@ -48,11 +53,5 @@ public class SemHistoriaFragment extends Fragment {
         super.onStart();
         ((MainActivity) getActivity()).setActionBarTitle(nameUser);
         ((MainActivity) getActivity()).setActionBarTheme("Verde");
-
-        if (mAuth.getCurrentUser() != null) {
-            getActivity().getSupportFragmentManager().popBackStack();
-        }
     }
-
-
 }

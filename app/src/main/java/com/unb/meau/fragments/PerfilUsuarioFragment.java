@@ -86,22 +86,20 @@ public class PerfilUsuarioFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
 
-        if (bundle != null && bundle.getString("acao") != null) {
-            Log.d(TAG, "onCreateView: Perfil: " + bundle.getString("acao"));
-            acao = bundle.getString("acao");
-            if (acao.equals("Meu perfil")) {
-                userID = bundle.getString("userID");
-                Log.d(TAG, "onCreateView: userID: " + userID);
-            }
+        if (bundle != null && bundle.getString("userId") != null) {
+            Log.d(TAG, "onCreateView: Perfil: " + bundle.getString("userId"));
+            userID = bundle.getString("userId");
+            if (bundle.getString("userId") != null)
+                animal = bundle.getString("animal");
+
         } else {
             Log.d(TAG, "onCreateView: bundle null");
-            acao = "profile";
+            return view;
         }
 
         db = FirebaseFirestore.getInstance();
 
-        Query query = db.collection("users").whereEqualTo("nome", nameUser).limit(1);
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("users").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -142,7 +140,7 @@ public class PerfilUsuarioFragment extends Fragment {
             }
         });
 
-        if (acao.equals("Meu perfil")) {
+        if (userID.equals(currentUser.getUid())) {
             button_editprofile.setVisibility(View.VISIBLE);
         } else {
             button_chat.setVisibility(View.VISIBLE);
@@ -161,6 +159,7 @@ public class PerfilUsuarioFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: Clicked chat");
+                showOrCreateChat();
             }
         });
 
@@ -168,6 +167,10 @@ public class PerfilUsuarioFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: Clicked history");
+                if (user.getHistory_count() == 0)
+                    ((MainActivity) getActivity()).showSemHistoriaFragment(user.getNome());
+                else
+                    ((MainActivity) getActivity()).showListarHistoriasFragment(userID);
             }
         });
         return view;
@@ -177,7 +180,7 @@ public class PerfilUsuarioFragment extends Fragment {
 
         db.collection("chat")
                 .whereEqualTo(currentUser.getUid(), true)
-                .whereEqualTo(user.getUserID(), true)
+                .whereEqualTo(user.getUid(), true)
                 .limit(1)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -185,7 +188,7 @@ public class PerfilUsuarioFragment extends Fragment {
                 if (task.isSuccessful()) {
                     if (task.getResult() != null && task.getResult().getDocuments().size() > 0) {
                         Log.d(TAG, "onComplete: chat found");
-                        ((MainActivity) getActivity()).showChatFragment(task.getResult().getDocuments().get(0).getId(), user.getUserID(), (Boolean) task.getResult().getDocuments().get(0).get("blocked"));
+                        ((MainActivity) getActivity()).showChatFragment(task.getResult().getDocuments().get(0).getId(), user.getUid(), (Boolean) task.getResult().getDocuments().get(0).get("blocked"));
                     } else {
                         Log.d(TAG, "onComplete: chat not found");
                         createChat();
@@ -203,22 +206,22 @@ public class PerfilUsuarioFragment extends Fragment {
 
         HashMap<String, Boolean> users = new HashMap<>();
         users.put(currentUser.getUid(), true);
-        users.put(user.getUserID(), true);
+        users.put(user.getUid(), true);
         chat.setUsers(users);
 
         HashMap<String, String> usersNames = new HashMap<>();
         usersNames.put(currentUser.getUid(), currentUser.getDisplayName());
-        usersNames.put(user.getUserID(), user.getNome());
+        usersNames.put(user.getUid(), user.getNome());
         chat.setUsersNames(usersNames);
 
         HashMap<String, String> photos = new HashMap<>();
         photos.put(currentUser.getUid(), currentUser.getPhotoUrl().toString());
-        photos.put(user.getUserID(), user.getFoto());
+        photos.put(user.getUid(), user.getFoto());
         chat.setPhotos(photos);
 
         HashMap<String, Boolean> visualized = new HashMap<>();
         visualized.put(currentUser.getUid(), false);
-        visualized.put(user.getUserID(), false);
+        visualized.put(user.getUid(), false);
         chat.setVisualized(visualized);
 
         chat.setBlocked(false);
@@ -234,7 +237,7 @@ public class PerfilUsuarioFragment extends Fragment {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "DocumentSnapshot written with ID: " + chatId);
-                            ((MainActivity) getActivity()).showChatFragment(chatId, user.getUserID(), false);
+                            ((MainActivity) getActivity()).showChatFragment(chatId, user.getUid(), false);
                         } else {
                             Log.w(TAG, "Error adding document", task.getException());
                             Toast.makeText(getActivity(), "Erro ao criar o chat", Toast.LENGTH_SHORT).show();
@@ -269,63 +272,77 @@ public class PerfilUsuarioFragment extends Fragment {
         TextView userUsername = getView().findViewById(R.id.profileinfo_user_username);
         TextView userHistorycount = getView().findViewById(R.id.profileinfo_user_historycount);
 
-        if (user.getFoto() != null) {
+        if (!known) {
+
+            TextView profileinfo_fullname = getView().findViewById(R.id.profileinfo_fullname);
+            TextView profileinfo_email = getView().findViewById(R.id.profileinfo_email);
+            TextView profileinfo_adress = getView().findViewById(R.id.profileinfo_adress);
+            TextView profileinfo_phone = getView().findViewById(R.id.profileinfo_phone);
+            TextView profileinfo_username = getView().findViewById(R.id.profileinfo_username);
+
+            profileinfo_fullname.setVisibility(View.GONE);
+            profileinfo_email.setVisibility(View.GONE);
+            profileinfo_adress.setVisibility(View.GONE);
+            profileinfo_phone.setVisibility(View.GONE);
+            profileinfo_username.setVisibility(View.GONE);
+
+            userFullname.setVisibility(View.GONE);
+            userEmail.setVisibility(View.GONE);
+            userAddress.setVisibility(View.GONE);
+            userPhone.setVisibility(View.GONE);
+            userUsername.setVisibility(View.GONE);
+        }
+
+        if (user.getUid().equals(currentUser.getUid()))
+            Glide.with(this)
+                    .load(currentUser.getPhotoUrl())
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(profile_picture);
+        else if (user.getFoto() != null)
             Glide.with(this)
                     .load(user.getFoto())
                     .apply(RequestOptions.circleCropTransform())
                     .into(profile_picture);
-        } else {
-            profile_picture.setImageResource(R.mipmap.ic_launcher_round);
-        }
 
         userName.setText(user.getNome());
         userFullname.setText(user.getNome());
         userEmail.setText(user.getEmail());
         userUsername.setText(user.getUsername());
 
-        if (user.getIdade() != null) {
-            userAge.setVisibility(View.VISIBLE);
-            userAge.setText(user.getIdade());
-        } else {
+        if (user.getIdade() != null)
+            userAge.setText(user.getIdade().toString());
+        else
             userAge.setVisibility(View.GONE);
 
-        if (user.getCidade() != null) {
-            userCity.setVisibility(View.VISIBLE);
-            userCity.setText(user.getCidade());
-        } else {
-            userCity.setVisibility(View.GONE);
-        }
+        if (user.getCidade() != null && user.getEstado() != null)
+            userLocation.setText(user.getCidade() + " - " + user.getEstado());
+        else if (user.getCidade() != null && user.getEstado() == null)
+            userLocation.setText(user.getCidade());
+        else if (user.getCidade() == null && user.getEstado() != null)
+            userLocation.setText(user.getEstado());
+        else
+            userLocation.setVisibility(View.GONE);
 
-        if (user.getEstado() != null) {
-            userState.setVisibility(View.VISIBLE);
-            userState.setText(user.getEstado());
-        } else {
-            userState.setVisibility(View.GONE);
-        }
+        if (user.getEndereco() != null)
+            userAddress.setText(user.getEndereco());
+        else
+            userAddress.setVisibility(View.GONE);
 
-        if (user.getEndereco() != null) {
-            userAdress.setVisibility(View.VISIBLE);
-            userAdress.setText(user.getEndereco());
-        } else {
-            userAdress.setVisibility(View.GONE);
-        }
-
-        if (user.getTelefone() != null) {
-            userPhone.setVisibility(View.VISIBLE);
+        if (user.getTelefone() != null)
             userPhone.setText(user.getTelefone());
-        } else {
+        else
             userPhone.setVisibility(View.GONE);
 
-        if (user.getHistory_count() != null) {
-            userHistorycount.setVisibility(View.VISIBLE);
-            userHistorycount.setText(user.getHistory_count());
-        } else {
+        if (user.getHistory_count() != null)
+            userHistorycount.setText(user.getHistory_count().toString());
+        else
             userHistorycount.setVisibility(View.GONE);
 
         profile_layout.setVisibility(View.VISIBLE);
         buttons.setVisibility(View.VISIBLE);
         hideProgressDialog();
 
+    }
 
     private void showProgressDialog() {
         mProgressBar.setVisibility(View.VISIBLE);

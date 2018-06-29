@@ -486,6 +486,7 @@
                     android:layout_weight="0.5"
                     android:backgroundTint="@color/verde2"
                     android:fontFamily="sans-serif"
+                    android:textColor="@color/preto_texto"
                     android:text="Ver interessados"
                     android:textAllCaps="true"
                     android:textSize="12sp" />
@@ -497,6 +498,7 @@
                     android:layout_weight="0.5"
                     android:backgroundTint="@color/verde2"
                     android:fontFamily="sans-serif"
+                    android:textColor="@color/preto_texto"
                     android:text="Remover pet"
                     android:textAllCaps="true"
                     android:textSize="12sp" />

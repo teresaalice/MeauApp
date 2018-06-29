@@ -47,12 +47,12 @@ import com.unb.meau.fragments.NotLoggedFragment;
 import com.unb.meau.fragments.PerfilUsuarioFragment;
 import com.unb.meau.fragments.PrivacidadeFragment;
 import com.unb.meau.fragments.RemocaoAnimalSucessoFragment;
+import com.unb.meau.fragments.SemHistoriaFragment;
 import com.unb.meau.fragments.SentTermFragment;
 import com.unb.meau.fragments.SignInFragment;
 import com.unb.meau.fragments.SignUpFragment;
 import com.unb.meau.fragments.StoryFragment;
 import com.unb.meau.fragments.TermoAdocaoFragment;
-import com.unb.meau.fragments.SemHistoriaFragment;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -373,11 +373,11 @@ public class MainActivity extends AppCompatActivity {
         args.putString("userId", uid);
         fragment.setArguments(args);
 
-        if (acao.equals("Meu perfil")) {
-            FirebaseUser user = mAuth.getCurrentUser();
-            args.putString("nome", user.getDisplayName());
-            args.putString("userID", user.getUid());
-        }
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment, FRAGMENT_PROFILE_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
 
     public void showPerfilUsuarioFragment(String uid, String animal) {
         fragment = new PerfilUsuarioFragment();
@@ -415,7 +415,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (acao.equals("Meus Pets") || acao.equals("Favoritos") || acao.equals("Filtro")) {
             FirebaseUser user = mAuth.getCurrentUser();
-            args.putString("userID", user.getUid());
+            args.putString("userId", user.getUid());
         }
 
         fragment.setArguments(args);
@@ -482,14 +482,6 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void showSemHistoriaFragment() {
-        fragment = new SemHistoriaFragment();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment, FRAGMENT_SEM_HISTORIA_TAG)
-                .addToBackStack(null)
-                .commit();
-    }
-
     public void showListarHistoriasFragment(String uid) {
         fragment = new ListStoryFragment();
 
@@ -498,6 +490,19 @@ public class MainActivity extends AppCompatActivity {
         fragment.setArguments(args);
 
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_LISTAR_HISTORIAS_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void showSemHistoriaFragment(String name) {
+        fragment = new SemHistoriaFragment();
+
+        Bundle args = new Bundle();
+        args.putString("nome", name);
+        fragment.setArguments(args);
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment, FRAGMENT_SEM_HISTORIA_TAG)
                 .addToBackStack(null)
                 .commit();
     }

@@ -21,7 +21,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="@color/verde2"
+        android:fontFamily="sans-serif"
         android:text="IR PARA O CHAT"
-        android:textColor="@color/preto_texto" />
+        android:textColor="@color/preto_texto"
+        android:textSize="12sp" />
 
 </RelativeLayout>
