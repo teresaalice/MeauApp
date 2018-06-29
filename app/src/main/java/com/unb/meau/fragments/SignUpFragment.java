@@ -276,7 +276,7 @@ public class SignUpFragment extends Fragment {
             if (downloadUrl == null || downloadUrl.toString().isEmpty())
                 newUser.setFoto(currentUser.getPhotoUrl().toString());
         } else {
-            if (downloadUrl.toString() != null)
+            if (downloadUrl != null && !downloadUrl.toString().isEmpty())
                 newUser.setFoto(downloadUrl.toString());
         }
 
@@ -293,7 +293,6 @@ public class SignUpFragment extends Fragment {
                                 Log.d(TAG, "Document added successfully");
                                 Toast.makeText(getActivity(), "Cadastro realizado com sucesso", Toast.LENGTH_SHORT).show();
                                 completed = true;
-                                ((MainActivity) getActivity()).setDrawerInfo();
                                 getActivity().onBackPressed();
                             } else {
                                 Log.w(TAG, "Error adding document", task.getException());
@@ -326,7 +325,6 @@ public class SignUpFragment extends Fragment {
                                             if (task.isSuccessful()) {
                                                 Log.d(TAG, "Document added successfully");
                                                 Toast.makeText(getActivity(), "Cadastro realizado com sucesso", Toast.LENGTH_SHORT).show();
-                                                ((MainActivity) getActivity()).setDrawerInfo();
                                                 getActivity().onBackPressed();
                                             } else {
                                                 Log.w(TAG, "Error adding document", task.getException());

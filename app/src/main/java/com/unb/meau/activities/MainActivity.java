@@ -3,6 +3,7 @@ package com.unb.meau.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -89,13 +90,11 @@ public class MainActivity extends AppCompatActivity {
     public DrawerLayout drawer;
     Fragment fragment;
     FragmentManager fragmentManager;
-    private LinkedHashMap<String, List<String>> listItem;
 
     public String menuItemName = "";
 
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,9 +123,22 @@ public class MainActivity extends AppCompatActivity {
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         setDrawerInfo();
+
+        mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    Log.d(TAG, "onAuthStateChanged: LOGADO");
+                } else {
+                    Log.d(TAG, "onAuthStateChanged: DESLOGADO");
+                }
+                setDrawerInfo();
+            }
+        });
     }
 
-    public void setDrawerInfo() {
+    private void setDrawerInfo() {
         String userName = "Usuário";
         final FirebaseUser user = mAuth.getCurrentUser();
 
@@ -147,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
         final List<String> groupNames = Arrays.asList(userName, "Atalhos", "Informações", "Configurações");
 
-        listItem = new LinkedHashMap<>();
+        final LinkedHashMap<String, List<String>> listItem = new LinkedHashMap<>();
         listItem.put(userName, Arrays.asList("Meu perfil", "Meus pets", "Favoritos", "Chat"));
         listItem.put("Atalhos", Arrays.asList("Cadastrar um pet", "Adotar um pet", "Ajudar um pet", "Apadrinhar um pet"));
         listItem.put("Informações", Arrays.asList("Dicas", "Eventos", "Legislação", "Termo de Adoção", "Histórias de adoção"));
@@ -378,7 +390,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (acao.equals("Meus Pets") || acao.equals("Favoritos") || acao.equals("Filtro")) {
             FirebaseUser user = mAuth.getCurrentUser();
-            args.putString("userID", user.getUid());
+            args.putString("userId", user.getUid());
         }
 
         fragment.setArguments(args);

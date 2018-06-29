@@ -221,7 +221,6 @@ public class SignInFragment extends Fragment {
                                 ((MainActivity) getActivity()).showCompleteSignUpFragment();
                             } else {
                                 Toast.makeText(getActivity(), "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
-                                ((MainActivity) getActivity()).setDrawerInfo();
                                 getActivity().onBackPressed();
                             }
 
@@ -252,7 +251,6 @@ public class SignInFragment extends Fragment {
                                 ((MainActivity) getActivity()).showCompleteSignUpFragment();
                             } else {
                                 Toast.makeText(getActivity(), "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
-                                ((MainActivity) getActivity()).setDrawerInfo();
                                 getActivity().onBackPressed();
                             }
                         } else {
@@ -284,7 +282,6 @@ public class SignInFragment extends Fragment {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            ((MainActivity) getActivity()).setDrawerInfo();
                             getActivity().onBackPressed();
                         } else {
                             // If sign in fails, display a message to the user.
