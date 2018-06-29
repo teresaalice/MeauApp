@@ -32,7 +32,7 @@
                 android:id="@+id/radio_group_animals"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"></RadioGroup>
+                android:orientation="vertical" />
 
             <TextView
                 android:id="@+id/label2"
@@ -49,7 +49,7 @@
                 android:id="@+id/radio_group_process"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"></RadioGroup>
+                android:orientation="vertical" />
 
             <TextView
                 android:id="@+id/label3"
@@ -66,8 +66,7 @@
                 android:id="@+id/radio_group_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"></RadioGroup>
-
+                android:orientation="vertical" />
 
         </LinearLayout>
     </ScrollView>
@@ -82,12 +81,14 @@
     <Button
         android:id="@+id/button_finalizar_processo"
         android:layout_width="232dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:background="@color/verde2"
-        android:text="FINALIZAR PROCESSO" />
+        android:fontFamily="sans-serif"
+        android:text="FINALIZAR PROCESSO"
+        android:textSize="12sp" />
 
 </RelativeLayout>
 
