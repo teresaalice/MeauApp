@@ -20,6 +20,8 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -251,7 +253,7 @@ public class ContarHistoriaFragment extends Fragment implements CompoundButton.O
 
         StorageReference mStorageRef = FirebaseStorage.getInstance().getReference();
 
-        StorageReference imageRef = mStorageRef.child("animals/" + System.currentTimeMillis() + ".jpg");
+        final StorageReference imageRef = mStorageRef.child("animals/" + System.currentTimeMillis() + ".jpg");
 
         Toast.makeText(getActivity(), "Fazendo upload da imagem", Toast.LENGTH_SHORT).show();
 
@@ -260,9 +262,22 @@ public class ContarHistoriaFragment extends Fragment implements CompoundButton.O
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                         if (task.isSuccessful()) {
-                            downloadUrl.add(task.getResult().getDownloadUrl().toString());
-                            Log.d(TAG, "onComplete: Photo uploaded: " + downloadUrl.get(downloadUrl.size() - 1));
-                            Toast.makeText(getActivity(), "Imagem enviada com sucesso", Toast.LENGTH_SHORT).show();
+                            imageRef.getDownloadUrl()
+                                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            downloadUrl.add(uri.toString());
+                                            Log.d(TAG, "onComplete: Photo uploaded: " + downloadUrl.get(downloadUrl.size() - 1));
+                                            Toast.makeText(getActivity(), "Imagem enviada com sucesso", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "onComplete: Error uploading photo", e);
+                                            Toast.makeText(getActivity(), "Erro ao enviar imagem", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                         } else {
                             Log.w(TAG, "onComplete: Error uploading photo", task.getException());
                             Toast.makeText(getActivity(), "Erro ao enviar imagem", Toast.LENGTH_SHORT).show();

@@ -67,7 +67,7 @@ public class ListFragment extends Fragment implements CustomAnimalsFirestoreRecy
             Log.d(TAG, "onCreateView: Listar pets: " + bundle.getString("acao"));
             acao = bundle.getString("acao");
             if (acao.equals("Meus Pets") || acao.equals("Favoritos") || acao.equals("Filtro")) {
-                uid = bundle.getString("uid");
+                uid = bundle.getString("userID");
                 Log.d(TAG, "onCreateView: uid: " + uid);
             }
         } else {
