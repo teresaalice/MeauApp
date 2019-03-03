@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -53,6 +54,7 @@ public class ContarHistoriaFragment extends Fragment implements CompoundButton.O
 
     ArrayList<String> downloadUrl = new ArrayList<>();
     FirebaseFirestore db;
+    FirebaseAuth mAuth;
     Map<String, Object> storyObj;
     View view;
     private int PICK_IMAGE_REQUEST = 1;
@@ -226,6 +228,8 @@ public class ContarHistoriaFragment extends Fragment implements CompoundButton.O
                         if (task.isSuccessful()) {
                             Log.d(TAG, "DocumentSnapshot written with ID: " + storyId);
 
+                            updateHistoryCount();
+
                             ContarHistoriaSucessoFragment contarHistoriaSucessoFragment = new ContarHistoriaSucessoFragment();
 
                             Bundle args = new Bundle();
@@ -246,6 +250,27 @@ public class ContarHistoriaFragment extends Fragment implements CompoundButton.O
                         hideProgressDialog();
                     }
                 });
+    }
+
+    private void updateHistoryCount() {
+        mAuth = FirebaseAuth.getInstance();
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        db.collection("users").document(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    Integer count = task.getResult().getLong("history_count").intValue();
+                    count++;
+
+                    db.collection("users").document(currentUser.getUid()).update("history_count", count);
+
+                } else {
+                    Log.w(TAG, "onComplete: Error getting user", task.getException());
+                    Toast.makeText(getActivity(), "Erro ao requisitar usuário", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void uploadFile(Uri filePath) {

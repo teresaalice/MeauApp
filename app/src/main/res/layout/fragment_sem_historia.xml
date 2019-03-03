@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_no_history"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginEnd="24dp"
+    android:layout_marginStart="24dp">
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="52dp"
+        android:fontFamily="@font/courgette"
+        android:gravity="center"
+        android:text="Ops!"
+        android:textColor="#88C9BF"
+        android:textSize="72dp" />
+
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="52dp"
+        android:text="@string/no_histoty_text2"
+        android:textColor="@color/cinza_medio"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/text3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/no_histoty_text3"
+        android:textColor="@color/cinza_medio"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/button_listar_historias"
+        android:layout_width="232dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/verde_button"
+        android:fontFamily="sans-serif"
+        android:text="@string/button_listar"
+        android:textColor="@color/preto_texto"
+        android:textSize="12sp" />
+
+</RelativeLayout>

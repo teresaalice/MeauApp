@@ -297,7 +297,7 @@ public class ChatFragment extends Fragment {
                 public void onClick(View v) {
                     dialog.dismiss();
                     Log.d(TAG, "onClick: perfil");
-                    openUserProfile();
+                    ((MainActivity) getActivity()).showPerfilUsuarioFragment(userId);
                 }
             });
 

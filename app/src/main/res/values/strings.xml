@@ -65,7 +65,7 @@
     <string name="profile_picture">Foto de Perfil</string>
     <string name="profile_completename">Nome Completo</string>
     <string name="profile_age">Idade</string>
-    <string name="profile_email">E-mail</string>
+    <string name="profile_email">Email</string>
     <string name="profile_location">Localização</string>
     <string name="profile_adress">Endereço</string>
     <string name="profile_phone">Telefone</string>
@@ -74,6 +74,13 @@
     <string name="button_chat">Chat</string>
     <string name="button_history">Histórias</string>
     <string name="button_edit">Editar Perfil</string>
+
+    //Sem historia
+
+    <string name="no_histoty_text2"> ainda não contou nenhuma história pra gente!</string>
+    <string name="no_histoty_text3">Mas você pode olhar as histórias de outros usuários. Temos certeza que será
+    muito inspirador!</string>
+    <string name="button_listar">Lista de Histórias</string>
 
 
     // Dicas

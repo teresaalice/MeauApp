@@ -93,6 +93,7 @@ public class FinalizarProcessoFragment extends Fragment implements RadioButton.O
 
         db.collection("processes")
                 .whereEqualTo("dono", currentUser.getUid())
+                .whereEqualTo("estagio", "interesse")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -247,16 +248,6 @@ public class FinalizarProcessoFragment extends Fragment implements RadioButton.O
             radio_group_animals.addView(rb[i]);
         }
 
-        rbusers = new RadioButton[users.size()];
-        for (int i = 0; i < users.size(); i++) {
-            rbusers[i] = new RadioButton(getActivity());
-            rbusers[i].setText(users.get(i));
-            rbusers[i].setId(2000 + i);
-            rbusers[i].setOnCheckedChangeListener(this);
-            rbusers[i].setEnabled(false);
-            radio_group_user.addView(rbusers[i]);
-        }
-
         rbcategorias = new RadioButton[3];
         categorias.add("Adoção");
         categorias.add("Ajuda");
@@ -270,6 +261,16 @@ public class FinalizarProcessoFragment extends Fragment implements RadioButton.O
             rbcategorias[i].setEnabled(false);
             radio_group_process.addView(rbcategorias[i]);
         }
+
+        rbusers = new RadioButton[users.size()];
+        for (int i = 0; i < users.size(); i++) {
+            rbusers[i] = new RadioButton(getActivity());
+            rbusers[i].setText(users.get(i));
+            rbusers[i].setId(2000 + i);
+            rbusers[i].setOnCheckedChangeListener(this);
+            rbusers[i].setEnabled(false);
+            radio_group_user.addView(rbusers[i]);
+        }
     }
 
     @SuppressLint("ResourceType")
@@ -280,12 +281,21 @@ public class FinalizarProcessoFragment extends Fragment implements RadioButton.O
 
         if (buttonView.getId() >= 1000 && buttonView.getId() < 2000) {
 
-            if (!isChecked) {
-                animalId = "";
+            Log.d(TAG, "onCheckedChanged: ANIMAL");
+
+            int id = buttonView.getId() - 1000;
+
+            if (isChecked) {
+                for (RadioButton rb : rbcategorias)
+                    rb.setChecked(false);
+                for (RadioButton rb : rbusers)
+                    rb.setChecked(false);
+            } else {
+                if (animalId.equals(animalsId.get(id)))
+                    animalId = "";
                 return;
             }
 
-            int id = buttonView.getId() - 1000;
             Log.d(TAG, "onCheckedChanged: Animal ID: " + id);
             animalId = animalsId.get(id);
 
@@ -315,12 +325,20 @@ public class FinalizarProcessoFragment extends Fragment implements RadioButton.O
 
         } else if (buttonView.getId() >= 0 && buttonView.getId() < 3) {
 
-            if (!isChecked) {
-                acao = "";
+            Log.d(TAG, "onCheckedChanged: PROCESSO");
+
+            int id = buttonView.getId();
+
+            if (isChecked) {
+                for (RadioButton rb : rbusers)
+                    rb.setChecked(false);
+            } else {
+                if (acao.equals(categorias.get(id))) {
+                    acao = "";
+                }
                 return;
             }
 
-            int id = buttonView.getId();
             Log.d(TAG, "onCheckedChanged: interesse ID: " + id);
 
             switch (id) {
@@ -340,15 +358,23 @@ public class FinalizarProcessoFragment extends Fragment implements RadioButton.O
             }
 
             for (Process process : processes) {
+                Log.d(TAG, "onCheckedChanged: ANIMAL " + process.getAnimalNome());
                 if (process.getAnimal().equals(animalId) && process.getAcao().equals(acao)) {
+                    Log.d(TAG, "onCheckedChanged: EH ESSE");
                     for (int i = 0; i < usersId.size(); i++) {
-                        if (usersId.get(i).equals(process.getInteressado()))
+                        Log.d(TAG, "onCheckedChanged: " + usersId.get(i));
+                        if (usersId.get(i).equals(process.getInteressado())) {
+                            Log.d(TAG, "onCheckedChanged: interessado OK");
                             rbusers[i].setEnabled(true);
+                            return;
+                        }
                     }
                 }
             }
 
         } else if (buttonView.getId() >= 2000 && buttonView.getId() < 3000) {
+
+            Log.d(TAG, "onCheckedChanged: USUARIO");
 
             if (!isChecked) {
                 userId = "";

@@ -37,6 +37,7 @@ import com.unb.meau.objects.Process;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -518,6 +519,11 @@ public class PerfilAnimalFragment extends Fragment implements Button.OnClickList
         process.setAnimalNome(animal.getNome());
         process.setEstagio("interesse");
         process.setInteressadoNome(currentUser.getDisplayName());
+
+        HashMap<String, Boolean> participantes = new HashMap<>();
+        participantes.put(animal.getDono(), true);
+        participantes.put(currentUser.getUid(), true);
+        process.setParticipantes(participantes);
 
         switch (v.getId()) {
             case R.id.button_adotar:

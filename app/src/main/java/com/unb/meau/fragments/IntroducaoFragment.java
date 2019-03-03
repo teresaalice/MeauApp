@@ -106,7 +106,6 @@ public class IntroducaoFragment extends Fragment {
                     mAuth.signOut();
                     LoginManager.getInstance().logOut();
                     Toast.makeText(getActivity(), "Saindo", Toast.LENGTH_SHORT).show();
-                    ((MainActivity) getActivity()).setDrawerInfo();
                 }
                 updateLoginButton();
             }

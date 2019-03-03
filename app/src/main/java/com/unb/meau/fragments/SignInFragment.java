@@ -216,12 +216,14 @@ public class SignInFragment extends Fragment {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
 
+                            if (!getUserVisibleHint())
+                                return;
+
                             if (task.getResult().getAdditionalUserInfo().isNewUser()) {
                                 Log.d(TAG, "onComplete: isNewUser");
                                 ((MainActivity) getActivity()).showCompleteSignUpFragment();
                             } else {
                                 Toast.makeText(getActivity(), "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
-                                ((MainActivity) getActivity()).setDrawerInfo();
                                 getActivity().onBackPressed();
                             }
 
@@ -246,13 +248,16 @@ public class SignInFragment extends Fragment {
                         hideProgressDialog();
 
                         if (task.isSuccessful()) {
+
+                            if (!getUserVisibleHint())
+                                return;
+
                             // Sign in success, update UI with the signed-in user's information
                             if (task.getResult().getAdditionalUserInfo().isNewUser()) {
                                 Log.d(TAG, "onComplete: isNewUser");
                                 ((MainActivity) getActivity()).showCompleteSignUpFragment();
                             } else {
                                 Toast.makeText(getActivity(), "Login realizado com sucesso", Toast.LENGTH_SHORT).show();
-                                ((MainActivity) getActivity()).setDrawerInfo();
                                 getActivity().onBackPressed();
                             }
                         } else {
@@ -282,9 +287,12 @@ public class SignInFragment extends Fragment {
                         hideProgressDialog();
 
                         if (task.isSuccessful()) {
+
+                            if (!getUserVisibleHint())
+                                return;
+
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            ((MainActivity) getActivity()).setDrawerInfo();
                             getActivity().onBackPressed();
                         } else {
                             // If sign in fails, display a message to the user.

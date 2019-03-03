@@ -3,6 +3,7 @@ package com.unb.meau.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -30,6 +31,7 @@ import com.unb.meau.R;
 import com.unb.meau.adapters.CustomExpandableListAdapter;
 import com.unb.meau.fragments.CadastroAnimalFragment;
 import com.unb.meau.fragments.CadastroAnimalSucessoFragment;
+import com.unb.meau.fragments.ChatFragment;
 import com.unb.meau.fragments.ContarHistoriaFragment;
 import com.unb.meau.fragments.ContarHistoriaSucessoFragment;
 import com.unb.meau.fragments.DicasFragment;
@@ -45,6 +47,7 @@ import com.unb.meau.fragments.NotLoggedFragment;
 import com.unb.meau.fragments.PerfilUsuarioFragment;
 import com.unb.meau.fragments.PrivacidadeFragment;
 import com.unb.meau.fragments.RemocaoAnimalSucessoFragment;
+import com.unb.meau.fragments.SemHistoriaFragment;
 import com.unb.meau.fragments.SentTermFragment;
 import com.unb.meau.fragments.SignInFragment;
 import com.unb.meau.fragments.SignUpFragment;
@@ -82,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String FRAGMENT_FINALIZAR_PROCESSO_SUCESSO_TAG = "FRAGMENT_FINALIZAR_PROCESSO_SUCESSO_TAG";
     public static final String FRAGMENT_EVENTOS_TAG = "FRAGMENT_EVENTOS_TAG";
     public static final String FRAGMENT_HISTORIA_TAG = "FRAGMENT_HISTORIA_TAG";
+    public static final String FRAGMENT_SEM_HISTORIA_TAG = "FRAGMENT_SEM_HISTORIA_TAG";
     public static final String FRAGMENT_LISTAR_HISTORIAS_TAG = "FRAGMENT_LISTAR_HISTORIAS_TAG";
     public static final String FRAGMENT_CONTAR_HISTORIA_TAG = "FRAGMENT_CONTAR_HISTORIA_TAG";
     public static final String FRAGMENT_CONTAR_HISTORIA_SUCESSO_TAG = "FRAGMENT_CONTAR_HISTORIA_SUCESSO_TAG";
@@ -89,13 +93,11 @@ public class MainActivity extends AppCompatActivity {
     public DrawerLayout drawer;
     Fragment fragment;
     FragmentManager fragmentManager;
-    private LinkedHashMap<String, List<String>> listItem;
 
     public String menuItemName = "";
 
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,9 +126,25 @@ public class MainActivity extends AppCompatActivity {
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         setDrawerInfo();
+
+        mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    Log.d(TAG, "onAuthStateChanged: LOGADO");
+                } else {
+                    Log.d(TAG, "onAuthStateChanged: DESLOGADO");
+                }
+                setDrawerInfo();
+            }
+        });
     }
 
     public void setDrawerInfo() {
+
+        Log.d(TAG, "setDrawerInfo: called");
+
         String userName = "Usuário";
         final FirebaseUser user = mAuth.getCurrentUser();
 
@@ -147,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
         final List<String> groupNames = Arrays.asList(userName, "Atalhos", "Informações", "Configurações");
 
-        listItem = new LinkedHashMap<>();
+        final LinkedHashMap<String, List<String>> listItem = new LinkedHashMap<>();
         listItem.put(userName, Arrays.asList("Meu perfil", "Meus pets", "Favoritos", "Chat"));
         listItem.put("Atalhos", Arrays.asList("Cadastrar um pet", "Adotar um pet", "Ajudar um pet", "Apadrinhar um pet"));
         listItem.put("Informações", Arrays.asList("Dicas", "Eventos", "Legislação", "Termo de Adoção", "Histórias de adoção"));
@@ -180,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (selectedItem) {
                     case "Meu perfil":
-                        showPerfilUsuarioFragment("Meu perfil");
+                        showPerfilUsuarioFragment(user.getUid());
                         break;
                     case "Meus pets":
                         showListarAnimaisFragment("Meus Pets");
@@ -319,6 +337,19 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    public void showEditSignUpFragment() {
+        fragment = new SignUpFragment();
+
+        Bundle args = new Bundle();
+        args.putBoolean("edit", true);
+        fragment.setArguments(args);
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment, FRAGMENT_SIGN_UP_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
     public void showSignInFragment() {
         fragment = new SignInFragment();
         fragmentManager.beginTransaction()
@@ -335,19 +366,25 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void showPerfilUsuarioFragment(String acao) {
+    public void showPerfilUsuarioFragment(String uid) {
         fragment = new PerfilUsuarioFragment();
 
         Bundle args = new Bundle();
+        args.putString("userId", uid);
+        fragment.setArguments(args);
 
-        args.putString("acao", acao);
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment, FRAGMENT_PROFILE_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
 
-        if (acao.equals("Meu perfil")) {
-            FirebaseUser user = mAuth.getCurrentUser();
-            args.putString("nome", user.getDisplayName());
-            args.putString("userID", user.getUid());
-        }
+    public void showPerfilUsuarioFragment(String uid, String animal) {
+        fragment = new PerfilUsuarioFragment();
 
+        Bundle args = new Bundle();
+        args.putString("userId", uid);
+        args.putString("animal", animal);
         fragment.setArguments(args);
 
         fragmentManager.beginTransaction()
@@ -378,7 +415,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (acao.equals("Meus Pets") || acao.equals("Favoritos") || acao.equals("Filtro")) {
             FirebaseUser user = mAuth.getCurrentUser();
-            args.putString("userID", user.getUid());
+            args.putString("userId", user.getUid());
         }
 
         fragment.setArguments(args);
@@ -445,6 +482,31 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    public void showListarHistoriasFragment(String uid) {
+        fragment = new ListStoryFragment();
+
+        Bundle args = new Bundle();
+        args.putString("uid", uid);
+        fragment.setArguments(args);
+
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_LISTAR_HISTORIAS_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void showSemHistoriaFragment(String name) {
+        fragment = new SemHistoriaFragment();
+
+        Bundle args = new Bundle();
+        args.putString("nome", name);
+        fragment.setArguments(args);
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment, FRAGMENT_SEM_HISTORIA_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
     public void showHistoriaFragment(String storyId, String animalNome) {
 
         fragment = new StoryFragment();
@@ -462,6 +524,20 @@ public class MainActivity extends AppCompatActivity {
     public void showListChatFragment() {
         fragment = new ListChatFragment();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_LISTAR_CHATS_TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void showChatFragment(String chatId, String user, Boolean blocked) {
+        fragment = new ChatFragment();
+
+        Bundle args = new Bundle();
+        args.putString("chat", chatId);
+        args.putString("user", user);
+        args.putBoolean("blocked", blocked);
+        fragment.setArguments(args);
+
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, FRAGMENT_CHAT_TAG)
                 .addToBackStack(null)
                 .commit();
     }

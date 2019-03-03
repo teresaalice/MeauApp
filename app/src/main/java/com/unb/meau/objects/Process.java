@@ -1,6 +1,5 @@
 package com.unb.meau.objects;
 
-import java.util.Date;
 import java.util.HashMap;
 
 public class Process {
@@ -12,11 +11,12 @@ public class Process {
     private String estagio;
     private String interessado;
     private String interessadoNome;
+    private HashMap<String, Boolean> participantes;
 
     public Process() {
     } // Needed for Firebase
 
-    public Process(String acao, String animal, String animalNome, String dono, String estagio, String interessado, String interessadoNome) {
+    public Process(String acao, String animal, String animalNome, String dono, String estagio, String interessado, String interessadoNome, HashMap<String, Boolean> participantes) {
         this.acao = acao;
         this.animal = animal;
         this.animalNome = animalNome;
@@ -24,6 +24,7 @@ public class Process {
         this.estagio = estagio;
         this.interessado = interessado;
         this.interessadoNome = interessadoNome;
+        this.participantes = participantes;
     }
 
     public String getAcao() {
@@ -80,5 +81,13 @@ public class Process {
 
     public void setInteressadoNome(String interessadoNome) {
         this.interessadoNome = interessadoNome;
+    }
+
+    public HashMap<String, Boolean> getParticipantes() {
+        return participantes;
+    }
+
+    public void setParticipantes(HashMap<String, Boolean> participantes) {
+        this.participantes = participantes;
     }
 }
